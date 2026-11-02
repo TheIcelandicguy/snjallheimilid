@@ -2,10 +2,10 @@
 
 Public home page of Snjallheimilið (Davíð, Akureyri): one static page, Icelandic, phone first, GitHub Pages.
 Source is this repo on `E:\snjallheimilid` (repo `TheIcelandicguy/snjallheimilid`, public). Nothing goes to `Z:`;
-deploy = push to `main`, Pages serves the root at https://snjallheimilid.is (`CNAME` file; the domain was registered
+deploy = push to `main`, Pages serves the root at https://snjallheimilið.is (`CNAME` file holds the punycode form xn--snjallheimili-gkb.is, links use it too; the domain was registered
 at ISNIC on 2026-11-02, DNS: A/AAAA records of GitHub Pages on the apex, CNAME `www` and `aetlun` to
 theicelandicguy.github.io). The estimate page lives in the private `smart-home-estimator` repo, served as
-https://aetlun.snjallheimilid.is.
+https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
 
 ## Layout
 - `index.html` — the page: sticky header with anchors, hero with the call to action, sections `#thjonusta`
@@ -13,9 +13,9 @@ https://aetlun.snjallheimilid.is.
   quick.html on 2026-11-01: 13 modules, 155–190 þús. kr.), `#um`, `#samband` (contact form, honeypot `_gotcha`).
 - `site.css` — same colour tokens as quick.css in smart-home-estimator (light and dark by `prefers-color-scheme`),
   880 px wrap, cards, numbered steps, form.
-- `site.js` — `AETLUN` = the estimate page's address (aetlun.snjallheimilid.is), set on every `[data-aetlun]` link;
+- `site.js` — `AETLUN` = the estimate page's address (aetlun.snjallheimilið.is), set on every `[data-aetlun]` link;
   `FORM` = the Formspree id shared with quick.html, subject
-  "Fyrirspurn af snjallheimilid.is"; the form posts JSON and shows the result in `#formMsg`.
+  "Fyrirspurn af snjallheimilið.is"; the form posts JSON and shows the result in `#formMsg`.
 - `favicon.svg`, `.nojekyll` (Pages serves files as they are), `CNAME` (the custom domain for Pages), `README.md`,
   `LICENSE` (MIT for the code only).
 - Run: `python -m http.server 8766` here (`.claude/launch.json` has it as `site`).
