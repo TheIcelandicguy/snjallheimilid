@@ -2,7 +2,7 @@
 
 Public home page of Snjallheimilið (Davíð, Akureyri): one static page, Icelandic, phone first, GitHub Pages.
 Source is this repo on `E:\snjallheimilid` (repo `TheIcelandicguy/snjallheimilid`, public). Nothing goes to `Z:`;
-deploy = push to `main`, Pages serves the root at https://snjallheimilið.is (`CNAME` file holds the punycode form xn--snjallheimili-gkb.is, links use it too; the domain was registered
+deploy = push to `main`; Pages serves the root at https://snjallheimilið.is (`CNAME` file holds the punycode form xn--snjallheimili-gkb.is, links use it too; the domain was registered
 at ISNIC on 2026-11-02, DNS: A/AAAA records of GitHub Pages on the apex, CNAME `www` and `aetlun` to
 theicelandicguy.github.io). The estimate page lives in the private `smart-home-estimator` repo, served as
 https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
@@ -27,6 +27,10 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
 - Before ending a session: `python check_docs.py` (paths and ids named here must exist), update this file, commit, push.
 
 ## Open
+- ON HOLD since 2026-11-02 (owner not ready for leads): Pages serves the orphan branch `hold` (one holding page, no
+  form, noindex, plus CNAME and favicon) on the custom domain instead of `main`. To go live: Settings → Pages → source
+  branch `main` (or `gh api -X PUT repos/TheIcelandicguy/snjallheimilid/pages` with `{"source":{"branch":"main","path":"/"}}`),
+  then delete `hold`. Nothing on `main` changes meanwhile; keep developing there.
 - Domain verified under the GitHub account 2026-11-02 (TXT `_github-pages-challenge-TheIcelandicguy` at ISNIC), so
   nobody else can point a Pages site at it; HTTPS is enforced on both sites. The ASCII spelling snjallheimilid.is is
   not registered.
