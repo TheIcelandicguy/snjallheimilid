@@ -1,8 +1,8 @@
 'use strict';
 /* Snjallheimilið: the home page's small script. The estimate lives in the smart-home-estimator repo (quick.html);
-   AETLUN is its address, every [data-aetlun] link points there (change it once when aetlun.snjallheimilid.is is up).
+   AETLUN is its address, every [data-aetlun] link points there (aetlun.snjallheimilid.is since 2026-11-02).
    The contact form posts JSON to Formspree (same form as the estimate page, another subject). */
-const AETLUN = 'https://theicelandicguy.github.io/smart-home-estimator/quick.html';
+const AETLUN = 'https://aetlun.snjallheimilid.is/quick.html';
 const FORM = 'mjyypvge';
 
 document.querySelectorAll('[data-aetlun]').forEach((a) => { a.href = AETLUN; });
