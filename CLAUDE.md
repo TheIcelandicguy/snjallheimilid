@@ -27,6 +27,7 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
 - Before ending a session: `python check_docs.py` (paths and ids named here must exist), update this file, commit, push.
 
 ## Open
-- Domain: verify it under the GitHub account (Settings → Pages → verified domains, a TXT record) so nobody else can
-  point a Pages site at it; the HTTPS certificate issues itself once DNS resolves.
+- Domain verified under the GitHub account 2026-11-02 (TXT `_github-pages-challenge-TheIcelandicguy` at ISNIC), so
+  nobody else can point a Pages site at it; HTTPS is enforced on both sites. The ASCII spelling snjallheimilid.is is
+  not registered.
 - English version; photos of real installations (none yet); the example section wants a second house.
