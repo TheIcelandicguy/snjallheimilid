@@ -28,6 +28,7 @@ const HOUSE = {
   bars: { x: 200, z: 800, step: 33 },                 // the energy bars, from the panel in the hallway corner
   curtain: { y: 55, from: 255, to: 390 },             // the living-room window on the top wall (owner 2026-11-03)
   rings: [1240, 840],                                 // the water sensor on the bathroom floor
+  clock: [1265, 520],                                 // the alarm clock on the bedside table (owner 2026-11-03)
 };
 
 const root = document.querySelector('.dagur'), svg = root && root.querySelector('.dsvg');
@@ -140,8 +141,24 @@ function init() {
   const curtain = new THREE.Mesh(new THREE.BoxGeometry(cw, H - SILL, 0.12), new THREE.MeshStandardMaterial({ color: 0xe6ded0, roughness: 1 }));
   curtain.geometry.translate(cw / 2, 0, 0);
   curtain.position.set(cu.from * S, (H + SILL) / 2, cu.y * S + 0.42); curtain.scale.x = 0.001; scene.add(curtain);
+  const ripples = (x, y, z, color, n) => Array.from({ length: n }, () => {
+    const r = new THREE.Mesh(new THREE.RingGeometry(0.16, 0.2, 48), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false }));
+    r.rotation.x = -Math.PI / 2; r.position.set(x, y, z); scene.add(r); return r;
+  });
   const [rx, rz] = P(...HOUSE.rings);
-  const rings = [0, 1].map(() => { const r = new THREE.Mesh(new THREE.RingGeometry(0.16, 0.2, 48), new THREE.MeshBasicMaterial({ color: 0x4aa3ff, transparent: true, opacity: 0, side: THREE.DoubleSide })); r.rotation.x = -Math.PI / 2; r.position.set(rx, 0.02, rz); scene.add(r); return r; });
+  const rings = ripples(rx, 0.02, rz, 0x4aa3ff, 2);
+  // the alarm clock: a small body with two bells, which shakes and sends out rings while it rings (scene 1)
+  const [kx, kz] = P(...HOUSE.clock);
+  const clock = new THREE.Group(); clock.position.set(kx, 0.3, kz); scene.add(clock);
+  const clockBody = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.14, 0.07), new THREE.MeshStandardMaterial({ color: 0x2b3140, roughness: 0.6 }));
+  clockBody.position.y = 0.07; clock.add(clockBody);
+  const clockFace = new THREE.Mesh(new THREE.PlaneGeometry(0.14, 0.1), new THREE.MeshBasicMaterial({ color: accent, transparent: true, opacity: 0 }));
+  clockFace.position.set(0, 0.07, 0.036); clock.add(clockFace);
+  const bellMat = new THREE.MeshStandardMaterial({ color: 0xd8dde6, roughness: 0.3, metalness: 0.6 });
+  [-0.055, 0.055].forEach((dx) => { const b = new THREE.Mesh(new THREE.SphereGeometry(0.035, 16, 12), bellMat); b.position.set(dx, 0.165, 0); clock.add(b); });
+  const clockSp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0 }));
+  clockSp.position.set(0, 0.1, 0); clockSp.scale.setScalar(0.5); clock.add(clockSp);
+  const bellRings = ripples(kx, 0.32, kz, 0xffb24a, 3);
 
   // ---- scenes: light levels, camera, sky, labels, animation per scene ----
   const CAM = {
@@ -156,7 +173,7 @@ function init() {
   const OFF = ['herbergi', 'bad', 'eldhus', 'strip', 'stofa', 'forstofa'];
   const at = (k, y, dx = 0, dz = 0) => [LP[k][0] + dx, y, LP[k][1] + dz];
   const LABELS = {
-    1: [[at('herbergi', 1.3, 0, -0.4), '04:50', 'bub', 0.2], [at('bad', 1.5), '10 %', 'tag', 0.8], [[sx - 0.1, 1.2, (sz1 + sz2) / 2], '10 %', 'tag', 1.0]],
+    1: [[[kx, 0.95, kz], '04:50', 'bub', 0.3], [at('bad', 1.5), '10 %', 'tag', 1.8], [[sx - 0.1, 1.2, (sz1 + sz2) / 2], '10 %', 'tag', 2.0]],
     2: [[at('eldhus', 1.5), '60 %', 'tag', 1.2], [at('eldhus', 1.0, 0.3, 1.0), 'haldið inni = dimmað', 'bub', 0.4]],
     3: [[[2.6, 1.4, 3.95], 'Allt af', 'bub', 0.3], [at('stofa', 1.1, 0.6, -0.4), 'straujárn af', 'tag', 1.6]],
     4: [[[P(HOUSE.bars.x + 7 * HOUSE.bars.step, 0)[0], 0.9, HOUSE.bars.z * S], 'kWh í dag', 'tag', 0.5]],
@@ -186,35 +203,51 @@ function init() {
   const ease = (x) => x < 0 ? 0 : x > 1 ? 1 : x * x * (3 - 2 * x);
   let visible = true, w = 0, h = 0;
   new IntersectionObserver((es) => { visible = es[0].isIntersecting; }, { threshold: 0.05 }).observe(box);
-  const v = new THREE.Vector3();
+  const v = new THREE.Vector3(), UP = new THREE.Vector3(0, 1, 0);
   function frame(now) {
     requestAnimationFrame(frame);
     if (!visible || document.hidden) return;
     const cw2 = box.clientWidth, ch = Math.round(cw2 * 440 / 600);
     if (cw2 !== w || ch !== h) { w = cw2; h = ch; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
     const t = (now - t0) / 1000, k = ease(t / 1.8);
-    const drift = Math.sin(now / 4000) * 0.06;
-    camera.position.lerpVectors(camFrom, camTo, k); camera.position.x += drift;
-    look.lerpVectors(lookFrom, lookTo, k); camera.lookAt(look);
+    // the camera never stands still: it swings slowly round the point it looks at and breathes up and down, and
+    // in the last scene it circles the house (owner 2026-11-03, "meira stöðug hreyfing í gegn")
+    camera.position.lerpVectors(camFrom, camTo, k);
+    look.lerpVectors(lookFrom, lookTo, k);
+    const yaw = Math.sin(now / 6500) * 0.14 + (cur === 7 ? ease((t - 1) / 3) * (now - t0) / 16000 : 0);
+    v.subVectors(camera.position, look); v.applyAxisAngle(UP, yaw); camera.position.addVectors(look, v);
+    camera.position.y += Math.sin(now / 5200) * 0.08;
+    camera.lookAt(look);
     scene.background.lerpColors(skyFrom, skyTo, k); scene.fog.color.copy(scene.background);
     sun.color.lerp(sunTo, 0.05); sun.intensity += (sunI - sun.intensity) * 0.05;
     if (cur === 5) sun.position.set(-4, 6 - 4 * ease(t / 3), 2); else sun.position.set(-4, 6, 2);
+    let li = 0;
     for (const k in lamps) {
       const L = lamps[k]; let target = L.target;
+      if (cur === 1) target = t > 1.4 ? target : 0;                                 // the lights answer the alarm
       if (cur === 3) target = t > 0.6 + OFF.indexOf(k) * 0.45 ? 0 : target;
       if (cur === 6 && k === 'forstofa') target = t > 3.2 ? 0 : target;
       L.level += (target - L.level) * 0.08;
-      if (L.bar) { L.sp.material.opacity = Math.min(1, L.level * 1.5); L.pl.intensity = L.level * 6; }
-      else { L.sp.material.opacity = Math.min(1, L.level * 1.6); L.sp.scale.setScalar(0.6 + L.level * 1.6); L.pl.intensity = L.level * 14; }
+      const lv = L.level * (1 + 0.05 * Math.sin(now / 900 + li++ * 1.7));           // a slow breath in every lit lamp
+      if (L.bar) { L.sp.material.opacity = Math.min(1, lv * 1.5); L.pl.intensity = lv * 6; }
+      else { L.sp.material.opacity = Math.min(1, lv * 1.6); L.sp.scale.setScalar(0.6 + lv * 1.6); L.pl.intensity = lv * 14; }
     }
+    // the alarm: from 0.3 s into scene 1 the clock shakes, its face lights, rings leave it; the second burst at 2.6 s
+    const ring = cur === 1 && ((t > 0.3 && t < 1.9) || (t > 2.6 && t < 4.2));
+    clock.rotation.z = ring ? Math.sin(now / 28) * 0.16 : 0;
+    clock.position.y = 0.3 + (ring ? Math.abs(Math.sin(now / 56)) * 0.025 : 0);
+    const faceOn = cur === 1 && t > 0.3;
+    clockFace.material.opacity += ((faceOn ? 1 : 0) - clockFace.material.opacity) * 0.15;
+    clockSp.material.opacity += ((ring ? 0.9 : faceOn ? 0.3 : 0) - clockSp.material.opacity) * 0.15;
+    bellRings.forEach((r, i) => { const p = ring ? ((t * 1.6 + i / 3) % 1) : 0; r.scale.setScalar(0.3 + p * 2.2); r.material.opacity = ring ? (1 - p) * 0.7 : 0; });
     const dt = cur === 3 ? -1.1 * ease((t - 0.2) / 1.2) : 0; door.rotation.y += (dt - door.rotation.y) * 0.1;
     bars.forEach(([m, f], i) => { const s = cur === 4 ? f * ease((t - 0.4 - i * 0.07) / 0.6) : 0; m.scale.y = Math.max(0.001, s); m.position.y = m.scale.y / 2; });
     curtain.scale.x += ((cur === 5 ? ease((t - 0.8) / 1.4) : 0) - curtain.scale.x) * 0.1; if (curtain.scale.x < 0.001) curtain.scale.x = 0.001;
     rings.forEach((r, i) => { const p = cur === 6 ? ((t * 0.7 + i * 0.5) % 1) : 0; r.scale.setScalar(0.4 + p * 2.4); r.material.opacity = cur === 6 ? (1 - p) * 0.8 : 0; });
-    labels.querySelectorAll('.lab').forEach((d) => {
+    labels.querySelectorAll('.lab').forEach((d, i) => {
       d.style.opacity = t > Number(d.dataset.d) ? '1' : '0';
       if (!d.dataset.p) return;
-      const [x, y, z] = d.dataset.p.split(',').map(Number); v.set(x, y, z).project(camera);
+      const [x, y, z] = d.dataset.p.split(',').map(Number); v.set(x, y + Math.sin(now / 1400 + i) * 0.03, z).project(camera);
       d.style.left = ((v.x + 1) / 2 * 100) + '%'; d.style.top = ((1 - v.y) / 2 * 100) + '%';
     });
     renderer.render(scene, camera);
