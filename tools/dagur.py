@@ -123,6 +123,16 @@ css = f'''/* Dagur: the 'Einn dagur í snjallheimili' scene player (owner 2026-1
 .dots button {{ width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); color: var(--muted); font: inherit; font-size: .9rem; cursor: pointer; }}
 .dots button[aria-current="true"] {{ background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }}
 .dots .play {{ width: auto; border-radius: 17px; padding: 0 12px; margin-left: auto; }}
+.d3 {{ position: relative; aspect-ratio: 600 / 440; max-width: 100%; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #0b1020; }}
+.d3 canvas {{ display: block; width: 100% !important; height: 100% !important; }}
+.dsvg.d3off {{ display: none; }}
+.d3labels {{ position: absolute; inset: 0; pointer-events: none; }}
+.d3 .lab {{ position: absolute; transform: translate(-50%, -100%); opacity: 0; transition: opacity .5s; white-space: nowrap; font: 600 13px system-ui, "Segoe UI", sans-serif; }}
+.d3 .lab.tag {{ color: #ffd28a; text-shadow: 0 1px 4px #000; }}
+.d3 .lab.bub, .d3 .lab.note {{ background: rgba(20, 24, 32, .85); color: #fff; border: 1px solid #f5a524; border-radius: 8px; padding: 4px 9px; }}
+.d3 .lab.note {{ border-radius: 10px; padding: 6px 12px; }} .d3 .lab.note::before {{ content: "Snjallheimilið"; display: block; font-weight: 400; font-size: 11px; color: #c9ced6; }}
+.d3 .lab.end {{ left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; white-space: normal; width: 80%; color: #fff; font-weight: 400; font-size: 15px; text-shadow: 0 1px 6px #000; }}
+.d3 .lab.end b {{ display: block; font-size: 24px; margin-bottom: 4px; }} .d3 .lab.end span {{ display: inline-block; margin-top: 10px; background: #f5a524; color: #111; font-weight: 600; border-radius: 20px; padding: 8px 16px; }}
 @media (prefers-reduced-motion: reduce) {{
   .dsvg *, .dcap > div {{ transition: none !important; animation: none !important; }}
   .dagur[data-scene="5"] .curt {{ stroke-dashoffset: 0; }}

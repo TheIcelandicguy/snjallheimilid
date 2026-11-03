@@ -25,11 +25,18 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
   rerun it; the optional argument patches the single-file artifact copy), the caption per scene is in `.dcap`, the
   dots `[data-go]` and the `[data-play]` button in `.dots`; site.js sets `data-scene` on `.dagur` and the CSS does
   the rest: per-light level variables, the scene's extras `.sc[data-s]`, small keyframes; auto-advance 4–5 s per
-  scene while the section is on screen, a dot stops the run, `prefers-reduced-motion` = dots only), sections `#thjonusta`
+  scene while the section is on screen, a dot stops the run, `prefers-reduced-motion` = dots only; in 3D since
+  2026-11-03 (owner: "meira 3D"): `dagur3d.js`, an ES module importing Three.js 0.160.0 from cdnjs, paints the
+  SVG's house on the floor as a texture (styles inlined, extras left out), raises the walls as half-transparent slabs
+  split at the openings with their edges drawn, a glow sprite and a point light per ceiling light and the strip,
+  the front door leaf, the energy bars, the curtain, the water rings and HTML labels projected from world points;
+  it watches `data-scene` and flies the camera per scene; without WebGL, reduced motion or no CDN the SVG player
+  stays; `.d3` box, `.d3labels`, `.dsvg.d3off` hides the SVG), sections `#thjonusta`
   (four cards), `#ferli` (four numbered steps), `#daemi` (one house, numbers from the owner's own house run through
   quick.html on 2026-11-01: 13 modules, 155–190 þús. kr.), `#um`, `#samband` (contact form, honeypot `_gotcha`).
 - `site.css` — same colour tokens as quick.css in smart-home-estimator (light and dark by `prefers-color-scheme`),
   880 px wrap, cards, numbered steps, form.
+- `dagur3d.js` — the 3D scene player (see `#dagur` above).
 - `site.js` — `AETLUN` = the estimate page's address (aetlun.snjallheimilið.is), set on every `[data-aetlun]` link;
   `FORM` = the Formspree id shared with quick.html, subject
   "Fyrirspurn af snjallheimilið.is"; the form posts JSON and shows the result in `#formMsg`.
