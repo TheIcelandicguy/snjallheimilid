@@ -75,11 +75,11 @@ function init() {
       void main(){
         vec2 q = vP - vec2(3., 2.25);
         vec3 c = uSky * (1.15 - 0.045 * length(q));
-        c *= 1. + (1. - uNight) * (0.34 * noise(q * .22 + uT * .03) - .17);           // cloud shadow
+        if (uNight < .99) c *= 1. + (1. - uNight) * (0.34 * noise(q * .22 + uT * .03) - .17);           // cloud shadow
         vec2 g = q * 2.6, id = floor(g), f = fract(g) - .5; float h = hash(id);        // stars
-        if (h > .93) { float tw = .55 + .45 * sin(uT * (1. + 3. * h) + h * 90.);
+        if (uNight > .01 && h > .93) { float tw = .55 + .45 * sin(uT * (1. + 3. * h) + h * 90.);
           c += vec3(.8, .9, 1.2) * uNight * tw * smoothstep(.09, .0, length(f - (hash(id + 3.) - .5) * .6)) * (h - .9) * 16.; }
-        for (int i = 0; i < 3; i++) {                                                  // northern lights: three drifting curtains
+        if (uAur > .004) for (int i = 0; i < 3; i++) {                                 // northern lights: three drifting curtains
           float n = float(i);
           float line = q.y + (n - 1.) * 4.3 + 1.1 * sin(q.x * .42 + uT * .13 + n * 2.1) + 1.5 * (noise(vec2(q.x * .3 + uT * .05, n * 7.)) - .5);
           float rays = .45 + .55 * noise(vec2(q.x * 3.2 + uT * .35, n * 3.));
@@ -94,13 +94,13 @@ function init() {
   scene.background = new THREE.Color('#0b1020');
 
   // ---- the floor: the render cut to the building's outline, or the drawing when it fails to load ----
-  const floorMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 1, metalness: 0, side: THREE.DoubleSide });
+  const floorMat = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide });
   const fg = new THREE.BufferGeometry(), ol = HOUSE.outline, fp = [], fuv = [], fn = [], fi = [];
   ol.forEach(([x, y]) => { fp.push(x * S, 0, y * S); fuv.push(x / HOUSE.w, 1 - y / HOUSE.h); fn.push(0, 1, 0); });
   for (let i = 1; i < ol.length - 1; i++) fi.push(0, i, i + 1);
   fg.setAttribute('position', new THREE.Float32BufferAttribute(fp, 3)); fg.setAttribute('uv', new THREE.Float32BufferAttribute(fuv, 2)); fg.setAttribute('normal', new THREE.Float32BufferAttribute(fn, 3)); fg.setIndex(fi);
   scene.add(new THREE.Mesh(fg, floorMat));
-  const setMap = (tex) => { tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = renderer.capabilities.getMaxAnisotropy(); floorMat.map = tex; floorMat.needsUpdate = true; };
+  const setMap = (tex) => { tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = renderer.capabilities.getMaxAnisotropy(); floorMat.map = tex; floorMat.needsUpdate = true; renderer.initTexture(tex); };
   new THREE.TextureLoader().load(HOUSE.img, setMap, undefined, paintDrawing);
   function paintDrawing() {
     const clone = svg.cloneNode(true);
@@ -126,7 +126,7 @@ function init() {
 
   // ---- walls: segments split at the openings, in one group so they can rise ----
   const walls = new THREE.Group(); scene.add(walls);
-  const wallMat = new THREE.MeshStandardMaterial({ color: 0xe4e6e9, transparent: true, opacity: 0.06, roughness: 0.9, depthWrite: false });
+  const wallMat = new THREE.MeshLambertMaterial({ color: 0xe4e6e9, transparent: true, opacity: 0.06, depthWrite: false });
   const edgeMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.22 });
   function slab(x1, z1, x2, z2, t, y0, y1) {
     const len = Math.hypot(x2 - x1, z2 - z1), g = new THREE.BoxGeometry(len, y1 - y0, t);
@@ -228,7 +228,7 @@ function init() {
 
   // ---- scene props ----
   const bars = [], BARS = [3, 5, 4, 22, 12, 6, 5, 4, 4, 5, 9, 26, 34, 18, 8];
-  const barMat = new THREE.MeshStandardMaterial({ color: accent, emissive: accent, emissiveIntensity: 0.9, roughness: 0.6 });
+  const barMat = new THREE.MeshLambertMaterial({ color: accent, emissive: accent, emissiveIntensity: 0.9 });
   BARS.forEach((h, i) => {
     const [bx, bz] = P(HOUSE.bars.x + i * HOUSE.bars.step, HOUSE.bars.z);
     const m = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.6, 0.07), barMat); m.position.set(bx, 0, bz); m.scale.y = 0.001; scene.add(m); bars.push([m, h / 34]);
@@ -238,7 +238,7 @@ function init() {
   const curtainGeo = new THREE.BoxGeometry(cw, H - SILL, 0.1, 42, 1, 1);
   { const p = curtainGeo.attributes.position; for (let i = 0; i < p.count; i++) p.setZ(i, p.getZ(i) + Math.sin(p.getX(i) * 62) * 0.035); p.needsUpdate = true; curtainGeo.computeVertexNormals(); }
   curtainGeo.translate(cw / 2, 0, 0);
-  const curtain = new THREE.Mesh(curtainGeo, new THREE.MeshStandardMaterial({ color: 0xbfb6a6, roughness: 1 }));
+  const curtain = new THREE.Mesh(curtainGeo, new THREE.MeshLambertMaterial({ color: 0xbfb6a6 }));
   curtain.position.set(cu.from * S, (H + SILL) / 2, cu.y * S + 0.42); curtain.scale.x = 0.001; scene.add(curtain);
   const ripples = (x, y, z, color, n) => Array.from({ length: n }, () => {
     const r = new THREE.Mesh(new THREE.RingGeometry(0.16, 0.2, 48), additive(color));
@@ -299,13 +299,13 @@ function init() {
   // a = the shot the camera flies to, b = where it drifts after tp seconds, over dp seconds; all steep from above,
   // as the dollhouse renders are seen: the floor image carries its own perspective, a low camera fights it
   const CAMS = {
-    1: { a: [[kx + 0.7, 4.6, kz + 2.6], [kx - 0.1, 0, kz - 0.1]], b: [[5.5, 7.1, 5.5], [4.6, 0, 2.2]], tp: 1.5, dp: 2.6 },
-    2: { a: [[3.4, 5.8, 4.1], [2.9, 0, 1.5]], b: [[3.0, 7.2, 4.9], [2.7, 0, 1.9]], tp: 1.2, dp: 3 },
-    3: { a: [[2.7, 5.4, 6.3], [2.5, 0, 3.4]], b: [[2.6, 8.2, 6.7], [2.9, 0, 2.6]], tp: 0.9, dp: 3 },
-    4: { a: [[0.8, 4.8, 5.7], [1.2, 0, 3.2]], b: [[2.3, 5.2, 5.9], [2.4, 0, 3.2]], tp: 1.3, dp: 4 },
-    5: { a: [[1.9, 4.8, 3.2], [1.45, 0, 1.0]], b: [[2.6, 6.8, 4.5], [2.3, 0, 1.4]], tp: 2.2, dp: 3 },
-    6: { a: [[3.2, 6.2, 5.6], [2.9, 0, 3.4]], b: [[5.6, 5.2, 5.8], [5.0, 0, 3.3]], tp: 0.7, dp: 1.5 },
-    7: { a: [[3, 9.6, 5.3], [3, 0, 2.2]], b: [[3, 12, 6.2], [3, 0, 2.2]], tp: 1, dp: 7 },
+    1: { a: [[kx + 0.7, 4.6, kz + 2.6], [kx - 0.1, 0, kz - 0.1]], b: [[5.5, 7.1, 5.5], [4.6, 0, 2.2]], tp: 2.0, dp: 3.2 },
+    2: { a: [[3.4, 5.8, 4.1], [2.9, 0, 1.5]], b: [[3.0, 7.2, 4.9], [2.7, 0, 1.9]], tp: 1.8, dp: 3.2 },
+    3: { a: [[2.7, 5.4, 6.3], [2.5, 0, 3.4]], b: [[2.6, 8.2, 6.7], [2.9, 0, 2.6]], tp: 1.6, dp: 3.4 },
+    4: { a: [[0.8, 4.8, 5.7], [1.2, 0, 3.2]], b: [[2.3, 5.2, 5.9], [2.4, 0, 3.2]], tp: 1.9, dp: 4 },
+    5: { a: [[1.9, 4.8, 3.2], [1.45, 0, 1.0]], b: [[2.6, 6.8, 4.5], [2.3, 0, 1.4]], tp: 2.8, dp: 3 },
+    6: { a: [[3.2, 6.2, 5.6], [2.9, 0, 3.4]], b: [[5.6, 5.2, 5.8], [5.0, 0, 3.3]], tp: 1.6, dp: 2.6 },
+    7: { a: [[3, 9.6, 5.3], [3, 0, 2.2]], b: [[3, 12, 6.2], [3, 0, 2.2]], tp: 1.6, dp: 7 },
   };
   const LEVEL = { 1: { bad: .15, strip: .15 }, 2: { eldhus: .6, strip: 1, stofa: .5, bad: .5, forstofa: .5 }, 3: { eldhus: .6, strip: 1, stofa: .5, bad: .5, forstofa: .5, herbergi: .5 },
     4: {}, 5: { stofa: .7, eldhus: .35, forstofa: .3, herbergi: .4 }, 6: { forstofa: .12 }, 7: { stofa: .4, eldhus: .4, herbergi: .4, bad: .4, forstofa: .4, strip: .5 } };
@@ -325,19 +325,24 @@ function init() {
     6: [[at('forstofa', 1.5), '10 %', 'tag', 0.4], [[rx, 0.9, rz], 'Vatn í baðherbergi', 'note', 1.6]],
     7: [],
   };
-  let cur = 0, t0 = performance.now(), intro = -1, camFrom, lookFrom, first = true;
+  let cur = 0, prev = 0, prevT0 = 0, t0 = performance.now(), intro = -1;
+  const LEAD = 0.6, SMOOTH = 0.75, labs = [];   // the scene's events start LEAD s after the camera sets off
   let skyFrom = new THREE.Color(SKY[1]), skyTo = skyFrom.clone(), sunTo = new THREE.Color('#fff'), sunI = 0, sunPar = SUNP[1], timeFrom = TIME[1];
   const look = new THREE.Vector3(3, 0, 2.2), base = new THREE.Vector3(3, 15, 7), tintNow = new THREE.Vector3(...TINT[1]);
   const setScene = (n) => {
     if (n === cur) return;
     timeFrom = cur && TIME[cur] != null && TIME[n] != null ? shownTime : TIME[n];
-    cur = n; t0 = performance.now();
-    camFrom = base.clone(); lookFrom = look.clone();
+    prev = cur; prevT0 = t0; cur = n; t0 = performance.now();
     skyFrom = scene.background.clone(); skyTo = new THREE.Color(SKY[n]); sunTo = new THREE.Color(SUN[n][1]); sunI = SUN[n][0]; sunPar = SUNP[n];
     for (const k in lamps) lamps[k].target = LEVEL[n][k] || 0;
-    labels.innerHTML = '';
-    for (const [p, text, cls, delay] of LABELS[n]) { const d = document.createElement('div'); d.className = 'lab ' + cls; d.textContent = text; d.dataset.d = delay; d.dataset.p = p.join(','); labels.appendChild(d); }
-    if (n === 7) { const d = document.createElement('div'); d.className = 'lab end'; d.innerHTML = '<b>Snjallheimilið</b>Allt á heimanetinu, engin áskrift.<span>Fáðu verðbil á 2 mínútum</span>'; d.dataset.d = 1.8; labels.appendChild(d); }
+    labs.forEach((l) => { l.dying = t0; l.el.style.opacity = '0'; });
+    const addLab = (cls, delay, p, html) => {
+      const el = document.createElement('div'); el.className = 'lab ' + cls; if (html) el.innerHTML = html; labels.appendChild(el);
+      if (p) { el.style.left = el.style.top = '0'; el.style.willChange = 'transform'; }
+      labs.push({ el, d: delay, p, dying: 0, on: false }); return el;
+    };
+    for (const [p, text, cls, delay] of LABELS[n]) addLab(cls, delay, p).textContent = text;
+    if (n === 7) addLab('end', 1.8, null, '<b>Snjallheimilið</b>Allt á heimanetinu, engin áskrift.<span>Fáðu verðbil á 2 mínútum</span>');
   };
   let shownTime = TIME[1];
   setScene(Number(root.dataset.scene) || 1);
@@ -363,7 +368,7 @@ function init() {
         if (uZoom > .002) { vec2 dir = (vUv - .5) * uZoom; vec3 s = c; for (int i = 1; i < 6; i++) s += texture2D(t, vUv - dir * float(i) / 5.).rgb; c = s / 6.; }
         float m = smoothstep(.3, .62, abs(vUv.y - .5)) * uTilt * .85;
         c = mix(c, texture2D(soft, vUv).rgb, m);
-        c += (texture2D(b0, vUv).rgb * .3 + texture2D(b1, vUv).rgb * .4 + texture2D(b2, vUv).rgb * .5) * uBloom;
+        c += (texture2D(b0, vUv).rgb * .3 + texture2D(b1, vUv).rgb * .45 + texture2D(b2, vUv).rgb * .6) * uBloom;
         c += texture2D(streak, vUv).rgb * vec3(.55, .7, 1.2) * .5 * uBloom;
         c *= uTint * uExpo;
         c = aces(c);
@@ -374,7 +379,7 @@ function init() {
       }` });
   const opts = () => ({ type: THREE.HalfFloatType, depthBuffer: false, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter });
   let rt = null, softA, softB, blooms = [], streakA, streakB;
-  let q = canHDR ? 0 : 3, w = 0, h = 0, pr = 1;
+  let q = !canHDR ? 3 : innerWidth < 700 ? 1 : 0, w = 0, h = 0, pr = 1, compiled = false, dirty = true;
   const dpr = () => Math.min(devicePixelRatio || 1, q === 0 ? 2 : q === 1 ? 1.5 : 1);
   function disposeTargets() { if (!rt) return; [rt, softA, softB, streakA, streakB, ...blooms.flat()].forEach((x) => x.dispose()); rt = null; blooms = []; }
   function buildTargets() {
@@ -403,10 +408,16 @@ function init() {
   // ---- render loop ----
   const ease = (x) => x < 0 ? 0 : x > 1 ? 1 : x * x * (3 - 2 * x);
   const back = (x) => { if (x <= 0) return 0; if (x >= 1) return 1; const c = 1.70158, y = x - 1; return 1 + (c + 1) * y * y * y + c * y * y; };
-  let visible = false, seen = false, last = performance.now(), slow = performance.now(), good = 0, orb = 0, px = 0, py = 0, tpx = 0, tpy = 0;
+  let visible = false, seen = false, last = performance.now(), slow = performance.now(), good = 0, orb = 0, orbT = 0, orbV = 0, px = 0, py = 0, tpx = 0, tpy = 0, alarmS = 0, faceB = 0.15, ringA = 0;
+  // a spring that keeps its speed when the target jumps: the camera never starts or stops with a jerk
+  let sdv = 0;
+  const sd = (c, tg, vel, st, d) => { const om = 2 / st, x = om * d, e = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x), ch = c - tg, tmp = (vel + om * ch) * d; sdv = (vel - om * tmp) * e; return tg + (ch + tmp) * e; };
+  const sd3 = (c, tg, vel, st, d) => { c.x = sd(c.x, tg.x, vel.x, st, d); vel.x = sdv; c.y = sd(c.y, tg.y, vel.y, st, d); vel.y = sdv; c.z = sd(c.z, tg.z, vel.z, st, d); vel.z = sdv; };
+  const velP = new THREE.Vector3(), velL = new THREE.Vector3();
+  new ResizeObserver(() => { dirty = true; }).observe(box);
   new IntersectionObserver((es) => {
     visible = es[0].isIntersecting;
-    if (visible && !seen) { seen = true; intro = performance.now(); t0 = intro; }     // the film starts when it is first seen
+    if (visible && !seen) { seen = true; intro = performance.now(); t0 = intro; slow = intro; good = 0; }     // the film starts when it is first seen
   }, { threshold: 0.05 }).observe(box);
   box.addEventListener('pointermove', (e) => { const r = box.getBoundingClientRect(); tpx = (e.clientX - r.left) / r.width * 2 - 1; tpy = (e.clientY - r.top) / r.height * 2 - 1; });
   box.addEventListener('pointerleave', () => { tpx = tpy = 0; });
@@ -416,38 +427,42 @@ function init() {
     requestAnimationFrame(frame);
     if (!visible || document.hidden) { last = now; return; }
     const dt = now - last; last = now;
-    // quality: fewer than 24 frames a second over 1.5 s steps it down; a long gap (scrolled away, tab switched) restarts the count
-    if (dt > 1500) { good = 0; slow = now; } else { good++; if (now - slow > 1500) { if (good / ((now - slow) / 1000) < 24 && q < 3) setQuality(q + 1); good = 0; slow = now; } }
-    const cw2 = box.clientWidth, ch = Math.round(cw2 * 440 / 600);
-    if (cw2 && (cw2 !== w || ch !== h)) { w = cw2; h = ch; camera.aspect = w / h; camera.updateProjectionMatrix(); setQuality(q); }
+    // quality: too few frames over 1.5 s steps it down (50, 40 and 24 a second); a long gap restarts the count
+    if (dt > 1500) { good = 0; slow = now; } else { good++; if (now - slow > 1500) { if (good / ((now - slow) / 1000) < [50, 40, 24, 0][q] && q < 3) setQuality(q + 1); good = 0; slow = now; } }
+    if (dirty) { dirty = false; const cw2 = box.clientWidth, ch = Math.round(cw2 * 440 / 600); if (cw2 && (cw2 !== w || ch !== h)) { w = cw2; h = ch; camera.aspect = w / h; camera.updateProjectionMatrix(); setQuality(q); } }
     if (!w) return;
-    const t = (now - t0) / 1000, sec = now / 1000, C = CAMS[cur], FLY = first ? 2.4 : 1.6, k1 = ease(t / FLY);
-    const blend = 1 - Math.pow(0.93, dt / 16.7);
+    if (!compiled) {  // every shader now, while the picture is still black, or each first use stutters in the middle of the film
+      compiled = true; const hid = []; scene.traverse((o) => { if (!o.visible) { hid.push(o); o.visible = true; } });
+      renderer.setRenderTarget(rt); renderer.compile(scene, camera); renderer.setRenderTarget(null); hid.forEach((o) => { o.visible = false; });
+      renderer.initTexture(glowTex); renderer.initTexture(fadeTex);
+    }
+    const ds = Math.min(dt / 1000, 0.1), tc = (now - t0) / 1000, t = tc - LEAD, sec = now / 1000, C = CAMS[cur];
+    const blend = 1 - Math.pow(0.93, dt / 16.7), soft = 1 - Math.pow(0.968, dt / 16.7);
 
-    // the camera: fly to the shot with a swoop up, then drift to the next, and never stand still
-    pA.lerpVectors(camFrom, v.set(...C.a[0]), k1); lA.lerpVectors(lookFrom, v.set(...C.a[1]), k1);
-    const k2 = ease((t - C.tp) / C.dp);
-    base.lerpVectors(pA, pT.set(...C.b[0]), k2); look.lerpVectors(lA, lT.set(...C.b[1]), k2);
-    if (t > FLY && first) first = false;
-    const inFlight = t < FLY ? Math.sin(Math.PI * t / FLY) : 0;
-    pos.copy(base); pos.y += inFlight * 1.3;
-    orb = cur === 7 ? orb + (dt / 1000) * 0.28 * ease((t - 1) / 3) : orb * Math.pow(0.97, dt / 16.7);
+    // the camera follows a target on a spring: over to the shot with a lift, then along to the next, and never stands still
+    pA.set(...C.a[0]); lA.set(...C.a[1]); pT.set(...C.b[0]); lT.set(...C.b[1]);
+    const k2 = ease((tc - C.tp) / C.dp); pA.lerp(pT, k2); lA.lerp(lT, k2);
+    pA.y += (1 - ease(tc / 1.5)) * 1.1;
+    sd3(base, pA, velP, SMOOTH, ds); sd3(look, lA, velL, SMOOTH, ds);
+    const inFlight = Math.min(1, velP.length() / 6);
+    orbT = cur === 7 ? orbT + ds * 0.28 * ease((t - 1) / 3) : 0;
+    orb = sd(orb, orbT, orbV, 1.1, ds); orbV = sdv;
     const yaw = Math.sin(now / 6500) * 0.12 + orb;
-    v.subVectors(pos, look).applyAxisAngle(UP, yaw).multiplyScalar(1 - Math.min(t, 8) * 0.008);
+    v.subVectors(base, look).applyAxisAngle(UP, yaw);
     camera.position.addVectors(look, v);
     camera.position.y += Math.sin(now / 5200) * 0.07;
-    px += (tpx - px) * 0.05; py += (tpy - py) * 0.05;
+    px += (tpx - px) * blend * 0.7; py += (tpy - py) * blend * 0.7;
     camera.position.x += px * 0.28; camera.position.z += py * 0.2;
     camera.lookAt(look);
 
     // the day: sky, sun, ambient, northern lights, snow, dust
-    scene.background.lerpColors(skyFrom, skyTo, ease(t / 1.6));
+    scene.background.lerpColors(skyFrom, skyTo, ease(tc / 2.6));
     world.uniforms.uSky.value.copy(scene.background); world.uniforms.uT.value = sec;
     world.uniforms.uNight.value += (NIGHT[cur] - world.uniforms.uNight.value) * blend * 0.5;
     world.uniforms.uAur.value += (AUR[cur] * (1 + 0.15 * Math.sin(sec * 0.7)) - world.uniforms.uAur.value) * blend * 0.4;
     sun.color.lerp(sunTo, blend * 0.7); sun.intensity += (sunI - sun.intensity) * blend * 0.7;
     amb.intensity += (AMB[cur] - amb.intensity) * blend * 0.6;
-    if (cur === 5) sun.position.set(-4, 6 - 4 * ease(t / 3), 2); else sun.position.set(-4, 6, 2);
+    if (cur === 5) sun.position.y += (2 - sun.position.y) * blend * 0.3; else sun.position.y += (6 - sun.position.y) * blend * 0.3;
     snow.m.uniforms.uT.value = dust.m.uniforms.uT.value = sec;
     snow.m.uniforms.uA.value += (SNOW[cur] - snow.m.uniforms.uA.value) * blend * 0.4;
     dust.m.uniforms.uA.value += (DUST[cur] * 0.9 - dust.m.uniforms.uA.value) * blend * 0.4;
@@ -455,7 +470,7 @@ function init() {
 
     // the clock in the corner runs the day forward during the flight
     if (TIME[cur] != null) {
-      shownTime = timeFrom + (TIME[cur] - timeFrom) * ease(t / 1.3);
+      shownTime = timeFrom + (TIME[cur] - timeFrom) * ease(tc / 2.1);
       const m = Math.round(shownTime) % 1440; const s = pad(Math.floor(m / 60)) + ':' + pad(m % 60);
       if (timeEl.textContent !== s) timeEl.textContent = s;
       timeEl.style.opacity = '1';
@@ -471,7 +486,7 @@ function init() {
       const la = LIGHT_AT[cur] && LIGHT_AT[cur][k]; if (la && t < la) target = L.was;
       if (target > 0.01 && L.was <= 0.01) L.fire = now;                             // ignition: a flash and a ring on the floor
       L.was = target;
-      L.level += (target - L.level) * blend;
+      L.level += (target - L.level) * soft;
       const age = (now - L.fire) / 900;
       const flash = age < 1 ? Math.exp(-age * 5) * 1.6 : 0;
       const lv = L.level * (1 + 0.05 * Math.sin(now / 900 + li++ * 1.7)) + flash * 0.25;
@@ -505,43 +520,49 @@ function init() {
 
     // walls: they rise when the film starts; the edges glow at night and flash blue on the water alarm
     const r0 = intro > 0 ? (now - intro) / 1500 : 0; walls.scale.y = Math.max(0.001, back(r0));
-    const alarm = cur === 6 && t > 1.6 ? 0.5 + 0.5 * Math.sin(sec * 6) : 0;
+    alarmS += ((cur === 6 && t > 1.6 ? 1 : 0) - alarmS) * blend; const alarm = alarmS * (0.5 + 0.5 * Math.sin(sec * 6));
     edgeMat.opacity = 0.2 + NIGHTNESS() * 0.14 + (r0 < 1.3 ? (1.3 - Math.max(r0, 0)) * 0.25 : 0) + alarm * 0.5;
     edgeMat.color.setRGB(1 - alarm * 0.7, 1 - alarm * 0.3, 1 + alarm * 2).multiplyScalar(r0 < 1.3 ? 1.4 : 1 + alarm);
 
     // scene props
     const dt3 = cur === 3 ? -1.1 * ease((t - 0.2) / 1.2) : 0; door.rotation.y += (dt3 - door.rotation.y) * blend; leaf.visible = door.rotation.y < -0.01; leaf.material.opacity = Math.min(0.85, -door.rotation.y * 3); // shut, the render's own door shows
-    bars.forEach(([m, f], i) => { const s = cur === 4 ? f * back((t - 0.4 - i * 0.07) / 0.7) : 0; m.visible = s > 0.005; m.scale.y = Math.max(0.001, s * (cur === 4 ? 1 + 0.03 * Math.sin(sec * 3 + i) : 1)); m.position.y = m.scale.y * 0.3; });
+    bars.forEach(([m, f], i) => { const s = cur === 4 ? f * back((t - 0.4 - i * 0.07) / 0.7) : 0; m.scale.y = Math.max(0.001, s > 0 ? s * (1 + 0.03 * Math.sin(sec * 3 + i)) : m.scale.y + (0.001 - m.scale.y) * soft); m.visible = m.scale.y > 0.005; m.position.y = m.scale.y * 0.3; });
     curtain.scale.x += ((cur === 5 ? ease((t - 0.8) / 1.4) : 0) - curtain.scale.x) * blend; if (curtain.scale.x < 0.001) curtain.scale.x = 0.001;
-    rings.forEach((r, i) => { const p = cur === 6 && t > 0.5 ? ((t * 0.7 + i / 3) % 1) : 0; r.visible = cur === 6; r.scale.setScalar(0.4 + p * 3.2); r.material.opacity = cur === 6 && t > 0.5 ? (1 - p) * 0.55 : 0; });
+    ringA += ((cur === 6 && t > 0.5 ? 1 : 0) - ringA) * blend; rings.forEach((r, i) => { const p = (sec * 0.7 + i / 3) % 1; r.visible = ringA > 0.01; r.scale.setScalar(0.4 + p * 3.2); r.material.opacity = ringA * (1 - p) * 0.55; });
 
     // the alarm: from 0.3 s into scene 1 the clock shakes, its face lights, rings leave it; a second burst at 2.6 s
     const ring = cur === 1 && ((t > 0.3 && t < 1.9) || (t > 2.6 && t < 4.2));
     clock.rotation.z = ring ? Math.sin(now / 28) * 0.17 : 0;
     clock.position.y = 0.02 + (ring ? Math.abs(Math.sin(now / 56)) * 0.03 : 0);
     const faceOn = cur === 1 && t > 0.3;
-    clockFace.material.color.setScalar(faceOn ? (ring ? 3 + Math.sin(now / 90) : 2) : 0.15);
+    faceB += ((faceOn ? (ring ? 3 + Math.sin(now / 90) : 2) : 0.15) - faceB) * blend; clockFace.material.color.setScalar(faceB);
     clockSp.material.opacity += ((ring ? 0.85 : faceOn ? 0.25 : 0) - clockSp.material.opacity) * blend;
     bellRings.forEach((r, i) => { const p = ring ? ((t * 1.6 + i / 3) % 1) : 0; r.visible = ring; r.scale.setScalar(0.3 + p * 2.8); r.material.opacity = ring ? (1 - p) * 0.8 : 0; });
 
     // the signals
     for (const key in arcs) { arcs[key].tube.visible = false; arcs[key].head.visible = false; }
-    for (const r of ROUTES[cur]) {
-      let tt = t - r.delay; if (r.loop && tt > 0) tt %= r.loop;
-      const p = tt / r.dur;
-      if (p <= 0 || p >= 1.35) continue;
-      const A = r.arc, hd = Math.min(p, 1), tail = Math.max(0, p - 0.35), per = A.RAD * 6;
-      A.tube.visible = true; A.tube.geometry.setDrawRange(Math.floor(tail * A.SEG) * per, Math.max(1, Math.ceil((hd - tail) * A.SEG)) * per);
-      if (p < 1) { A.head.visible = true; A.head.position.copy(A.curve.getPoint(hd)); }
-    }
+    const drawRoutes = (list, tt0, fade) => {
+      for (const r of list) {
+        let tt = tt0 - r.delay; if (r.loop && tt > 0) tt %= r.loop;
+        const p = tt / r.dur;
+        if (p <= 0 || p >= 1.35) continue;
+        const A = r.arc, hd = Math.min(p, 1), tail = Math.max(0, p - 0.35), per = A.RAD * 6;
+        A.tube.visible = true; A.tube.material.opacity = 0.95 * fade; A.tube.geometry.setDrawRange(Math.floor(tail * A.SEG) * per, Math.max(1, Math.ceil((hd - tail) * A.SEG)) * per);
+        if (p < 1) { A.head.visible = true; A.head.material.opacity = fade; A.curve.getPoint(hd, A.head.position); }
+      }
+    };
+    if (prev && tc < 0.9) drawRoutes(ROUTES[prev], (now - prevT0) / 1000 - LEAD, 1 - ease(tc / 0.9));
+    drawRoutes(ROUTES[cur], t, 1);
 
     // the labels
-    labels.querySelectorAll('.lab').forEach((d, i) => {
-      d.style.opacity = t > Number(d.dataset.d) ? '1' : '0';
-      if (!d.dataset.p) return;
-      const [x, y, z] = d.dataset.p.split(',').map(Number); v.set(x, y + Math.sin(now / 1400 + i) * 0.03, z).project(camera);
-      d.style.left = ((v.x + 1) / 2 * 100) + '%'; d.style.top = ((1 - v.y) / 2 * 100) + '%';
-    });
+    for (let i = labs.length - 1; i >= 0; i--) {
+      const l = labs[i];
+      if (l.dying) { if (now - l.dying > 700) { l.el.remove(); labs.splice(i, 1); continue; } }
+      else if (!l.on && t > l.d) { l.on = true; l.el.style.opacity = '1'; }
+      if (!l.p) continue;
+      v.set(l.p[0], l.p[1] + Math.sin(now / 1400 + i) * 0.03, l.p[2]).project(camera);
+      l.el.style.transform = 'translate3d(' + ((v.x + 1) / 2 * w).toFixed(1) + 'px,' + ((1 - v.y) / 2 * h).toFixed(1) + 'px,0) translate(-50%,-100%)';
+    }
 
     // draw
     const fade = intro > 0 ? ease((now - intro) / 700) : 0;
@@ -550,13 +571,13 @@ function init() {
     brightMat.uniforms.t.value = rt.texture; brightMat.uniforms.thr.value = -1; pass(brightMat, softA); blur(softA, softA, softB);
     brightMat.uniforms.thr.value = 1.05; pass(brightMat, blooms[0][0]);
     blur(blooms[0][0], blooms[0][0], blooms[0][1]);
-    for (let i = 1; i < 3; i++) { blur(blooms[i - 1][0], blooms[i][0], blooms[i][1]); blur(blooms[i][0], blooms[i][0], blooms[i][1]); }
+    for (let i = 1; i < 3; i++) blur(blooms[i - 1][0], blooms[i][0], blooms[i][1]);
     // the lens streak: the small bloom smeared sideways
     blurMat.uniforms.t.value = blooms[1][0].texture; blurMat.uniforms.d.value.set(5 / streakA.width, 0); pass(blurMat, streakB);
     blurMat.uniforms.t.value = streakB.texture; blurMat.uniforms.d.value.set(13 / streakA.width, 0); pass(blurMat, streakA);
     const U = compMat.uniforms;
     U.t.value = rt.texture; U.soft.value = softA.texture; U.b0.value = blooms[0][0].texture; U.b1.value = blooms[1][0].texture; U.b2.value = blooms[2][0].texture; U.streak.value = streakA.texture;
-    U.uZoom.value = q < 2 ? inFlight * 0.05 : 0; U.uTilt.value = 1; U.uExpo.value = fade; U.uTime.value = sec % 10; U.uTint.value.copy(tintNow); U.uBloom.value = 1;
+    U.uZoom.value = q < 2 ? inFlight * inFlight * 0.035 : 0; U.uTilt.value = 1; U.uExpo.value = fade; U.uTime.value = sec % 10; U.uTint.value.copy(tintNow); U.uBloom.value = 1;
     pass(compMat, null);
   }
   function NIGHTNESS() { return world.uniforms.uNight.value; }
