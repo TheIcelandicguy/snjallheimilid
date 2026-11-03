@@ -32,7 +32,8 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
   as the drawing; the SVG house is painted on the floor only if the image fails), keeps the house in a HOUSE
   table measured in the image's pixels (walls with windows and doors, the front door hinge, the lights, the kitchen
   strip, the bars, the curtain window, the water sensor; another render means re-measuring it), raises the walls as
-  half-transparent slabs split at the openings with their edges drawn, a glow sprite and a point light per ceiling light and the strip,
+  half-transparent slabs cut at 1 m like a dollhouse (owner 2026-11-03, full-height slabs hid the floor on the phone),
+  split at the openings with their edges drawn, a glow sprite and a point light per ceiling light and the strip,
   the front door leaf, the energy bars, the curtain, the water rings and HTML labels projected from world points;
   it watches `data-scene` and flies the camera per scene; without WebGL, reduced motion or no CDN the SVG player
   stays; `.d3` box, `.d3labels`, `.dsvg.d3off` hides the SVG), sections `#thjonusta`

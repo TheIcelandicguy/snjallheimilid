@@ -34,7 +34,7 @@ const root = document.querySelector('.dagur'), svg = root && root.querySelector(
 if (root && svg && !matchMedia('(prefers-reduced-motion: reduce)').matches) init();
 
 function init() {
-  const S = HOUSE.widthM / HOUSE.w, H = 2.5, DOOR = 2.1, SILL = 0.9, FW = HOUSE.widthM, FD = HOUSE.h * S;
+  const S = HOUSE.widthM / HOUSE.w, H = 1.0, DOOR = 1.0, SILL = 0.55, FW = HOUSE.widthM, FD = HOUSE.h * S;
   const P = (px, py) => [px * S, py * S];
   const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
   const box = document.createElement('div'); box.className = 'd3';
@@ -92,8 +92,8 @@ function init() {
     let cur = Math.min(a, b); const end = Math.max(a, b);
     for (const [o1, o2, kind] of [...ops].sort((p, q) => p[0] - q[0])) {
       if (o1 > cur) slab(...pt(cur), ...pt(o1), t, 0, H);
-      if (kind === 'win') { slab(...pt(o1), ...pt(o2), t, 0, SILL); slab(...pt(o1), ...pt(o2), t, DOOR, H); }
-      else slab(...pt(o1), ...pt(o2), t, DOOR, H);
+      if (kind === 'win') slab(...pt(o1), ...pt(o2), t, 0, SILL);
+      if (DOOR < H) slab(...pt(o1), ...pt(o2), t, DOOR, H);
       cur = o2;
     }
     if (cur < end) slab(...pt(cur), ...pt(end), t, 0, H);
@@ -118,14 +118,14 @@ function init() {
   for (const k in HOUSE.lights) {
     const [x, z] = P(...HOUSE.lights[k]); LP[k] = [x, z];
     const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
-    sp.position.set(x, H - 0.12, z); scene.add(sp);
-    const pl = new THREE.PointLight(0xffd28a, 0, 5, 1.4); pl.position.set(x, H - 0.3, z); scene.add(pl);
+    sp.position.set(x, H + 0.05, z); scene.add(sp);
+    const pl = new THREE.PointLight(0xffd28a, 0, 5, 1.4); pl.position.set(x, H - 0.1, z); scene.add(pl);
     lamps[k] = { sp, pl, level: 0, target: 0 };
   }
   const st = HOUSE.strip, [sx, sz1] = P(st.x, st.from), sz2 = st.to * S;
   const stripMat = new THREE.MeshBasicMaterial({ color: 0xffd28a, transparent: true, opacity: 0 });
-  const strip = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.03, sz2 - sz1), stripMat); strip.position.set(sx, 1.35, (sz1 + sz2) / 2); scene.add(strip);
-  const stripL = new THREE.PointLight(0xffd28a, 0, 2.5, 1.8); stripL.position.set(sx - 0.1, 1.2, (sz1 + sz2) / 2); scene.add(stripL);
+  const strip = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.03, sz2 - sz1), stripMat); strip.position.set(sx, 0.75, (sz1 + sz2) / 2); scene.add(strip);
+  const stripL = new THREE.PointLight(0xffd28a, 0, 2.5, 1.8); stripL.position.set(sx - 0.1, 0.65, (sz1 + sz2) / 2); scene.add(stripL);
   lamps.strip = { sp: strip, pl: stripL, level: 0, target: 0, bar: true };
 
   // ---- scene props ----
@@ -133,10 +133,10 @@ function init() {
   const barMat = new THREE.MeshStandardMaterial({ color: accent, emissive: accent, emissiveIntensity: 0.35, roughness: 0.6 });
   BARS.forEach((h, i) => {
     const [bx, bz] = P(HOUSE.bars.x + i * HOUSE.bars.step, HOUSE.bars.z);
-    const m = new THREE.Mesh(new THREE.BoxGeometry(0.09, 1, 0.09), barMat); m.position.set(bx, 0, bz); m.scale.y = 0.001; scene.add(m); bars.push([m, h / 34]);
+    const m = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.6, 0.07), barMat); m.position.set(bx, 0, bz); m.scale.y = 0.001; scene.add(m); bars.push([m, h / 34]);
   });
   const cu = HOUSE.curtain, cw = (cu.to - cu.from) * S;
-  const curtain = new THREE.Mesh(new THREE.PlaneGeometry(cw, DOOR - SILL), new THREE.MeshStandardMaterial({ color: 0x8a7f72, side: THREE.DoubleSide, roughness: 1 }));
+  const curtain = new THREE.Mesh(new THREE.PlaneGeometry(cw, DOOR - SILL), new THREE.MeshStandardMaterial({ color: 0xd8cfbf, side: THREE.DoubleSide, roughness: 1 }));
   curtain.geometry.translate(cw / 2, 0, 0); curtain.rotation.y = -Math.PI / 2;
   curtain.position.set(cu.x * S - 0.14, (DOOR + SILL) / 2, cu.from * S); curtain.scale.x = 0.001; scene.add(curtain);
   const [rx, rz] = P(...HOUSE.rings);
@@ -144,8 +144,8 @@ function init() {
 
   // ---- scenes: light levels, camera, sky, labels, animation per scene ----
   const CAM = {
-    1: [[8.4, 4.2, -0.4], [4.7, 0.5, 1.6]], 2: [[3.2, 4.4, 5.8], [3.0, 0.4, 1.5]], 3: [[1.6, 3.8, 8.4], [2.4, 0.4, 3.3]],
-    4: [[-2.0, 3.6, 6.6], [1.4, 0.4, 3.2]], 5: [[8.8, 3.6, 3.4], [4.6, 0.5, 1.6]], 6: [[8.6, 3.8, 6.4], [4.9, 0.2, 3.1]], 7: [[3.0, 8.0, 6.2], [3.0, 0, 2.1]],
+    1: [[8.0, 3.6, -0.2], [4.7, 0.2, 1.6]], 2: [[3.2, 3.8, 5.4], [3.0, 0.1, 1.5]], 3: [[1.8, 3.4, 7.6], [2.4, 0.1, 3.3]],
+    4: [[-1.6, 3.2, 6.2], [1.4, 0.1, 3.2]], 5: [[8.4, 3.2, 3.2], [4.6, 0.2, 1.6]], 6: [[8.2, 3.4, 6.0], [4.9, 0.1, 3.1]], 7: [[3.0, 8.0, 6.2], [3.0, 0, 2.1]],
   };
   const LEVEL = { 1: { bad: .15, strip: .15 }, 2: { eldhus: .6, strip: 1, stofa: .5, bad: .5, forstofa: .5 }, 3: { eldhus: .6, strip: 1, stofa: .5, bad: .5, forstofa: .5, herbergi: .5 },
     4: {}, 5: { stofa: .7, eldhus: .35, forstofa: .3, herbergi: .4 }, 6: { forstofa: .12 }, 7: { stofa: .4, eldhus: .4, herbergi: .4, bad: .4, forstofa: .4 } };
@@ -154,12 +154,12 @@ function init() {
   const OFF = ['herbergi', 'bad', 'eldhus', 'strip', 'stofa', 'forstofa'];
   const at = (k, y, dx = 0, dz = 0) => [LP[k][0] + dx, y, LP[k][1] + dz];
   const LABELS = {
-    1: [[at('herbergi', 1.6, 0, -0.4), '04:50', 'bub', 0.2], [at('bad', 2.2), '10 %', 'tag', 0.8], [[sx - 0.1, 1.6, (sz1 + sz2) / 2], '10 %', 'tag', 1.0]],
-    2: [[at('eldhus', 2.2), '60 %', 'tag', 1.2], [at('eldhus', 1.3, 0.3, 1.0), 'haldið inni = dimmað', 'bub', 0.4]],
-    3: [[[2.6, 1.9, 3.95], 'Allt af', 'bub', 0.3], [at('stofa', 1.4, 0.6, -0.4), 'straujárn af', 'tag', 1.6]],
-    4: [[[P(HOUSE.bars.x + 7 * HOUSE.bars.step, 0)[0], 1.3, HOUSE.bars.z * S], 'kWh í dag', 'tag', 0.5]],
-    5: [[[cu.x * S, 2.4, (cu.from + cu.to) / 2 * S], 'gluggatjöld', 'tag', 1.2], [at('stofa', 2.0), 'kvöldstilling', 'tag', 0.6], [at('bad', 1.4, -0.4, -0.3), '21 °C', 'bub', 0.9]],
-    6: [[at('forstofa', 2.0), '10 %', 'tag', 0.4], [[rx, 1.2, rz], 'Vatn í baðherbergi', 'note', 1.2]],
+    1: [[at('herbergi', 1.3, 0, -0.4), '04:50', 'bub', 0.2], [at('bad', 1.5), '10 %', 'tag', 0.8], [[sx - 0.1, 1.2, (sz1 + sz2) / 2], '10 %', 'tag', 1.0]],
+    2: [[at('eldhus', 1.5), '60 %', 'tag', 1.2], [at('eldhus', 1.0, 0.3, 1.0), 'haldið inni = dimmað', 'bub', 0.4]],
+    3: [[[2.6, 1.4, 3.95], 'Allt af', 'bub', 0.3], [at('stofa', 1.1, 0.6, -0.4), 'straujárn af', 'tag', 1.6]],
+    4: [[[P(HOUSE.bars.x + 7 * HOUSE.bars.step, 0)[0], 0.9, HOUSE.bars.z * S], 'kWh í dag', 'tag', 0.5]],
+    5: [[[cu.x * S, 1.4, (cu.from + cu.to) / 2 * S], 'gluggatjöld', 'tag', 1.2], [at('stofa', 1.5), 'kvöldstilling', 'tag', 0.6], [at('bad', 1.0, -0.4, -0.3), '21 °C', 'bub', 0.9]],
+    6: [[at('forstofa', 1.5), '10 %', 'tag', 0.4], [[rx, 0.9, rz], 'Vatn í baðherbergi', 'note', 1.2]],
     7: [],
   };
   let cur = 0, t0 = 0, camFrom, camTo, lookFrom, lookTo, skyFrom = new THREE.Color(SKY[1]), skyTo = skyFrom.clone(), sunTo = new THREE.Color('#fff'), sunI = 0;
