@@ -26,7 +26,7 @@ const HOUSE = {
   lights: { stofa: [300, 340], eldhus: [720, 340], herbergi: [1160, 340], bad: [1240, 790], forstofa: [560, 780] },
   strip: { x: 860, from: 120, to: 600 },             // the kitchen counter's under-cabinet light
   bars: { x: 200, z: 800, step: 33 },                 // the energy bars, from the panel in the hallway corner
-  curtain: { x: 1420, from: 230, to: 430 },           // the bedroom window on the right wall
+  curtain: { y: 55, from: 255, to: 390 },             // the living-room window on the top wall (owner 2026-11-03)
   rings: [1240, 840],                                 // the water sensor on the bathroom floor
 };
 
@@ -137,8 +137,8 @@ function init() {
   });
   const cu = HOUSE.curtain, cw = (cu.to - cu.from) * S;
   const curtain = new THREE.Mesh(new THREE.PlaneGeometry(cw, DOOR - SILL), new THREE.MeshBasicMaterial({ color: 0xe6ded0, side: THREE.DoubleSide, transparent: true, opacity: 0.92 }));
-  curtain.geometry.translate(cw / 2, 0, 0); curtain.rotation.y = -Math.PI / 2;
-  curtain.position.set(cu.x * S - 0.14, (DOOR + SILL) / 2, cu.from * S); curtain.scale.x = 0.001; scene.add(curtain);
+  curtain.geometry.translate(cw / 2, 0, 0);
+  curtain.position.set(cu.from * S, (DOOR + SILL) / 2, cu.y * S + 0.14); curtain.scale.x = 0.001; scene.add(curtain);
   const [rx, rz] = P(...HOUSE.rings);
   const rings = [0, 1].map(() => { const r = new THREE.Mesh(new THREE.RingGeometry(0.16, 0.2, 48), new THREE.MeshBasicMaterial({ color: 0x4aa3ff, transparent: true, opacity: 0, side: THREE.DoubleSide })); r.rotation.x = -Math.PI / 2; r.position.set(rx, 0.02, rz); scene.add(r); return r; });
 
@@ -146,7 +146,7 @@ function init() {
   const CAM = {
     // steep views, as the dollhouse renders are seen: the floor image carries its own perspective, a low camera fights it
     1: [[6.4, 6.4, 4.2], [4.7, 0, 1.5]], 2: [[3.4, 6.6, 4.3], [3.0, 0, 1.5]], 3: [[1.8, 6.4, 6.4], [2.4, 0, 3.3]],
-    4: [[-0.2, 6.2, 6.2], [1.3, 0, 3.2]], 5: [[6.8, 6.4, 4.2], [4.6, 0, 1.6]], 6: [[6.8, 6.4, 6.0], [5.0, 0, 3.2]], 7: [[3.0, 10.5, 5.6], [3.0, 0, 2.1]],
+    4: [[-0.2, 6.2, 6.2], [1.3, 0, 3.2]], 5: [[2.4, 6.2, 3.6], [1.7, 0, 0.9]], 6: [[6.8, 6.4, 6.0], [5.0, 0, 3.2]], 7: [[3.0, 10.5, 5.6], [3.0, 0, 2.1]],
   };
   const LEVEL = { 1: { bad: .15, strip: .15 }, 2: { eldhus: .6, strip: 1, stofa: .5, bad: .5, forstofa: .5 }, 3: { eldhus: .6, strip: 1, stofa: .5, bad: .5, forstofa: .5, herbergi: .5 },
     4: {}, 5: { stofa: .7, eldhus: .35, forstofa: .3, herbergi: .4 }, 6: { forstofa: .12 }, 7: { stofa: .4, eldhus: .4, herbergi: .4, bad: .4, forstofa: .4 } };
@@ -159,7 +159,7 @@ function init() {
     2: [[at('eldhus', 1.5), '60 %', 'tag', 1.2], [at('eldhus', 1.0, 0.3, 1.0), 'haldið inni = dimmað', 'bub', 0.4]],
     3: [[[2.6, 1.4, 3.95], 'Allt af', 'bub', 0.3], [at('stofa', 1.1, 0.6, -0.4), 'straujárn af', 'tag', 1.6]],
     4: [[[P(HOUSE.bars.x + 7 * HOUSE.bars.step, 0)[0], 0.9, HOUSE.bars.z * S], 'kWh í dag', 'tag', 0.5]],
-    5: [[[cu.x * S, 1.4, (cu.from + cu.to) / 2 * S], 'gluggatjöld', 'tag', 1.2], [at('stofa', 1.5), 'kvöldstilling', 'tag', 0.6], [at('bad', 1.0, -0.4, -0.3), '21 °C', 'bub', 0.9]],
+    5: [[[(cu.from + cu.to) / 2 * S, 1.4, cu.y * S], 'gluggatjöld', 'tag', 1.2], [at('stofa', 1.5), 'kvöldstilling', 'tag', 0.6], [at('bad', 1.0, -0.4, -0.3), '21 °C', 'bub', 0.9]],
     6: [[at('forstofa', 1.5), '10 %', 'tag', 0.4], [[rx, 0.9, rz], 'Vatn í baðherbergi', 'note', 1.2]],
     7: [],
   };
