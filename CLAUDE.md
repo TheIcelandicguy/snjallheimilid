@@ -26,9 +26,13 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
   dots `[data-go]` and the `[data-play]` button in `.dots`; site.js sets `data-scene` on `.dagur` and the CSS does
   the rest: per-light level variables, the scene's extras `.sc[data-s]`, small keyframes; auto-advance 4–5 s per
   scene while the section is on screen, a dot stops the run, `prefers-reduced-motion` = dots only; in 3D since
-  2026-11-03 (owner: "meira 3D"): `dagur3d.js`, an ES module importing Three.js 0.160.0 from cdnjs, paints the
-  SVG's house on the floor as a texture (styles inlined, extras left out), raises the walls as half-transparent slabs
-  split at the openings with their edges drawn, a glow sprite and a point light per ceiling light and the strip,
+  2026-11-03 (owner: "meira 3D", then "svona 3D" with a furnished dollhouse render as the reference): `dagur3d.js`,
+  an ES module importing Three.js 0.160.0 from cdnjs, lays `img/dagur-floor.jpg` on the floor (a top-down furnished
+  render of the sample house made with Canva's image generator on 2026-11-03, 1456 × 1088 px, the same five rooms
+  as the drawing; the SVG house is painted on the floor only if the image fails), keeps the house in a HOUSE
+  table measured in the image's pixels (walls with windows and doors, the front door hinge, the lights, the kitchen
+  strip, the bars, the curtain window, the water sensor; another render means re-measuring it), raises the walls as
+  half-transparent slabs split at the openings with their edges drawn, a glow sprite and a point light per ceiling light and the strip,
   the front door leaf, the energy bars, the curtain, the water rings and HTML labels projected from world points;
   it watches `data-scene` and flies the camera per scene; without WebGL, reduced motion or no CDN the SVG player
   stays; `.d3` box, `.d3labels`, `.dsvg.d3off` hides the SVG), sections `#thjonusta`
@@ -41,6 +45,7 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
   `FORM` = the Formspree id shared with quick.html, subject
   "Fyrirspurn af snjallheimilið.is"; the form posts JSON and shows the result in `#formMsg`.
   Also the `#dagur` scene player (see index.html above).
+- `img/dagur-floor.jpg` — the furnished render of the sample house, the floor of the 3D scene player (Canva, 2026-11-03).
 - `favicon.svg`, `.nojekyll` (Pages serves files as they are), `CNAME` (the custom domain for Pages), `README.md`,
   `LICENSE` (MIT for the code only).
 - Run: `python -m http.server 8766` here (`.claude/launch.json` has it as `site`).
