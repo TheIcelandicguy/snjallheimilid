@@ -1,0 +1,7 @@
+{
+  "source": "Owner's house, Home Assistant energy statistics, all recorded circuits summed per hour, 2026-10-28, a day without cooking on the hob or a washer run. The owner gave leave to use his figures on 2026-11-03.",
+  "unit": "kWh per hour",
+  "caveat": "The hob circuit has no statistics after 2026-10-11, so cooking is missing here. Summed by hand from the hourly rows; a shape from one day, not an average.",
+  "hours": [0.43, 0.41, 0.44, 0.41, 0.41, 0.50, 0.41, 0.53, 0.40, 0.64, 0.57, 0.60, 0.53, 0.59, 0.49, 0.44, 0.58, 0.71, 0.70, 0.59, 0.66, 0.61, 0.65, 0.59],
+  "floor_heating_kwh_per_hour": 0.065
+}

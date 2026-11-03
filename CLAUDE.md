@@ -52,6 +52,7 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
 - `site.css` — same colour tokens as quick.css in smart-home-estimator (light and dark by `prefers-color-scheme`),
   880 px wrap, cards, numbered steps, form.
 - `dagur3d.js` — the 3D scene player (see `#dagur` above).
+- `tools/film/` — the Blender remake of the Einn dagur film (owner 2026-11-03, from his reference picture of a new plan), rendered to MP4, not yet on the page. `tools/film/house.py` builds the house, `tools/film/film.py` keys the six scenes and renders the frames, `tools/film/hud.py` draws the clock, captions, energy meter and end card and writes the video, `tools/film/timeline.json` holds the texts, clock and energy figures, `tools/film/fetch_assets.py` downloads the CC0 Poly Haven models and textures. `tools/film/energy.json` and the figures in the timeline come from the owner's own house, with his leave; the day in the film is put together from two real days. Assets, frames and videos stay outside git in `E:\motion-tools`. Run with `blender -b --factory-startup --python tools/film/film.py -- --frames DIR`, then `python tools/film/hud.py DIR out.mp4`.
 - `site.js` — `AETLUN` = the estimate page's address (aetlun.snjallheimilið.is), set on every `[data-aetlun]` link;
   `FORM` = the Formspree id shared with quick.html, subject
   "Fyrirspurn af snjallheimilið.is"; the form posts JSON and shows the result in `#formMsg`.
