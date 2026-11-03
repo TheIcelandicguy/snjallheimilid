@@ -47,7 +47,7 @@ function init() {
   svg.classList.add('d3off');
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(42, 600 / 440, 0.1, 60);
+  const camera = new THREE.PerspectiveCamera(30, 600 / 440, 0.1, 60);
   const accent = new THREE.Color(css('--accent') || '#f5a524');
 
   // ---- the floor: the render, or the drawing when it fails to load ----
@@ -79,8 +79,8 @@ function init() {
   }
 
   // ---- walls: segments split at the openings ----
-  const wallMat = new THREE.MeshStandardMaterial({ color: 0xe4e6e9, transparent: true, opacity: 0.22, roughness: 0.9, depthWrite: false });
-  const edgeMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.3 });
+  const wallMat = new THREE.MeshStandardMaterial({ color: 0xe4e6e9, transparent: true, opacity: 0.18, roughness: 0.9, depthWrite: false });
+  const edgeMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.22 });
   function slab(x1, z1, x2, z2, t, y0, y1) {
     const len = Math.hypot(x2 - x1, z2 - z1), g = new THREE.BoxGeometry(len, y1 - y0, t);
     const m = new THREE.Mesh(g, wallMat); m.position.set((x1 + x2) / 2, (y0 + y1) / 2, (z1 + z2) / 2); m.rotation.y = -Math.atan2(z2 - z1, x2 - x1);
@@ -136,7 +136,7 @@ function init() {
     const m = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.6, 0.07), barMat); m.position.set(bx, 0, bz); m.scale.y = 0.001; scene.add(m); bars.push([m, h / 34]);
   });
   const cu = HOUSE.curtain, cw = (cu.to - cu.from) * S;
-  const curtain = new THREE.Mesh(new THREE.PlaneGeometry(cw, DOOR - SILL), new THREE.MeshStandardMaterial({ color: 0xd8cfbf, side: THREE.DoubleSide, roughness: 1 }));
+  const curtain = new THREE.Mesh(new THREE.PlaneGeometry(cw, DOOR - SILL), new THREE.MeshBasicMaterial({ color: 0xe6ded0, side: THREE.DoubleSide, transparent: true, opacity: 0.92 }));
   curtain.geometry.translate(cw / 2, 0, 0); curtain.rotation.y = -Math.PI / 2;
   curtain.position.set(cu.x * S - 0.14, (DOOR + SILL) / 2, cu.from * S); curtain.scale.x = 0.001; scene.add(curtain);
   const [rx, rz] = P(...HOUSE.rings);
@@ -144,8 +144,9 @@ function init() {
 
   // ---- scenes: light levels, camera, sky, labels, animation per scene ----
   const CAM = {
-    1: [[8.0, 3.6, -0.2], [4.7, 0.2, 1.6]], 2: [[3.2, 3.8, 5.4], [3.0, 0.1, 1.5]], 3: [[1.8, 3.4, 7.6], [2.4, 0.1, 3.3]],
-    4: [[-1.6, 3.2, 6.2], [1.4, 0.1, 3.2]], 5: [[8.4, 3.2, 3.2], [4.6, 0.2, 1.6]], 6: [[8.2, 3.4, 6.0], [4.9, 0.1, 3.1]], 7: [[3.0, 8.0, 6.2], [3.0, 0, 2.1]],
+    // steep views, as the dollhouse renders are seen: the floor image carries its own perspective, a low camera fights it
+    1: [[6.4, 6.4, 4.2], [4.7, 0, 1.5]], 2: [[3.4, 6.6, 4.3], [3.0, 0, 1.5]], 3: [[1.8, 6.4, 6.4], [2.4, 0, 3.3]],
+    4: [[-0.2, 6.2, 6.2], [1.3, 0, 3.2]], 5: [[6.8, 6.4, 4.2], [4.6, 0, 1.6]], 6: [[6.8, 6.4, 6.0], [5.0, 0, 3.2]], 7: [[3.0, 10.5, 5.6], [3.0, 0, 2.1]],
   };
   const LEVEL = { 1: { bad: .15, strip: .15 }, 2: { eldhus: .6, strip: 1, stofa: .5, bad: .5, forstofa: .5 }, 3: { eldhus: .6, strip: 1, stofa: .5, bad: .5, forstofa: .5, herbergi: .5 },
     4: {}, 5: { stofa: .7, eldhus: .35, forstofa: .3, herbergi: .4 }, 6: { forstofa: .12 }, 7: { stofa: .4, eldhus: .4, herbergi: .4, bad: .4, forstofa: .4 } };
@@ -191,7 +192,7 @@ function init() {
     const cw2 = box.clientWidth, ch = Math.round(cw2 * 440 / 600);
     if (cw2 !== w || ch !== h) { w = cw2; h = ch; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
     const t = (now - t0) / 1000, k = ease(t / 1.8);
-    const drift = Math.sin(now / 4000) * 0.12;
+    const drift = Math.sin(now / 4000) * 0.06;
     camera.position.lerpVectors(camFrom, camTo, k); camera.position.x += drift;
     look.lerpVectors(lookFrom, lookTo, k); camera.lookAt(look);
     scene.background.lerpColors(skyFrom, skyTo, k); scene.fog.color.copy(scene.background);

@@ -35,7 +35,8 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
   half-transparent slabs cut at 1 m like a dollhouse (owner 2026-11-03, full-height slabs hid the floor on the phone),
   split at the openings with their edges drawn, a glow sprite and a point light per ceiling light and the strip,
   the front door leaf, the energy bars, the curtain, the water rings and HTML labels projected from world points;
-  it watches `data-scene` and flies the camera per scene; without WebGL, reduced motion or no CDN the SVG player
+  it watches `data-scene` and flies the camera per scene, every view steep from above with a 30° lens (owner
+  2026-11-03: a low camera fights the perspective painted into the floor image and the house looks stretched); without WebGL, reduced motion or no CDN the SVG player
   stays; `.d3` box, `.d3labels`, `.dsvg.d3off` hides the SVG), sections `#thjonusta`
   (four cards), `#ferli` (four numbered steps), `#daemi` (one house, numbers from the owner's own house run through
   quick.html on 2026-11-01: 13 modules, 155–190 þús. kr.), `#um`, `#samband` (contact form, honeypot `_gotcha`).
