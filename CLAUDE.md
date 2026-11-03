@@ -15,7 +15,17 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
   windows and doors to 3.5 s, then the electrical layer as a wiring drawing: the run travels from the board T1
   circuit by circuit at a constant speed, Gr.1 lights with a drop to each switch, Gr.2 sockets round the walls,
   the symbols appearing as the line reaches them, to 8.3 s; then the drawing fades to a watermark and the hero
-  text comes up at 8.5 s; `prefers-reduced-motion` shows the finished state at once), sections `#thjonusta`
+  text comes up at 8.5 s; `prefers-reduced-motion` shows the finished state at once; the hero's "Hvernig virkar
+  þetta?" button goes to `#dagur`), `#dagur` (owner 2026-11-03, "Einn dagur í snjallheimili": the same sample house as
+  a scene player, seven scenes from the storyboard he settled: 04:50 the alarm with the bathroom and the kitchen's
+  under-cabinet light at 10 %, 06:30 the same switch held dims the kitchen ceiling light alone, 08:00 leaving and every
+  light goes off in turn plus the iron's socket, 12:00 the board's energy bars, 18:40 curtains, warm living-room light
+  and 21 °C, 03:10 a 10 % hallway light and the water sensor's phone notice, then the closing line; the SVG between the
+  `<!-- dagur:svg -->` markers and the CSS from `/* Dagur:` are written by `tools/dagur.py` (edit the script and
+  rerun it; the optional argument patches the single-file artifact copy), the caption per scene is in `.dcap`, the
+  dots `[data-go]` and the `[data-play]` button in `.dots`; site.js sets `data-scene` on `.dagur` and the CSS does
+  the rest: per-light level variables, the scene's extras `.sc[data-s]`, small keyframes; auto-advance 4–5 s per
+  scene while the section is on screen, a dot stops the run, `prefers-reduced-motion` = dots only), sections `#thjonusta`
   (four cards), `#ferli` (four numbered steps), `#daemi` (one house, numbers from the owner's own house run through
   quick.html on 2026-11-01: 13 modules, 155–190 þús. kr.), `#um`, `#samband` (contact form, honeypot `_gotcha`).
 - `site.css` — same colour tokens as quick.css in smart-home-estimator (light and dark by `prefers-color-scheme`),
@@ -23,6 +33,7 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
 - `site.js` — `AETLUN` = the estimate page's address (aetlun.snjallheimilið.is), set on every `[data-aetlun]` link;
   `FORM` = the Formspree id shared with quick.html, subject
   "Fyrirspurn af snjallheimilið.is"; the form posts JSON and shows the result in `#formMsg`.
+  Also the `#dagur` scene player (see index.html above).
 - `favicon.svg`, `.nojekyll` (Pages serves files as they are), `CNAME` (the custom domain for Pages), `README.md`,
   `LICENSE` (MIT for the code only).
 - Run: `python -m http.server 8766` here (`.claude/launch.json` has it as `site`).

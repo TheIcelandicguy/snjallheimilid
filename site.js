@@ -24,3 +24,33 @@ form.addEventListener('submit', async (e) => {
     say('Sending tókst ekki (' + err.message + '). Reyndu aftur, eða sendu póst beint.', 'err'); btn.disabled = false;
   }
 });
+
+/* Einn dagur: the scene player in #dagur. data-scene on .dagur drives the CSS; scenes advance every 4 s (the last
+   holds 5 s) while the section is on screen, a dot jumps to a scene and the play button stops and starts the run. */
+(() => {
+  const el = document.querySelector('.dagur');
+  if (!el) return;
+  const caps = el.querySelectorAll('.dcap > div'), dots = el.querySelectorAll('[data-go]'), play = el.querySelector('[data-play]');
+  const N = caps.length, HOLD = [0, 4000, 4000, 4500, 4500, 4500, 4500, 5000];
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let cur = 1, timer = null, running = false, visible = false;
+  const show = (n) => {
+    cur = n; el.dataset.scene = String(n);
+    caps.forEach((c) => c.classList.toggle('on', c.dataset.s === String(n)));
+    dots.forEach((d) => d.setAttribute('aria-current', d.dataset.go === String(n) ? 'true' : 'false'));
+  };
+  const tick = () => { timer = setTimeout(() => { show(cur % N + 1); tick(); }, HOLD[cur]); };
+  const start = () => { if (running || still) return; running = true; play.textContent = 'Stöðva'; tick(); };
+  const stop = () => { running = false; clearTimeout(timer); timer = null; play.textContent = 'Spila'; };
+  dots.forEach((d) => d.addEventListener('click', () => { stop(); show(Number(d.dataset.go)); }));
+  play.addEventListener('click', () => (running ? stop() : start()));
+  show(1);
+  if (still) { play.textContent = 'Spila'; }
+  else if ('IntersectionObserver' in window) {
+    new IntersectionObserver((es) => {
+      visible = es[0].isIntersecting;
+      if (visible && !timer && play.textContent === 'Stöðva') start();
+      if (!visible && running) { clearTimeout(timer); timer = null; running = false; }
+    }, { threshold: 0.35 }).observe(el);
+  } else start();
+})();
