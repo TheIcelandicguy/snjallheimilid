@@ -88,6 +88,7 @@ function init() {
           c += col * a * uAur * .62;
         }
         gl_FragColor = vec4(c, 1.);
+        #include <colorspace_fragment>
       }`,
   });
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), world); ground.rotation.x = -Math.PI / 2; ground.position.set(3, -0.04, 2.2); scene.add(ground);
@@ -234,12 +235,12 @@ function init() {
     const m = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.6, 0.07), barMat); m.position.set(bx, 0, bz); m.scale.y = 0.001; scene.add(m); bars.push([m, h / 34]);
   });
   const cu = HOUSE.curtain, cw = (cu.to - cu.from) * S;
-  // a pleated band along the window, inside the room; closing squeezes the pleats open
-  const curtainGeo = new THREE.BoxGeometry(cw, H - SILL, 0.1, 42, 1, 1);
+  // a pleated curtain along the window, inside the room, from the wall top to the floor; it comes down from the top (owner 2026-11-03)
+  const curtainGeo = new THREE.BoxGeometry(cw, H, 0.1, 42, 1, 1);
   { const p = curtainGeo.attributes.position; for (let i = 0; i < p.count; i++) p.setZ(i, p.getZ(i) + Math.sin(p.getX(i) * 62) * 0.035); p.needsUpdate = true; curtainGeo.computeVertexNormals(); }
-  curtainGeo.translate(cw / 2, 0, 0);
+  curtainGeo.translate(cw / 2, -H / 2, 0);
   const curtain = new THREE.Mesh(curtainGeo, new THREE.MeshLambertMaterial({ color: 0xbfb6a6 }));
-  curtain.position.set(cu.from * S, (H + SILL) / 2, cu.y * S + 0.42); curtain.scale.x = 0.001; scene.add(curtain);
+  curtain.position.set(cu.from * S, H, cu.y * S + 0.42); curtain.scale.y = 0.001; curtain.visible = false; scene.add(curtain);
   const ripples = (x, y, z, color, n) => Array.from({ length: n }, () => {
     const r = new THREE.Mesh(new THREE.RingGeometry(0.16, 0.2, 48), additive(color));
     r.rotation.x = -Math.PI / 2; r.position.set(x, y, z); scene.add(r); return r;
@@ -492,7 +493,7 @@ function init() {
       const lv = L.level * (1 + 0.05 * Math.sin(now / 900 + li++ * 1.7)) + flash * 0.25;
       if (L.bar) { L.sp.material.opacity = Math.min(1, lv * 1.5); L.pl.intensity = lv * 3.5; }
       else {
-        L.sp.material.opacity = Math.min(1, lv * 1.1); L.sp.scale.setScalar(0.35 + lv * 0.8); L.pl.intensity = lv * 7;
+        const noBloom = q >= 3 ? 1.6 : 1; L.sp.material.opacity = Math.min(1, lv * 1.1 * noBloom); L.sp.scale.setScalar((0.35 + lv * 0.8) * noBloom); L.pl.intensity = lv * 7 * noBloom;
         L.ring.visible = age < 1; if (age < 1) { L.ring.scale.setScalar(0.1 + ease(age) * 1.1); L.ring.material.opacity = (1 - age) * 0.8; }
       }
     }
@@ -504,7 +505,7 @@ function init() {
     for (const b of beams) {
       const L = sunNow.len, sk = sunNow.skew;
       let A = b.top ? sunNow.top : sunNow.right;
-      if (b.living) A *= 1 - curtain.scale.x;
+      if (b.living) A *= 1 - curtain.scale.y;
       b.patch.visible = b.shaft.visible = A > 0.004;
       if (!b.patch.visible) continue;
       if (b.top) {
@@ -527,7 +528,7 @@ function init() {
     // scene props
     const dt3 = cur === 3 ? -1.1 * ease((t - 0.2) / 1.2) : 0; door.rotation.y += (dt3 - door.rotation.y) * blend; leaf.visible = door.rotation.y < -0.01; leaf.material.opacity = Math.min(0.85, -door.rotation.y * 3); // shut, the render's own door shows
     bars.forEach(([m, f], i) => { const s = cur === 4 ? f * back((t - 0.4 - i * 0.07) / 0.7) : 0; m.scale.y = Math.max(0.001, s > 0 ? s * (1 + 0.03 * Math.sin(sec * 3 + i)) : m.scale.y + (0.001 - m.scale.y) * soft); m.visible = m.scale.y > 0.005; m.position.y = m.scale.y * 0.3; });
-    curtain.scale.x += ((cur === 5 ? ease((t - 0.8) / 1.4) : 0) - curtain.scale.x) * blend; if (curtain.scale.x < 0.001) curtain.scale.x = 0.001;
+    curtain.scale.y += ((cur === 5 ? ease((t - 0.8) / 2) : 0) - curtain.scale.y) * blend; if (curtain.scale.y < 0.001) curtain.scale.y = 0.001; curtain.visible = curtain.scale.y > 0.01;
     ringA += ((cur === 6 && t > 0.5 ? 1 : 0) - ringA) * blend; rings.forEach((r, i) => { const p = (sec * 0.7 + i / 3) % 1; r.visible = ringA > 0.01; r.scale.setScalar(0.4 + p * 3.2); r.material.opacity = ringA * (1 - p) * 0.55; });
 
     // the alarm: from 0.3 s into scene 1 the clock shakes, its face lights, rings leave it; a second burst at 2.6 s
