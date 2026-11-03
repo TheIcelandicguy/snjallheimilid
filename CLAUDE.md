@@ -36,11 +36,16 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
   split at the openings with their edges drawn, a glow sprite and a point light per ceiling light and the strip,
   the front door leaf, the energy bars, the curtain, the water rings and HTML labels projected from world points;
   it watches `data-scene` and flies the camera per scene, every view steep from above with a 30° lens (owner
-  2026-11-03: a low camera fights the perspective painted into the floor image and the house looks stretched), and
-  never holds still (owner 2026-11-03): a slow swing round the look point and a breath up and down in every scene,
-  a full circle round the house in scene 7, lit lamps breathe, labels float; scene 1 has an alarm clock on the
-  bedside table (HOUSE clock) that shakes, lights its face and sends out rings in two bursts before the bathroom and
-  strip lights answer at 10 %; without WebGL, reduced motion or no CDN the SVG player
+  2026-11-03: a low camera fights the perspective painted into the floor image and the house looks stretched). Made
+  a film on 2026-11-03 (owner: "Vá!"): the floor is cut to the building's outline so the house floats; own
+  post-processing with no addons (HDR target, three bloom levels, lens streak, tilt-shift, radial blur in flight,
+  grade, vignette, grain); stars, northern lights and snow by night, cloud shadow, sun patches, shafts and dust by
+  day; signal arcs from what decides to what obeys, with the light coming on as the arc lands; ignition rings; a
+  shot per scene that drifts to a second one; a clock in the corner that runs the day forward; walls rising when
+  the film is first seen; pointer parallax; in scene 1 an alarm clock on the bedside table shakes and rings before
+  the bathroom and strip lights answer at 10 %; scene 6 flashes the edges blue, scene 7 links every device to the
+  board and circles the house. Quality steps down by itself under 24 frames a second (`data-q` on the box, 3 = no
+  post-processing). Scene holds in site.js went up to 5-9 s; without WebGL, reduced motion or no CDN the SVG player
   stays; `.d3` box, `.d3labels`, `.dsvg.d3off` hides the SVG), sections `#thjonusta`
   (four cards), `#ferli` (four numbered steps), `#daemi` (one house, numbers from the owner's own house run through
   quick.html on 2026-11-01: 13 modules, 155–190 þús. kr.), `#um`, `#samband` (contact form, honeypot `_gotcha`).

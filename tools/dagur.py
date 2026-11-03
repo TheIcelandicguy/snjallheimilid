@@ -127,6 +127,7 @@ css = f'''/* Dagur: the 'Einn dagur í snjallheimili' scene player (owner 2026-1
 .d3 canvas {{ display: block; width: 100% !important; height: 100% !important; }}
 .dsvg.d3off {{ display: none; }}
 .d3labels {{ position: absolute; inset: 0; pointer-events: none; }}
+.d3time {{ position: absolute; left: 14px; top: 10px; pointer-events: none; color: #fff; font: 700 clamp(22px, 6vw, 38px) system-ui, "Segoe UI", sans-serif; font-variant-numeric: tabular-nums; letter-spacing: .02em; text-shadow: 0 0 18px rgba(245, 165, 36, .75), 0 1px 4px #000; transition: opacity .5s; }}
 .d3 .lab {{ position: absolute; transform: translate(-50%, -100%); opacity: 0; transition: opacity .5s; white-space: nowrap; font: 600 13px system-ui, "Segoe UI", sans-serif; }}
 .d3 .lab.tag {{ color: #ffd28a; text-shadow: 0 1px 4px #000; }}
 .d3 .lab.bub, .d3 .lab.note {{ background: rgba(20, 24, 32, .85); color: #fff; border: 1px solid #f5a524; border-radius: 8px; padding: 4px 9px; }}

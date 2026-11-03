@@ -31,7 +31,7 @@ form.addEventListener('submit', async (e) => {
   const el = document.querySelector('.dagur');
   if (!el) return;
   const caps = el.querySelectorAll('.dcap > div'), dots = el.querySelectorAll('[data-go]'), play = el.querySelector('[data-play]');
-  const N = caps.length, HOLD = [0, 4000, 4000, 4500, 4500, 4500, 4500, 5000];
+  const N = caps.length, HOLD = [0, 6500, 5000, 6000, 6000, 6000, 6000, 9000];
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let cur = 1, timer = null, running = false, visible = false;
   const show = (n) => {
