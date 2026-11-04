@@ -1,12 +1,36 @@
 {
   "duration": 66,
   "scenes": [
-    {"t": 0,  "title": "Vekjaraklukkan hringir", "text": "Ljósið í eldhúsinu kviknar rólega. Það vaknar með þér."},
-    {"t": 13, "title": "Farið út", "text": "Eitt högg á skjáinn við dyrnar og öll ljós slokkna."},
-    {"t": 26, "title": "Enginn heima", "text": "Það kólnar úti og gólfhitinn heldur hitanum inni."},
-    {"t": 36, "title": "Komið heim", "text": "Ljósin kvikna á undan þér, og forstofan slokknar sjálf á eftir."},
-    {"t": 46, "title": "Kvöldið kemur", "text": "Allt slokknar nema í stofunni. Ljósin dimmast og gluggatjöldin koma niður."},
-    {"t": 55, "title": "Nóttin", "text": "Allt slökkt. Vatnsskynjarinn á baðherberginu vakir samt."}
+    {"t": 0,  "title": "Vekjaraklukkan hringir", "lines": [
+      [0, "Klukkan er tíu mínútur í fimm og húsið sefur."],
+      [2.2, "Svo hringir klukkan. Dagurinn byrjar snemma í dag."],
+      [8.2, "Þú lítur fram úr rúminu og það er enn myrkur."],
+      [10.2, "Ljósið í eldhúsinu kviknar rólega og bíður eftir þér."]]},
+    {"t": 13, "title": "Farið út", "lines": [
+      [13, "Morgunninn líður og húsið er komið á fætur með þér."],
+      [16.4, "Svo er komið að því að fara. Þú opnar útidyrnar."],
+      [18.8, "Á veggnum við dyrnar er skjár."],
+      [20.4, "Þú ýtir á Slökkva öll ljós."],
+      [21.8, "Ljósin slokkna, eitt herbergi af öðru, alla leið að dyrunum."],
+      [24.2, "Þú lokar á eftir þér og þarft ekki að fara annan hring."]]},
+    {"t": 26, "title": "Enginn heima", "lines": [
+      [26, "Nú er enginn heima og notkunin fer niður með því."],
+      [29, "Um hádegið fer að snjóa og frostið sest á rúðurnar."],
+      [32, "Gólfhitinn fer af stað og heldur hitanum, þótt enginn sé heima."]]},
+    {"t": 36, "title": "Komið heim", "lines": [
+      [36, "Um fimmleytið kemur þú heim."],
+      [37.8, "Hurðin opnast og ljósin kvikna á undan þér."],
+      [40.4, "Þú ferð að elda og mælirinn rís, eins og gengur."],
+      [43, "Forstofuljósið slokknar sjálft. Enginn þurfti að muna eftir því."]]},
+    {"t": 46, "title": "Kvöldið kemur", "lines": [
+      [46, "Kvöldið kemur og það slokknar alls staðar nema í stofunni."],
+      [48.2, "Ljósin þar dimmast með kvöldinu."],
+      [49.8, "Og gluggatjöldin dragast fyrir."],
+      [52.2, "Ljós sem enginn notar loga ekki. Það getur sparað eitthvað af orku."]]},
+    {"t": 55, "title": "Nóttin", "lines": [
+      [55, "Þú ferð að sofa og síðasta ljósið slokknar."],
+      [57, "Allt er slökkt, en húsið vakir samt."],
+      [58.4, "Vatn á baðherbergisgólfinu. Skynjarinn sér það og lætur þig vita."]]}
   ],
   "clock": [[0, 4.833], [13, 4.87], [15.5, 8.0], [26, 8.2], [28, 12.0], [36, 12.6], [37, 17.0], [46, 17.6], [47, 18.667], [55, 19.0], [57, 23.5], [66, 23.8]],
   "energy_note": "Tölur úr raunverulegu húsi",
