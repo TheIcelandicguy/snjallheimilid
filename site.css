@@ -1,43 +1,47 @@
-/* Snjallheimilið: same tokens as quick.css in smart-home-estimator, so the home page and the estimate look alike */
+/* Snjallheimilið: same tokens as quick.css in smart-home-estimator, so the home page and the estimate look alike.
+   The warm colours carry the page; --sky and --glass are the light colours of the logo, for lines and fills, never for text on the light ground. */
+@font-face { font-family: "Inter"; src: url("fonts/inter.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
 :root {
-  --bg: #f6f4ef; --card: #ffffff; --alt: #efece4; --line: #d9d4c7; --text: #1f2328; --muted: #6b6f76; --accent: #c8781a; --accent-fg: #fff; --ok: #2f8f4e;
+  --bg: #f6f4ef; --card: #ffffff; --alt: #efece4; --line: #d9d4c7; --text: #1f2328; --muted: #6b6f76; --accent: #c8781a; --accent-fg: #fff; --ok: #2f8f4e; --sky: #8befff; --sky-soft: #e4f8f9; --sky-ink: #071b30; --glass: #ffdf9a;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --bg: #14171a; --card: #1c2024; --alt: #181c20; --line: #2f353b; --text: #e4e7ea; --muted: #8b949c; --accent: #f5a524; --accent-fg: #111; --ok: #5cb85c; color-scheme: dark; }
+  :root:not([data-theme="light"]) { --bg: #14171a; --card: #1c2024; --alt: #181c20; --line: #2f353b; --text: #e4e7ea; --muted: #8b949c; --accent: #f5a524; --accent-fg: #111; --ok: #5cb85c; --sky: #61f2ff; --sky-soft: #14303a; --sky-ink: #071b30; --glass: #ffdf9a; color-scheme: dark; }
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 html, body { margin: 0; }
-body { background: var(--bg); color: var(--text); font: 17px/1.5 system-ui, "Segoe UI", sans-serif; }
+body { background: var(--bg); color: var(--text); font: 17px/1.5 Inter, system-ui, sans-serif; }
 .wrap { max-width: 880px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 a { color: var(--accent); }
 h1, h2, h3 { text-wrap: balance; line-height: 1.2; margin: 0 0 .5em; }
 h1 { font-size: clamp(1.9rem, 5vw, 2.8rem); }
 h2 { font-size: 1.6rem; }
+h2::after { content: ""; display: block; width: 48px; height: 4px; margin-top: 8px; border-radius: 2px; background: linear-gradient(90deg, var(--sky), var(--glass)); }
 h3 { font-size: 1.15rem; }
 p { margin: 0 0 1em; }
 .muted { color: var(--muted); font-size: .95rem; }
 .fine { color: var(--muted); font-size: .9rem; }
 
-.top { position: sticky; top: 0; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); z-index: 5; padding-top: env(safe-area-inset-top, 0px); }
+.top { position: sticky; top: 0; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 2px solid; border-image: linear-gradient(90deg, var(--sky), var(--glass), var(--accent)) 1; z-index: 5; padding-top: env(safe-area-inset-top, 0px); }
 .bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; flex-wrap: wrap; padding-block: 6px; }
-.brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--text); text-decoration: none; font-size: 1.1rem; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); text-decoration: none; font-size: 1.1rem; }
 nav { display: flex; gap: 4px 14px; flex-wrap: wrap; }
 nav a { color: var(--text); text-decoration: none; font-size: .95rem; padding: 4px 0; border-bottom: 2px solid transparent; }
-nav a:hover { border-color: var(--accent); }
+nav a:hover { border-color: var(--sky); }
 
 section { padding-block: 56px; }
-section.alt { background: var(--alt); }
+section.alt { background: color-mix(in srgb, var(--alt) 65%, var(--sky-soft)); }
 .hero { padding-block: 72px 56px; }
 .lede { font-size: 1.2rem; max-width: 40em; }
 .cta { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 20px 0 12px; }
 .btn { display: inline-block; font: inherit; color: var(--text); background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 11px 18px; text-decoration: none; cursor: pointer; }
+.btn:not(.primary):hover { border-color: var(--sky); }
 .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
 .btn:disabled { opacity: .5; cursor: default; }
 
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 16px 0; }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; min-width: 0; }
+.card { background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--sky); border-radius: 12px; padding: 18px; min-width: 0; }
 .card p:last-child { margin-bottom: 0; }
 .example { margin-top: 12px; }
 .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 16px 0; }
@@ -46,18 +50,21 @@ section.alt { background: var(--alt); }
 
 .steps { counter-reset: s; list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 12px; }
 .steps li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: start; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
-.steps li::before { content: counter(s); width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: var(--accent-fg); font-weight: 700; display: grid; place-items: center; }
+.steps li::before { content: counter(s); width: 32px; height: 32px; border-radius: 50%; background: var(--sky); color: var(--sky-ink); font-weight: 700; display: grid; place-items: center; }
 
 form { display: grid; gap: 12px; margin-top: 8px; }
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
 label { display: block; font-size: .95rem; color: var(--muted); }
 input, textarea { display: block; width: 100%; margin-top: 4px; font: inherit; color: var(--text); background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+input:focus, textarea:focus { outline: 2px solid var(--sky); outline-offset: 1px; }
 textarea { resize: vertical; min-height: 110px; }
 .gotcha { position: absolute; left: -9999px; width: 1px; height: 1px; }
 #formMsg.ok { color: var(--ok); } #formMsg.err { color: var(--accent); }
 
-footer { border-top: 1px solid var(--line); padding-block: 24px; color: var(--muted); font-size: .9rem; }
-footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+footer { border-top: 2px solid; border-image: linear-gradient(90deg, var(--sky), var(--glass), var(--accent)) 1; padding-block: 24px; color: var(--muted); font-size: .9rem; }
+footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.badge { display: flex; align-items: center; gap: 14px; }
+.badge img { width: 88px; height: 88px; border-radius: 50%; }
 [hidden] { display: none !important; }
 
 /* Intro: a sample plan draws itself behind the hero: outer wall, inner walls and room names, openings, then the
@@ -75,8 +82,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 .intro .e { stroke: var(--accent); stroke-width: 2; }
 .intro .run { stroke: var(--accent); stroke-width: 1.4; opacity: .9; }
 .intro .run.s { stroke-width: 1; } .intro .run.k { stroke-width: 1.2; }
-.intro .rn { stroke: none; fill: var(--muted); font: 15px system-ui, "Segoe UI", sans-serif; text-anchor: middle; opacity: 0; animation: introShow .4s ease-out var(--d) forwards; }
-.intro .gr { stroke: none; fill: var(--accent); font: 600 11px system-ui, "Segoe UI", sans-serif; text-anchor: middle; opacity: 0; animation: introShow .3s ease-out var(--d) forwards; }
+.intro .rn { stroke: none; fill: var(--muted); font: 15px Inter, system-ui, sans-serif; text-anchor: middle; opacity: 0; animation: introShow .4s ease-out var(--d) forwards; }
+.intro .gr { stroke: none; fill: var(--accent); font: 600 11px Inter, system-ui, sans-serif; text-anchor: middle; opacity: 0; animation: introShow .3s ease-out var(--d) forwards; }
 .intro [pathLength] { stroke-dasharray: 1; stroke-dashoffset: 1; animation: introDraw var(--t, .9s) linear var(--d) forwards; }
 .hero .wrap > * { opacity: 0; animation: introText .8s ease-out 8.5s forwards; }
 @keyframes introDraw { to { stroke-dashoffset: 0; } }
@@ -94,7 +101,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
    Generated by tools/dagur.py; edit the script and rerun it. */
 .dagur { display: grid; gap: 14px; margin-top: 16px; }
 .dsvg { width: 100%; height: auto; background: var(--card); border: 1px solid var(--line); border-radius: 14px; display: block; }
-.dsvg text { font: 15px system-ui, "Segoe UI", sans-serif; fill: var(--muted); text-anchor: middle; }
+.dsvg text { font: 15px Inter, system-ui, sans-serif; fill: var(--muted); text-anchor: middle; }
 .dsvg .w { stroke: var(--text); fill: none; stroke-width: 7; stroke-linejoin: round; } .dsvg .i { stroke-width: 4; }
 .dsvg .cut { stroke: var(--card); stroke-width: 9; }
 .dsvg .thin { stroke: var(--text); fill: none; stroke-width: 1.5; }
@@ -152,8 +159,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 .d3 canvas { display: block; width: 100% !important; height: 100% !important; }
 .dsvg.d3off { display: none; }
 .d3labels { position: absolute; inset: 0; pointer-events: none; }
-.d3time { position: absolute; left: 14px; top: 10px; pointer-events: none; color: #fff; font: 700 clamp(22px, 6vw, 38px) system-ui, "Segoe UI", sans-serif; font-variant-numeric: tabular-nums; letter-spacing: .02em; text-shadow: 0 0 18px rgba(245, 165, 36, .75), 0 1px 4px #000; transition: opacity .5s; }
-.d3 .lab { animation: none !important; position: absolute; transform: translate(-50%, -100%); opacity: 0; transition: opacity .6s; white-space: nowrap; font: 600 13px system-ui, "Segoe UI", sans-serif; }
+.d3time { position: absolute; left: 14px; top: 10px; pointer-events: none; color: #fff; font: 700 clamp(22px, 6vw, 38px) Inter, system-ui, sans-serif; font-variant-numeric: tabular-nums; letter-spacing: .02em; text-shadow: 0 0 18px rgba(245, 165, 36, .75), 0 1px 4px #000; transition: opacity .5s; }
+.d3 .lab { animation: none !important; position: absolute; transform: translate(-50%, -100%); opacity: 0; transition: opacity .6s; white-space: nowrap; font: 600 13px Inter, system-ui, sans-serif; }
 .d3 .lab.tag { color: #ffd28a; text-shadow: 0 1px 4px #000; }
 .d3 .lab.bub, .d3 .lab.note { background: rgba(20, 24, 32, .85); color: #fff; border: 1px solid #f5a524; border-radius: 8px; padding: 4px 9px; }
 .d3 .lab.note { border-radius: 10px; padding: 6px 12px; } .d3 .lab.note::before { content: "Snjallheimilið"; display: block; font-weight: 400; font-size: 11px; color: #c9ced6; }

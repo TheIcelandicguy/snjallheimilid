@@ -253,7 +253,7 @@ function init() {
   const clockBody = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.13, 0.07), new THREE.MeshStandardMaterial({ color: 0x3a4152, roughness: 0.5, emissive: 0x151922 }));
   clockBody.position.y = 0.07; clock.add(clockBody);
   const faceCan = document.createElement('canvas'); faceCan.width = 128; faceCan.height = 80;
-  { const g = faceCan.getContext('2d'); g.fillStyle = '#06080e'; g.fillRect(0, 0, 128, 80); g.fillStyle = '#ffb24a'; g.font = '700 42px system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('04:50', 64, 42); }
+  { const g = faceCan.getContext('2d'); g.fillStyle = '#06080e'; g.fillRect(0, 0, 128, 80); g.fillStyle = '#ffb24a'; g.font = '700 42px Inter, system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('04:50', 64, 42); }
   const clockFace = new THREE.Mesh(new THREE.PlaneGeometry(0.155, 0.1), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(faceCan), color: 0x333333, toneMapped: false }));
   clockFace.material.map.colorSpace = THREE.SRGBColorSpace;
   clockFace.position.set(0, 0.07, 0.037); clock.add(clockFace);

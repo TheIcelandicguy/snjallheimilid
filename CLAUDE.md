@@ -58,6 +58,7 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
   "Fyrirspurn af snjallheimilið.is"; the form posts JSON and shows the result in `#formMsg`.
   Also the `#dagur` scene player (see index.html above).
 - `img/dagur-floor.jpg` — the furnished render of the sample house, the floor of the 3D scene player (Canva, 2026-11-03).
+- `fonts/inter.woff2` — Inter, the one typeface of the logo, the site, the estimate page and the film's HUD (self-hosted, OFL, `fonts/inter-LICENSE.txt`). `tools/logo/outline.py` turns the text of the owner's logo sources in `tools/logo/src/` into outlines in `img/logo-larett.svg` and `img/logo-hringlaga.svg`, so they look the same without the font; their PNGs are drawn from those. Colours (owner 2026-11-04): the warm palette stays, and `--sky` / `--glass` in `site.css` are the logo's light colours, for lines and fills, not for text on the light ground.
 - `favicon.svg`, `.nojekyll` (Pages serves files as they are), `CNAME` (the custom domain for Pages), `README.md`,
   `LICENSE` (MIT for the code only).
 - Run: `python -m http.server 8766` here (`.claude/launch.json` has it as `site`).

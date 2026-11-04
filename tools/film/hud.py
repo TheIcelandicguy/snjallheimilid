@@ -11,7 +11,8 @@ from PIL import Image, ImageDraw, ImageFont
 
 HERE = pathlib.Path(__file__).parent
 TL = json.loads((HERE / "timeline.json").read_text(encoding="utf-8"))
-SANS, BOLD, SERIF = "C:/Windows/Fonts/segoeui.ttf", "C:/Windows/Fonts/seguisb.ttf", "C:/Windows/Fonts/georgiab.ttf"
+FONTS = "E:/motion-tools/assets/fonts"  # from tools/logo/outline.py --ttf
+SANS, BOLD, SERIF = f"{FONTS}/Inter-400.ttf", f"{FONTS}/Inter-600.ttf", f"{FONTS}/Inter-800.ttf"
 INK, MUTED, ACCENT, CARD = (46, 30, 22), (120, 100, 88), (176, 112, 38), (248, 240, 232)
 
 
@@ -57,6 +58,15 @@ def scene_at(t):
     return cur
 
 
+def line_at(scene, t):
+    """The line of the story showing at film time t, and when it began."""
+    cur = scene["lines"][0]
+    for line in scene["lines"]:
+        if t >= line[0]:
+            cur = line
+    return cur
+
+
 class Hud:
     def __init__(self, w, h):
         self.w, self.h, self.u = w, h, w / 1280
@@ -91,10 +101,12 @@ class Hud:
             # the caption, fading across each scene change
             s = scene_at(t)
             fade = smooth((t - s["t"]) / 0.6)
+            line_t, line = line_at(s, t)
+            line_fade = smooth((t - line_t) / 0.45)
             self.panel(d, (24, H - 112, 1256, H - 18), alpha(232))
             ca = alpha(255 * fade)
             d.text(xy(46, H - 108), s["title"], font=f["title"], fill=(*INK, ca))
-            d.text(xy(46, H - 66), s["text"], font=f["body"], fill=(*MUTED, ca))
+            d.text(xy(46, H - 66), line, font=f["body"], fill=(*MUTED, alpha(255 * line_fade)))
             # dots for the scenes
             n = len(TL["scenes"])
             idx = TL["scenes"].index(s)

@@ -1,3 +1,5 @@
+<img src="img/logo-larett.svg" alt="Snjallheimilið: sala, ráðgjöf, uppsetning" width="640">
+
 # Snjallheimilið
 
 Heimasíða Snjallheimilisins: snjallvæðing heimila á Akureyri. Kyrrstæð síða (HTML, CSS, vanilla JS), hýst á
