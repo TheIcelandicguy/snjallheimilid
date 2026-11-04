@@ -26,7 +26,7 @@ for i, (cut, leaf, swing) in enumerate(doors):
     els.append(f'<path class="cut" style="--d:{t:.2f}s" d="{cut}"/>')
     el('path', t, 'door', {'d': leaf}, 0.3)
     el('path', t + 0.1, 'door', {'d': swing}, 0.5)
-for i, (n, x, y) in enumerate([('Stofa', 170, 75), ('Eldhús', 130, 270), ('Svefnherbergi', 440, 70), ('Baðherbergi', 475, 290), ('Forstofa', 320, 300)]):
+for i, (n, x, y) in enumerate([('Stofa', 170, 60), ('Eldhús', 105, 300), ('Svefnherbergi', 440, 70), ('Baðherbergi', 480, 245), ('Forstofa', 318, 275)]):
     els.append(f'<text class="rn" style="--d:{2.0 + i * 0.1:.2f}s" x="{x}" y="{y + 30}">{n}</text>')
 
 # ---- the electrical layer: a pen that travels ----
@@ -51,14 +51,23 @@ def run(pts, cls='run'):
 
 def light(x, y, at):          # ceiling light: the X of the owner's symbol set
     el('path', at, 'e', {'d': f'M{x - 9} {y - 9}L{x + 9} {y + 9}M{x + 9} {y - 9}L{x - 9} {y + 9}'}, 0.25)
-def switch(x, y, dx, dy, at):  # circle on the wall, stem into the room with the switch flag
-    cx, cy = x + dx * 7, y + dy * 7
-    el('path', at, 'e', {'d': f'M{cx} {cy}m-5 0a5 5 0 1 0 10 0a5 5 0 1 0-10 0M{cx + dx * 5} {cy + dy * 5}l{dx * 12} {dy * 12}l{dy * 5} {-dx * 5}'}, 0.3)
-    return (cx + dx * 5, cy + dy * 5)
-def socket(x, y, dx, dy, at):  # bowl on the wall, stem into the room
-    cx, cy = x + dx * 8, y + dy * 8
-    el('path', at, 'e', {'d': f'M{cx - dy * 8} {cy - dx * 8}a8 8 0 0 {1 if (dx + dy) > 0 else 0} {dy * 16} {dx * 16}M{cx} {cy}l{dx * 10} {dy * 10}'}, 0.3)
-    return (cx + dx * 10, cy + dy * 10)
+def at_wall(x, y, dx, dy, off):
+    """Local coordinates of a wall symbol: u from the wall into the room, v along the wall."""
+    return lambda u, v: (round(x + dx * (off + u) - dy * v, 1), round(y + dy * (off + u) + dx * v, 1))
+SW_R = 9
+def switch_tip(x, y, dx, dy):  # the end of the stem, where the drop lands
+    return at_wall(x, y, dx, dy, 5)(1.9 * SW_R, -SW_R)
+def switch(x, y, dx, dy, at):  # as in electrical.js: a small circle on the wall, a slanted stem, a flag at its end
+    P, r = at_wall(x, y, dx, dy, 5), SW_R
+    c, a, b, f = P(0, 0), P(0.4 * r, -0.2 * r), P(1.9 * r, -r), P(2.15 * r, -0.45 * r)
+    el('path', at, 'e', {'d': f'M{c[0]} {c[1]}m-{0.45 * r} 0a{0.45 * r} {0.45 * r} 0 1 0 {0.9 * r} 0a{0.45 * r} {0.45 * r} 0 1 0 {-0.9 * r} 0M{a[0]} {a[1]}L{b[0]} {b[1]}L{f[0]} {f[1]}'}, 0.3)
+SO_R = 7
+def socket_tip(x, y, dx, dy):  # the middle of the bowl's open side, where the run lands
+    return at_wall(x, y, dx, dy, 5)(1.2 * SO_R, 0)
+def socket(x, y, dx, dy, at):  # as in electrical.js: a bowl on a base line opening into the room, the stem into the wall
+    P, r = at_wall(x, y, dx, dy, 5), SO_R
+    w, o, b1, b2, a1, a2 = P(-5, 0), P(0, 0), P(0, -1.3 * r), P(0, 1.3 * r), P(1.2 * r, -r), P(1.2 * r, r)
+    el('path', at, 'e', {'d': f'M{w[0]} {w[1]}L{o[0]} {o[1]}M{b1[0]} {b1[1]}L{b2[0]} {b2[1]}M{a1[0]} {a1[1]}A{r} {r} 0 0 0 {a2[0]} {a2[1]}'}, 0.3)
 def label(x, y, text, at, cls='gr'):
     els.append(f'<text class="{cls}" style="--d:{at:.2f}s" x="{x}" y="{y}">{text}</text>')
 
@@ -67,35 +76,37 @@ el('path', clock, 'e', {'d': 'M266 374H298V406H266ZM266 374L298 406M298 374L266 
 label(282, 424, 'T1', clock + 0.2)
 clock += 0.5
 
-# Gr.1 lights: board -> Forstofa -> Eldhús -> Stofa -> the light outside the bedroom door -> Svefnherbergi ->
-# the light outside the bathroom door -> Baðherbergi, a drop to the switch at each light
-label(282, 366, 'Gr.1', clock)
-lights = [((320, 345), (355, 410, 0, -1), [(305, 365)]),                # Forstofa, switch by the front door
-          ((150, 345), (261, 340, -1, 0), [(270, 330), (210, 360)]),    # Eldhús
-          ((170, 125), (90, 220, 0, -1), [(110, 240), (120, 170)]),     # Stofa
-          ((285, 205), (308, 150, -1, 0), [(235, 175)]),                # outside the bedroom door
-          ((440, 130), (308, 170, 1, 0), [(340, 150)]),                 # Svefnherbergi
-          ((352, 250), (350, 273, 0, 1), [(410, 210)]),                # outside the bathroom door
-          ((475, 330), (377, 300, 1, 0), [(410, 270)])]                 # Baðherbergi
-prev = (298, 380)
-for (lx, ly), (sx, sy, dx, dy), via in lights:
+# Gr.1 lights: board -> Forstofa -> Eldhús -> Stofa -> the light outside the bedroom door, which feeds Svefnherbergi and
+# the light outside the bathroom door -> Baðherbergi; a drop to the switch at each light, bowed to the given side
+label(232, 354, 'Gr.1', clock)
+FORSTOFA, ELDHUS, STOFA, HOL_SVEFN, SVEFN, HOL_BAD, BAD = (320, 345), (150, 345), (170, 125), (285, 205), (440, 130), (352, 250), (490, 345)
+lights = [(FORSTOFA, (355, 410, 0, -1), (298, 380), [(306, 366)], -14),   # switch by the front door
+          (ELDHUS, (70, 220, 0, 1), FORSTOFA, [(240, 385)], 22),          # on the short wall, the kitchen side
+          (STOFA, (95, 220, 0, -1), ELDHUS, [(168, 235)], 16),            # the same wall, the living-room side
+          (HOL_SVEFN, (308, 150, -1, 0), STOFA, [(235, 150)], 0),
+          (SVEFN, (308, 100, 1, 0), HOL_SVEFN, [(335, 178), (395, 150)], -14),
+          (HOL_BAD, (362, 273, 0, 1), HOL_SVEFN, [(325, 245)], 0),        # in the forstofa, by its inner door
+          (BAD, (377, 350, 1, 0), HOL_BAD, [(430, 300)], 18)]
+for (lx, ly), (sx, sy, dx, dy), prev, via, bow in lights:
     run([prev] + via + [(lx, ly)])
     light(lx, ly, clock - 0.1)
-    # the drop from the light to the switch, bowed into the room
-    tip = (sx + dx * 7 + dx * 17, sy + dy * 7 + dy * 17)
-    mid = ((lx + tip[0]) / 2 + dy * 18, (ly + tip[1]) / 2 + dx * 18)
-    run([(lx, ly), (int(mid[0]), int(mid[1])), tip], 'run s')
+    tip = tuple(int(v) for v in switch_tip(sx, sy, dx, dy))
+    if bow:
+        n = math.hypot(tip[0] - lx, tip[1] - ly)
+        mid = ((lx + tip[0]) / 2 - (tip[1] - ly) / n * bow, (ly + tip[1]) / 2 + (tip[0] - lx) / n * bow)
+        run([(lx, ly), (int(mid[0]), int(mid[1])), tip], 'run s')
+    else:
+        run([(lx, ly), tip], 'run s')
     switch(sx, sy, dx, dy, clock - 0.15)
-    prev = (lx, ly)
 
 # Gr.2 sockets: a separate run from the board round the walls
 clock += 0.2
 label(246, 394, 'Gr.2', clock)
-socks = [((30, 340, 1, 0), [(270, 395), (120, 392), (56, 380)]), ((30, 120, 1, 0), [(50, 240)]), ((290, 30, 0, 1), [(100, 52), (220, 52)]),
-         ((530, 30, 0, 1), [(330, 52), (470, 52)]), ((570, 150, -1, 0), [(545, 90)]), ((570, 340, -1, 0), [(548, 240)]), ((377, 370, -1, 0), [(420, 392), (392, 392), (372, 385), (368, 372)])]
-prev = (298, 396)
+socks = [((30, 340, 1, 0), [(120, 396), (54, 392)]), ((30, 120, 1, 0), [(52, 240)]), ((290, 30, 0, 1), [(70, 54), (200, 54)]),
+         ((530, 30, 0, 1), [(330, 56), (470, 56)]), ((570, 150, -1, 0), [(548, 80)]), ((570, 340, -1, 0), [(546, 240)]), ((470, 410, 0, -1), [(540, 386), (490, 384)])]
+prev = (266, 396)
 for (x, y, dx, dy), via in socks:
-    tip = (x + dx * 18, y + dy * 18)
+    tip = tuple(int(v) for v in socket_tip(x, y, dx, dy))
     run([prev] + via + [tip], 'run k')
     socket(x, y, dx, dy, clock - 0.15)
     prev = tip

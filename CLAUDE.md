@@ -14,8 +14,8 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
   every stroke has `pathLength="1"`, its start `--d` and duration `--t`; outer wall, inner walls and names,
   windows and doors to 3.5 s, then the electrical layer as a wiring drawing: the run travels from the board T1
   circuit by circuit at a constant speed, Gr.1 lights with a drop to each switch, Gr.2 sockets round the walls,
-  the symbols appearing as the line reaches them, to 8.7 s; then the drawing fades to a watermark and the hero
-  text comes up at 8.9 s; `prefers-reduced-motion` shows the finished state at once; the hero's "Hvernig virkar
+  the symbols appearing as the line reaches them, to 8.5 s; then the drawing fades to a watermark and the hero
+  text comes up at 8.7 s; `prefers-reduced-motion` shows the finished state at once; the hero's "Hvernig virkar
   þetta?" button goes to `#dagur`), `#dagur` ("Einn dagur í snjallheimili": the film from `tools/film/` as `video/einn-dagur.mp4`, poster `img/einn-dagur.jpg`, captions and clock burned in; owner 2026-11-04 replaced the 3D player with it. site.js plays it muted while it is on screen; the dots `[data-go]` hold each scene's start in seconds, taken from the film's timeline, and `[data-play]` stops and starts it; reduced motion waits to be asked; under 700 px the words in the picture are too small, so `.dline` under it shows the same lines, read from `tools/film/timeline.json`), sections `#thjonusta`
   (four cards), `#ferli` (four numbered steps), `#daemi` (one house, numbers from the owner's own house run through
   quick.html on 2026-11-01: 13 modules, 155–190 þús. kr.), `#um`, `#samband` (contact form, honeypot `_gotcha`).
