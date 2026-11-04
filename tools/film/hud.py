@@ -1,5 +1,5 @@
 """Draws the clock, caption, energy meter and end card over the rendered frames and writes the MP4.
-Usage: python hud.py FRAMES_DIR OUT.mp4 [--fps 30] [--crf 20]
+Usage: python hud.py FRAMES_DIR OUT.mp4 [--crf 20] [--lang en]   (--lang reads timeline.<lang>.json: the same film in another language)
 Frame numbers give the film time (30 per second), so a preview with every third frame works the same.
 """
 import json
@@ -10,7 +10,9 @@ import sys
 from PIL import Image, ImageDraw, ImageFont
 
 HERE = pathlib.Path(__file__).parent
-TL = json.loads((HERE / "timeline.json").read_text(encoding="utf-8"))
+LANG = sys.argv[sys.argv.index("--lang") + 1] if "--lang" in sys.argv else "is"
+TL = json.loads((HERE / ("timeline.json" if LANG == "is" else f"timeline.{LANG}.json")).read_text(encoding="utf-8"))
+L = TL["labels"]
 FONTS = "E:/motion-tools/assets/fonts"  # from tools/logo/outline.py --ttf
 SANS, BOLD, SERIF = f"{FONTS}/Inter-400.ttf", f"{FONTS}/Inter-600.ttf", f"{FONTS}/Inter-800.ttf"
 INK, MUTED, ACCENT, CARD = (46, 30, 22), (120, 100, 88), (176, 112, 38), (248, 240, 232)
@@ -42,7 +44,7 @@ def kwh_total(hour):
 
 
 def fmt(v, d=2):
-    return f"{v:.{d}f}".replace(".", ",")
+    return f"{v:.{d}f}".replace(".", L["decimal"])
 
 
 def smooth(x):
@@ -117,9 +119,9 @@ class Hud:
             # the energy meter
             x0, y0, x1, y1 = 900, 18, 1256, 214
             self.panel(d, (x0, y0, x1, y1), alpha(232))
-            d.text(xy(x0 + 16, y0 + 8), "Orkunotkun", font=f["small"], fill=(*MUTED, alpha(255)))
-            d.text(xy(x0 + 16, y0 + 32), f"{fmt(kwh_rate(hour))} kWh/klst", font=f["num"], fill=(*INK, alpha(255)))
-            d.text(xy(x0 + 16, y0 + 76), f"Í dag {fmt(kwh_total(hour), 1)} kWh", font=f["small"], fill=(*MUTED, alpha(255)))
+            d.text(xy(x0 + 16, y0 + 8), L["energy"], font=f["small"], fill=(*MUTED, alpha(255)))
+            d.text(xy(x0 + 16, y0 + 32), f"{fmt(kwh_rate(hour))} {L['per_hour']}", font=f["num"], fill=(*INK, alpha(255)))
+            d.text(xy(x0 + 16, y0 + 76), L["today"].replace("{kwh}", fmt(kwh_total(hour), 1)), font=f["small"], fill=(*MUTED, alpha(255)))
             gx0, gy0, gx1, gy1 = x0 + 16, y0 + 108, x1 - 16, y1 - 36
             top = 1.7
             pts = [(gx0 + (gx1 - gx0) * a, gy1 - (gy1 - gy0) * min(b, top) / top) for a, b in self.graph]
@@ -140,9 +142,9 @@ class Hud:
                 self.panel(d, (900, 224, 1256, 304), int(232 * ta * hudf))
                 out = lerp_table(TL["temps"]["outside"], t)
                 sign = "\u2212" if out < 0 else ""
-                d.text(xy(916, 230), "Úti", font=f["small"], fill=(*MUTED, a))
+                d.text(xy(916, 230), L["outside"], font=f["small"], fill=(*MUTED, a))
                 d.text(xy(916, 250), f"{sign}{abs(out):.0f} °C", font=f["num"], fill=(58, 96, 150, a))
-                d.text(xy(1080, 230), "Inni", font=f["small"], fill=(*MUTED, a))
+                d.text(xy(1080, 230), L["inside"], font=f["small"], fill=(*MUTED, a))
                 d.text(xy(1080, 250), f"{fmt(TL['temps']['inside'], 1)} °C", font=f["num"], fill=(*ACCENT, a))
             # the water alert
             a0, a1 = TL["water_alert"]
@@ -150,8 +152,8 @@ class Hud:
             if wa > 0:
                 a = int(255 * wa * hudf)
                 self.panel(d, (24, 104, 470, 186), int(240 * wa * hudf))
-                d.text(xy(42, 110), "Snjallheimilið", font=f["small"], fill=(*MUTED, a))
-                d.text(xy(42, 136), "Vatn á gólfi í baðherbergi", font=f["alert"], fill=(40, 90, 170, a))
+                d.text(xy(42, 110), L["brand"], font=f["small"], fill=(*MUTED, a))
+                d.text(xy(42, 136), L["water"], font=f["alert"], fill=(40, 90, 170, a))
         if endf > 0:
             ov = Image.new("RGBA", (w, h), (24, 16, 12, int(125 * endf)))
             im = Image.alpha_composite(im, ov)
@@ -163,10 +165,10 @@ class Hud:
                 d.text((cx, round(y * u)), s, font=font, fill=fill, anchor="mm")
 
             centre(H * 0.36, "Snjallheimilið", f["end"], (255, 255, 255, a))
-            centre(H * 0.36 + 62, "Allt á heimanetinu, engin áskrift", f["endb"], (240, 228, 216, a))
+            centre(H * 0.36 + 62, L["end_sub"], f["endb"], (240, 228, 216, a))
             bw, bh, by = 380, 64, H * 0.36 + 130
             d.rounded_rectangle([round((640 - bw / 2) * u), round((by - bh / 2) * u), round((640 + bw / 2) * u), round((by + bh / 2) * u)], radius=round(bh / 2 * u), fill=(*ACCENT, a))
-            centre(by, "Fáðu verðbil á 2 mínútum", f["btn"], (255, 255, 255, a))
+            centre(by, L["end_btn"], f["btn"], (255, 255, 255, a))
         return im
 
 

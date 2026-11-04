@@ -4,24 +4,30 @@
    The contact form posts JSON to Formspree (same form as the estimate page, another subject). */
 const AETLUN = 'https://aetlun.xn--snjallheimili-gkb.is/quick.html';
 const FORM = 'mjyypvge';
+// the page's language: tools/i18n.py writes en/, es/ and pl/ copies of index.html and sets window.I18N there, with the
+// few strings this script shows; Icelandic is the source and needs no table
+const LANG = (window.I18N && window.I18N.lang) || 'is';
+const t = (s) => (window.I18N && window.I18N.t[s]) || s;
+const base = LANG === 'is' ? '' : '../';
 
-document.querySelectorAll('[data-aetlun]').forEach((a) => { a.href = AETLUN; });
+document.querySelectorAll('[data-aetlun]').forEach((a) => { a.href = AETLUN + (LANG === 'is' ? '' : '?lang=' + LANG); });
+document.querySelectorAll('.lang a').forEach((a) => { if (a.getAttribute('lang') === LANG) a.setAttribute('aria-current', 'page'); });
 document.getElementById('year').textContent = String(new Date().getFullYear());
 
 const form = document.getElementById('contact'), msg = document.getElementById('formMsg');
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const f = e.target, say = (t, cls) => { msg.textContent = t; msg.className = 'fine ' + cls; };
-  if (!f.name.value.trim() || !f.email.value.trim() || !f.message.value.trim()) return say('Nafn, netfang og erindi þarf að fylla út.', 'err');
+  if (!f.name.value.trim() || !f.email.value.trim() || !f.message.value.trim()) return say(t('Nafn, netfang og erindi þarf að fylla út.'), 'err');
   if (f._gotcha.value) return; // a bot filled the hidden field
-  const btn = f.querySelector('button[type=submit]'); btn.disabled = true; say('Sendi…', '');
-  const data = { name: f.name.value, email: f.email.value, phone: f.phone.value, place: f.place.value, message: f.message.value, _subject: 'Fyrirspurn af snjallheimilið.is' };
+  const btn = f.querySelector('button[type=submit]'); btn.disabled = true; say(t('Sendi…'), '');
+  const data = { name: f.name.value, email: f.email.value, phone: f.phone.value, place: f.place.value, message: f.message.value, _subject: t('Fyrirspurn af snjallheimilið.is'), lang: LANG };
   try {
     const r = await fetch(`https://formspree.io/f/${FORM}`, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) });
     if (!r.ok) throw new Error('svar ' + r.status);
-    f.reset(); say('Takk, erindið er komið. Ég svara eins fljótt og ég get.', 'ok');
+    f.reset(); say(t('Takk, erindið er komið. Ég svara eins fljótt og ég get.'), 'ok');
   } catch (err) {
-    say('Sending tókst ekki (' + err.message + '). Reyndu aftur, eða sendu póst beint.', 'err'); btn.disabled = false;
+    say(t('Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint.').replace('{err}', err.message), 'err'); btn.disabled = false;
   }
 });
 
@@ -40,7 +46,7 @@ form.addEventListener('submit', async (e) => {
   v.addEventListener('timeupdate', mark);
   // on a phone the words in the picture are too small to read, so the same lines stand under it (site.css shows them)
   const line = document.querySelector('.dline');
-  fetch('tools/film/timeline.json').then((r) => r.json()).then((tl) => {
+  fetch(base + 'tools/film/timeline' + (LANG === 'is' ? '' : '.' + LANG) + '.json').then((r) => r.json()).then((tl) => {
     const lines = tl.scenes.flatMap((s) => s.lines.map(([t, text]) => ({ t, title: s.title, text })));
     const say = () => {
       const now = v.currentTime < tl.end_card ? lines.filter((l) => v.currentTime >= l.t).pop() || lines[0] : null;
@@ -50,8 +56,8 @@ form.addEventListener('submit', async (e) => {
     v.addEventListener('timeupdate', say);
     say();
   }).catch(() => {});
-  v.addEventListener('play', () => { play.textContent = 'Stöðva'; });
-  v.addEventListener('pause', () => { play.textContent = 'Spila'; });
+  v.addEventListener('play', () => { play.textContent = t('Stöðva'); });
+  v.addEventListener('pause', () => { play.textContent = t('Spila'); });
   dots.forEach((d) => d.addEventListener('click', () => { v.currentTime = Number(d.dataset.go); mark(); held = false; seen = true; v.play().catch(() => {}); }));
   play.addEventListener('click', () => { if (v.paused) { held = false; seen = true; v.play().catch(() => {}); } else { held = true; v.pause(); } });
   mark();

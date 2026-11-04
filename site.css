@@ -1,6 +1,7 @@
 /* Snjallheimilið: same tokens as quick.css in smart-home-estimator, so the home page and the estimate look alike.
    The warm colours carry the page; --sky and --glass are the light colours of the logo, for lines and fills, never for text on the light ground. */
 @font-face { font-family: "Inter"; src: url("fonts/inter.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("fonts/inter-latin-ext.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
 :root {
   --bg: #f6f4ef; --card: #ffffff; --alt: #efece4; --line: #d9d4c7; --text: #1f2328; --muted: #6b6f76; --accent: #c8781a; --accent-fg: #fff; --ok: #2f8f4e; --sky: #8befff; --sky-soft: #e4f8f9; --sky-ink: #071b30; --glass: #ffdf9a;
   color-scheme: light;
@@ -29,6 +30,11 @@ p { margin: 0 0 1em; }
 nav { display: flex; gap: 4px 14px; flex-wrap: wrap; }
 nav a { color: var(--text); text-decoration: none; font-size: .95rem; padding: 4px 0; border-bottom: 2px solid transparent; }
 nav a:hover { border-color: var(--sky); }
+.lang { gap: 2px; font-size: .8rem; letter-spacing: .04em; }
+.lang a { padding: 4px 6px; color: var(--muted); border-bottom: 0; border-radius: 6px; }
+.lang a:hover { color: var(--text); background: var(--alt); }
+.lang a[aria-current] { color: var(--sky-ink); background: var(--sky); font-weight: 600; }
+@media (max-width: 700px) { .bar nav:not(.lang) { order: 2; flex-basis: 100%; } .lang { margin-left: auto; } }
 
 section { padding-block: 56px; }
 section.alt { background: color-mix(in srgb, var(--alt) 65%, var(--sky-soft)); }

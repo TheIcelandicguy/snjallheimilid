@@ -1,0 +1,305 @@
+{
+ "duration": 66,
+ "scenes": [
+  {
+   "t": 0,
+   "title": "Suena el despertador",
+   "lines": [
+    [
+     0,
+     "Son las cinco menos diez y la casa duerme."
+    ],
+    [
+     2.2,
+     "Entonces suena el despertador. Hoy el día empieza temprano."
+    ],
+    [
+     8.2,
+     "Miras desde la cama y todavía está oscuro."
+    ],
+    [
+     10.2,
+     "La luz de la cocina se enciende despacio y te espera."
+    ]
+   ]
+  },
+  {
+   "t": 13,
+   "title": "Salir de casa",
+   "lines": [
+    [
+     13,
+     "Pasa la mañana y la casa se ha levantado contigo."
+    ],
+    [
+     16.4,
+     "Llega la hora de salir. Abres la puerta de la calle."
+    ],
+    [
+     18.8,
+     "En la pared, junto a la puerta, hay una pantalla."
+    ],
+    [
+     20.4,
+     "Pulsas Apagar todas las luces."
+    ],
+    [
+     21.8,
+     "Las luces se apagan, habitación por habitación, hasta la puerta."
+    ],
+    [
+     24.2,
+     "Cierras al salir y no hace falta dar otra vuelta."
+    ]
+   ]
+  },
+  {
+   "t": 26,
+   "title": "Nadie en casa",
+   "lines": [
+    [
+     26,
+     "Ahora no hay nadie en casa y el consumo baja con ello."
+    ],
+    [
+     29,
+     "Hacia el mediodía empieza a nevar y la escarcha cubre las ventanas."
+    ],
+    [
+     32,
+     "El suelo radiante se pone en marcha y mantiene el calor, aunque no haya nadie."
+    ]
+   ]
+  },
+  {
+   "t": 36,
+   "title": "De vuelta a casa",
+   "lines": [
+    [
+     36,
+     "Hacia las cinco vuelves a casa."
+    ],
+    [
+     37.8,
+     "La puerta se abre y las luces se encienden delante de ti."
+    ],
+    [
+     40.4,
+     "Te pones a cocinar y el medidor sube, como es normal."
+    ],
+    [
+     43,
+     "La luz del recibidor se apaga sola. Nadie tuvo que acordarse."
+    ]
+   ]
+  },
+  {
+   "t": 46,
+   "title": "Llega la noche",
+   "lines": [
+    [
+     46,
+     "Llega la noche y todo se apaga menos el salón."
+    ],
+    [
+     48.2,
+     "Allí las luces se atenúan con la tarde."
+    ],
+    [
+     49.8,
+     "Y las cortinas se cierran."
+    ],
+    [
+     52.2,
+     "Las luces que nadie usa no se quedan encendidas. Eso puede ahorrar algo de energía."
+    ]
+   ]
+  },
+  {
+   "t": 55,
+   "title": "La noche",
+   "lines": [
+    [
+     55,
+     "Te vas a dormir y se apaga la última luz."
+    ],
+    [
+     57,
+     "Todo está apagado, pero la casa sigue atenta."
+    ],
+    [
+     58.4,
+     "Agua en el suelo del baño. El sensor lo ve y te avisa."
+    ]
+   ]
+  }
+ ],
+ "clock": [
+  [
+   0,
+   4.833
+  ],
+  [
+   13,
+   4.87
+  ],
+  [
+   15.5,
+   8.0
+  ],
+  [
+   26,
+   8.2
+  ],
+  [
+   28,
+   12.0
+  ],
+  [
+   36,
+   12.6
+  ],
+  [
+   37,
+   17.0
+  ],
+  [
+   46,
+   17.6
+  ],
+  [
+   47,
+   18.667
+  ],
+  [
+   55,
+   19.0
+  ],
+  [
+   57,
+   23.5
+  ],
+  [
+   66,
+   23.8
+  ]
+ ],
+ "labels": {
+  "decimal": ",",
+  "energy": "Consumo",
+  "per_hour": "kWh/h",
+  "today": "Hoy {kwh} kWh",
+  "outside": "Fuera",
+  "inside": "Dentro",
+  "brand": "Snjallheimilið",
+  "water": "Agua en el suelo del baño",
+  "end_sub": "Todo en la red local, sin suscripción",
+  "end_btn": "Rango de precio en 2 minutos"
+ },
+ "energy_note": "Datos de una casa real",
+ "energy_sources": "see timeline.json; the words of the film in es",
+ "kwh_per_hour": [
+  [
+   0,
+   0.41
+  ],
+  [
+   4.8,
+   0.41
+  ],
+  [
+   4.95,
+   0.53
+  ],
+  [
+   7.9,
+   0.53
+  ],
+  [
+   8.0,
+   0.64
+  ],
+  [
+   8.1,
+   0.64
+  ],
+  [
+   8.2,
+   0.4
+  ],
+  [
+   11.9,
+   0.4
+  ],
+  [
+   12.2,
+   0.47
+  ],
+  [
+   16.95,
+   0.47
+  ],
+  [
+   17.1,
+   0.71
+  ],
+  [
+   17.3,
+   1.48
+  ],
+  [
+   18.0,
+   1.06
+  ],
+  [
+   18.7,
+   0.7
+  ],
+  [
+   19.0,
+   0.59
+  ],
+  [
+   20.0,
+   0.89
+  ],
+  [
+   21.0,
+   0.61
+  ],
+  [
+   23.4,
+   0.59
+  ],
+  [
+   23.6,
+   0.41
+  ],
+  [
+   24,
+   0.41
+  ]
+ ],
+ "temps": {
+  "inside": 21.0,
+  "outside": [
+   [
+    26,
+    2.0
+   ],
+   [
+    32,
+    -8.0
+   ],
+   [
+    36,
+    -8.0
+   ]
+  ]
+ },
+ "water_alert": [
+  58,
+  62.5
+ ],
+ "end_card": 62.5
+}

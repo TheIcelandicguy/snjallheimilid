@@ -33,6 +33,7 @@
       [58.4, "Vatn á baðherbergisgólfinu. Skynjarinn sér það og lætur þig vita."]]}
   ],
   "clock": [[0, 4.833], [13, 4.87], [15.5, 8.0], [26, 8.2], [28, 12.0], [36, 12.6], [37, 17.0], [46, 17.6], [47, 18.667], [55, 19.0], [57, 23.5], [66, 23.8]],
+  "labels": {"decimal": ",", "energy": "Orkunotkun", "per_hour": "kWh/klst", "today": "Í dag {kwh} kWh", "outside": "Úti", "inside": "Inni", "brand": "Snjallheimilið", "water": "Vatn á gólfi í baðherbergi", "end_sub": "Allt á heimanetinu, engin áskrift", "end_btn": "Fáðu verðbil á 2 mínútum"},
   "energy_note": "Tölur úr raunverulegu húsi",
   "energy_sources": "Owner's house, Home Assistant statistics. Baseline hours from 2026-10-28, cooking and dishwasher from 2026-11-01 (oven 0.91 and 0.77 kWh in two hours, dishwasher 0.36), floor heating 0.065 kWh per hour. Put together into one film day: a composite, not one recorded day.",
   "kwh_per_hour": [[0, 0.41], [4.8, 0.41], [4.95, 0.53], [7.9, 0.53], [8.0, 0.64], [8.1, 0.64], [8.2, 0.40], [11.9, 0.40], [12.2, 0.47], [16.95, 0.47], [17.1, 0.71], [17.3, 1.48], [18.0, 1.06], [18.7, 0.70], [19.0, 0.59], [20.0, 0.89], [21.0, 0.61], [23.4, 0.59], [23.6, 0.41], [24, 0.41]],

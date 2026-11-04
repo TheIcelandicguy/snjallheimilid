@@ -1,0 +1,305 @@
+{
+ "duration": 66,
+ "scenes": [
+  {
+   "t": 0,
+   "title": "The alarm rings",
+   "lines": [
+    [
+     0,
+     "It is ten to five and the house is asleep."
+    ],
+    [
+     2.2,
+     "Then the alarm rings. The day starts early today."
+    ],
+    [
+     8.2,
+     "You look out from the bed and it is still dark."
+    ],
+    [
+     10.2,
+     "The kitchen light comes on softly and waits for you."
+    ]
+   ]
+  },
+  {
+   "t": 13,
+   "title": "Leaving",
+   "lines": [
+    [
+     13,
+     "The morning goes by and the house is up with you."
+    ],
+    [
+     16.4,
+     "Then it is time to go. You open the front door."
+    ],
+    [
+     18.8,
+     "On the wall by the door is a display."
+    ],
+    [
+     20.4,
+     "You press All lights off."
+    ],
+    [
+     21.8,
+     "The lights go out, room by room, all the way to the door."
+    ],
+    [
+     24.2,
+     "You close the door behind you and need no second round."
+    ]
+   ]
+  },
+  {
+   "t": 26,
+   "title": "Nobody home",
+   "lines": [
+    [
+     26,
+     "Now nobody is home and the energy use goes down with it."
+    ],
+    [
+     29,
+     "Around noon it starts to snow and frost settles on the windows."
+    ],
+    [
+     32,
+     "The floor heating comes on and keeps the house warm, with nobody home."
+    ]
+   ]
+  },
+  {
+   "t": 36,
+   "title": "Coming home",
+   "lines": [
+    [
+     36,
+     "Around five you come home."
+    ],
+    [
+     37.8,
+     "The door opens and the lights come on ahead of you."
+    ],
+    [
+     40.4,
+     "You start cooking and the meter climbs, as it does."
+    ],
+    [
+     43,
+     "The hall light switches itself off. Nobody had to remember it."
+    ]
+   ]
+  },
+  {
+   "t": 46,
+   "title": "Evening comes",
+   "lines": [
+    [
+     46,
+     "Evening comes and everything goes off except the living room."
+    ],
+    [
+     48.2,
+     "The lights there dim with the evening."
+    ],
+    [
+     49.8,
+     "And the curtains close."
+    ],
+    [
+     52.2,
+     "Lights nobody uses stay off. That can save some energy."
+    ]
+   ]
+  },
+  {
+   "t": 55,
+   "title": "Night",
+   "lines": [
+    [
+     55,
+     "You go to bed and the last light goes out."
+    ],
+    [
+     57,
+     "Everything is off, but the house keeps watch."
+    ],
+    [
+     58.4,
+     "Water on the bathroom floor. The sensor sees it and lets you know."
+    ]
+   ]
+  }
+ ],
+ "clock": [
+  [
+   0,
+   4.833
+  ],
+  [
+   13,
+   4.87
+  ],
+  [
+   15.5,
+   8.0
+  ],
+  [
+   26,
+   8.2
+  ],
+  [
+   28,
+   12.0
+  ],
+  [
+   36,
+   12.6
+  ],
+  [
+   37,
+   17.0
+  ],
+  [
+   46,
+   17.6
+  ],
+  [
+   47,
+   18.667
+  ],
+  [
+   55,
+   19.0
+  ],
+  [
+   57,
+   23.5
+  ],
+  [
+   66,
+   23.8
+  ]
+ ],
+ "labels": {
+  "decimal": ".",
+  "energy": "Energy use",
+  "per_hour": "kWh/h",
+  "today": "Today {kwh} kWh",
+  "outside": "Outside",
+  "inside": "Inside",
+  "brand": "Snjallheimilið",
+  "water": "Water on the bathroom floor",
+  "end_sub": "All on the home network, no subscription",
+  "end_btn": "Get a price range in 2 minutes"
+ },
+ "energy_note": "Figures from a real house",
+ "energy_sources": "see timeline.json; the words of the film in en",
+ "kwh_per_hour": [
+  [
+   0,
+   0.41
+  ],
+  [
+   4.8,
+   0.41
+  ],
+  [
+   4.95,
+   0.53
+  ],
+  [
+   7.9,
+   0.53
+  ],
+  [
+   8.0,
+   0.64
+  ],
+  [
+   8.1,
+   0.64
+  ],
+  [
+   8.2,
+   0.4
+  ],
+  [
+   11.9,
+   0.4
+  ],
+  [
+   12.2,
+   0.47
+  ],
+  [
+   16.95,
+   0.47
+  ],
+  [
+   17.1,
+   0.71
+  ],
+  [
+   17.3,
+   1.48
+  ],
+  [
+   18.0,
+   1.06
+  ],
+  [
+   18.7,
+   0.7
+  ],
+  [
+   19.0,
+   0.59
+  ],
+  [
+   20.0,
+   0.89
+  ],
+  [
+   21.0,
+   0.61
+  ],
+  [
+   23.4,
+   0.59
+  ],
+  [
+   23.6,
+   0.41
+  ],
+  [
+   24,
+   0.41
+  ]
+ ],
+ "temps": {
+  "inside": 21.0,
+  "outside": [
+   [
+    26,
+    2.0
+   ],
+   [
+    32,
+    -8.0
+   ],
+   [
+    36,
+    -8.0
+   ]
+  ]
+ },
+ "water_alert": [
+  58,
+  62.5
+ ],
+ "end_card": 62.5
+}

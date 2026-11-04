@@ -18,8 +18,18 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
 - `site.js` — `AETLUN` = the estimate page's address (aetlun.snjallheimilið.is), set on every `[data-aetlun]` link;
   `FORM` = the Formspree id shared with quick.html, subject
   "Fyrirspurn af snjallheimilið.is"; the form posts JSON and shows the result in `#formMsg`.
-  Also the `#dagur` film player (see index.html above).
-- `fonts/inter.woff2` — Inter, the one typeface of the logo, the site, the estimate page and the film's HUD (self-hosted, OFL, `fonts/inter-LICENSE.txt`). `tools/logo/outline.py` turns the text of the owner's logo sources in `tools/logo/src/` into outlines in `img/logo-larett.svg` and `img/logo-hringlaga.svg`, so they look the same without the font; their PNGs are drawn from those. Colours (owner 2026-11-04): the warm palette stays, and `--sky` / `--glass` in `site.css` are the logo's light colours, for lines and fills, not for text on the light ground.
+  Also the `#dagur` film player (see index.html above). `LANG` is the page's language: index.html is Icelandic; the
+  copies `en/index.html`, `es/index.html` and `pl/index.html` set `window.I18N` (lang and the few strings site.js shows), and site.js
+  then takes the film and captions of that language and sends the estimate link with `?lang=`.
+- Languages (owner 2026-11-04: English, Spanish, Polish): `tools/i18n.py` writes the three copies of index.html from the Icelandic one,
+  every text node and text attribute (not svg, script, style) looked up in `i18n/en.json`, `i18n/es.json`, `i18n/pl.json`
+  (Icelandic text -> translation); a text without a translation stops the build, `--dump` lists what index.html needs.
+  Rerun it after any change to index.html. The header's `.lang` switch and the hreflang links are in index.html by hand.
+  The film per language: `tools/film/timeline.en.json` (.es, .pl) carry the scene lines and the HUD's words (`labels`),
+  `python tools/film/hud.py FRAMES out.mp4 --lang en` draws them over the same frames (E:\motion-tools\film\langs.sh does the
+  three) into `video/einn-dagur.en.mp4` etc.; the 3D frames themselves stay as rendered, so the wall display says
+  Allt slökkt in every language. The estimate page has its own tables (quick-i18n.js in smart-home-estimator).
+- `fonts/inter.woff2` — Inter, the one typeface of the logo, the site, the estimate page and the film's HUD (self-hosted, OFL, `fonts/inter-LICENSE.txt`). the Latin Extended glyphs (Polish) come from `fonts/inter-latin-ext.woff2` with a unicode-range; `tools/logo/outline.py` turns the text of the owner's logo sources in `tools/logo/src/` into outlines in `img/logo-larett.svg` and `img/logo-hringlaga.svg`, so they look the same without the font; their PNGs are drawn from those. Colours (owner 2026-11-04): the warm palette stays, and `--sky` / `--glass` in `site.css` are the logo's light colours, for lines and fills, not for text on the light ground.
 - `favicon.svg`, `.nojekyll` (Pages serves files as they are), `CNAME` (the custom domain for Pages), `README.md`,
   `LICENSE` (MIT for the code only).
 - Run: `python -m http.server 8766` here (`.claude/launch.json` has it as `site`).

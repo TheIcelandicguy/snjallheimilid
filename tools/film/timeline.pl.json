@@ -1,0 +1,305 @@
+{
+ "duration": 66,
+ "scenes": [
+  {
+   "t": 0,
+   "title": "Dzwoni budzik",
+   "lines": [
+    [
+     0,
+     "Jest za dziesięć piąta i dom śpi."
+    ],
+    [
+     2.2,
+     "Wtedy dzwoni budzik. Dzień zaczyna się dziś wcześnie."
+    ],
+    [
+     8.2,
+     "Wyglądasz z łóżka, a na dworze wciąż ciemno."
+    ],
+    [
+     10.2,
+     "Światło w kuchni zapala się powoli i czeka na Ciebie."
+    ]
+   ]
+  },
+  {
+   "t": 13,
+   "title": "Wyjście z domu",
+   "lines": [
+    [
+     13,
+     "Poranek mija, a dom wstał razem z Tobą."
+    ],
+    [
+     16.4,
+     "Potem czas wychodzić. Otwierasz drzwi wejściowe."
+    ],
+    [
+     18.8,
+     "Na ścianie przy drzwiach jest ekran."
+    ],
+    [
+     20.4,
+     "Naciskasz Wyłącz wszystkie światła."
+    ],
+    [
+     21.8,
+     "Światła gasną, pokój po pokoju, aż do drzwi."
+    ],
+    [
+     24.2,
+     "Zamykasz drzwi za sobą i nie musisz robić drugiej rundy."
+    ]
+   ]
+  },
+  {
+   "t": 26,
+   "title": "Nikogo w domu",
+   "lines": [
+    [
+     26,
+     "Teraz nikogo nie ma w domu i zużycie spada razem z tym."
+    ],
+    [
+     29,
+     "Około południa zaczyna padać śnieg, a na szybach osiada szron."
+    ],
+    [
+     32,
+     "Ogrzewanie podłogowe rusza i utrzymuje ciepło, choć nikogo nie ma."
+    ]
+   ]
+  },
+  {
+   "t": 36,
+   "title": "Powrót do domu",
+   "lines": [
+    [
+     36,
+     "Około piątej wracasz do domu."
+    ],
+    [
+     37.8,
+     "Drzwi się otwierają, a światła zapalają się przed Tobą."
+    ],
+    [
+     40.4,
+     "Zaczynasz gotować i licznik rośnie, jak to zwykle bywa."
+    ],
+    [
+     43,
+     "Światło w przedpokoju gaśnie samo. Nikt nie musiał o tym pamiętać."
+    ]
+   ]
+  },
+  {
+   "t": 46,
+   "title": "Nadchodzi wieczór",
+   "lines": [
+    [
+     46,
+     "Nadchodzi wieczór i wszystko gaśnie oprócz salonu."
+    ],
+    [
+     48.2,
+     "Tam światła przygasają razem z wieczorem."
+    ],
+    [
+     49.8,
+     "A zasłony się zasuwają."
+    ],
+    [
+     52.2,
+     "Światła, których nikt nie używa, nie palą się. To może zaoszczędzić trochę energii."
+    ]
+   ]
+  },
+  {
+   "t": 55,
+   "title": "Noc",
+   "lines": [
+    [
+     55,
+     "Idziesz spać i gaśnie ostatnie światło."
+    ],
+    [
+     57,
+     "Wszystko jest wyłączone, ale dom czuwa."
+    ],
+    [
+     58.4,
+     "Woda na podłodze w łazience. Czujnik to widzi i daje Ci znać."
+    ]
+   ]
+  }
+ ],
+ "clock": [
+  [
+   0,
+   4.833
+  ],
+  [
+   13,
+   4.87
+  ],
+  [
+   15.5,
+   8.0
+  ],
+  [
+   26,
+   8.2
+  ],
+  [
+   28,
+   12.0
+  ],
+  [
+   36,
+   12.6
+  ],
+  [
+   37,
+   17.0
+  ],
+  [
+   46,
+   17.6
+  ],
+  [
+   47,
+   18.667
+  ],
+  [
+   55,
+   19.0
+  ],
+  [
+   57,
+   23.5
+  ],
+  [
+   66,
+   23.8
+  ]
+ ],
+ "labels": {
+  "decimal": ",",
+  "energy": "Zużycie energii",
+  "per_hour": "kWh/h",
+  "today": "Dziś {kwh} kWh",
+  "outside": "Na zewnątrz",
+  "inside": "W domu",
+  "brand": "Snjallheimilið",
+  "water": "Woda na podłodze w łazience",
+  "end_sub": "Wszystko w sieci domowej, bez abonamentu",
+  "end_btn": "Przedział cenowy w 2 minuty"
+ },
+ "energy_note": "Dane z prawdziwego domu",
+ "energy_sources": "see timeline.json; the words of the film in pl",
+ "kwh_per_hour": [
+  [
+   0,
+   0.41
+  ],
+  [
+   4.8,
+   0.41
+  ],
+  [
+   4.95,
+   0.53
+  ],
+  [
+   7.9,
+   0.53
+  ],
+  [
+   8.0,
+   0.64
+  ],
+  [
+   8.1,
+   0.64
+  ],
+  [
+   8.2,
+   0.4
+  ],
+  [
+   11.9,
+   0.4
+  ],
+  [
+   12.2,
+   0.47
+  ],
+  [
+   16.95,
+   0.47
+  ],
+  [
+   17.1,
+   0.71
+  ],
+  [
+   17.3,
+   1.48
+  ],
+  [
+   18.0,
+   1.06
+  ],
+  [
+   18.7,
+   0.7
+  ],
+  [
+   19.0,
+   0.59
+  ],
+  [
+   20.0,
+   0.89
+  ],
+  [
+   21.0,
+   0.61
+  ],
+  [
+   23.4,
+   0.59
+  ],
+  [
+   23.6,
+   0.41
+  ],
+  [
+   24,
+   0.41
+  ]
+ ],
+ "temps": {
+  "inside": 21.0,
+  "outside": [
+   [
+    26,
+    2.0
+   ],
+   [
+    32,
+    -8.0
+   ],
+   [
+    36,
+    -8.0
+   ]
+  ]
+ },
+ "water_alert": [
+  58,
+  62.5
+ ],
+ "end_card": 62.5
+}
