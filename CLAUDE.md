@@ -8,14 +8,7 @@ theicelandicguy.github.io). The estimate page lives in the private `smart-home-e
 https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
 
 ## Layout
-- `index.html` — the page: sticky header with anchors, hero with the call to action and the intro drawing (owner
-  2026-11-02: an inline SVG `.intro`, the film's house of 14 × 10 m on 600 × 440 plan px with Icelandic room names, not a real
-  house, written by `tools/intro.py` into index.html and site.css, so edit the script and rerun it, not the SVG:
-  every stroke has `pathLength="1"`, its start `--d` and duration `--t`; outer wall, inner walls and names,
-  windows and doors to 3.5 s, then the electrical layer as a wiring drawing: the run travels from the board T1
-  circuit by circuit at a constant speed, Gr.1 lights with a drop to each switch, Gr.2 sockets round the walls,
-  the symbols appearing as the line reaches them, to 8.5 s; then the drawing fades to a watermark and the hero
-  text comes up at 8.7 s; `prefers-reduced-motion` shows the finished state at once; the hero's "Hvernig virkar
+- `index.html` — the page: sticky header with anchors, hero with the call to action over a still plan drawing (an inline SVG `.intro`, the film's house of 14 × 10 m on 600 × 440 plan px with Icelandic room names and its wiring, not a real house, a watermark behind the text since owner 2026-11-04, no animation; written by `tools/intro.py` into index.html and site.css, so edit the script and rerun it, not the SVG); the hero's "Hvernig virkar
   þetta?" button goes to `#dagur`), `#dagur` ("Einn dagur í snjallheimili": the film from `tools/film/` as `video/einn-dagur.mp4`, poster `img/einn-dagur.jpg`, captions and clock burned in; owner 2026-11-04 replaced the 3D player with it. site.js plays it muted while it is on screen; the dots `[data-go]` hold each scene's start in seconds, taken from the film's timeline, and `[data-play]` stops and starts it; reduced motion waits to be asked; under 700 px the words in the picture are too small, so `.dline` under it shows the same lines, read from `tools/film/timeline.json`), sections `#thjonusta`
   (four cards), `#ferli` (four numbered steps), `#daemi` (one house, numbers from the owner's own house run through
   quick.html on 2026-11-01: 13 modules, 155–190 þús. kr.), `#um`, `#samband` (contact form, honeypot `_gotcha`).
