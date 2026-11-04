@@ -25,32 +25,37 @@ form.addEventListener('submit', async (e) => {
   }
 });
 
-/* Einn dagur: the scene player in #dagur. data-scene on .dagur drives the CSS; scenes advance every 4 s (the last
-   holds 5 s) while the section is on screen, a dot jumps to a scene and the play button stops and starts the run. */
+/* Einn dagur: the film in #dagur. Plays muted while the section is on screen, a dot jumps to a scene's start in seconds
+   (data-go) and the play button stops and starts it; once stopped by hand, or with reduced motion, it waits to be asked. */
 (() => {
-  const el = document.querySelector('.dagur');
-  if (!el) return;
-  const caps = el.querySelectorAll('.dcap > div'), dots = el.querySelectorAll('[data-go]'), play = el.querySelector('[data-play]');
-  const N = caps.length, HOLD = [0, 7500, 6000, 6500, 6500, 7000, 7000, 10000];
-  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let cur = 1, timer = null, running = false, visible = false;
-  const show = (n) => {
-    cur = n; el.dataset.scene = String(n);
-    caps.forEach((c) => c.classList.toggle('on', c.dataset.s === String(n)));
-    dots.forEach((d) => d.setAttribute('aria-current', d.dataset.go === String(n) ? 'true' : 'false'));
+  const v = document.querySelector('.dagur video');
+  if (!v) return;
+  const dots = [...document.querySelectorAll('[data-go]')], play = document.querySelector('[data-play]');
+  let held = matchMedia('(prefers-reduced-motion: reduce)').matches, seen = false;
+  const go = () => { if (!held && seen) v.play().catch(() => {}); };
+  const mark = () => {
+    const i = dots.reduce((a, d, n) => (v.currentTime >= Number(d.dataset.go) ? n : a), 0);
+    dots.forEach((d, n) => d.setAttribute('aria-current', n === i ? 'true' : 'false'));
   };
-  const tick = () => { timer = setTimeout(() => { show(cur % N + 1); tick(); }, HOLD[cur]); };
-  const start = () => { if (running || still) return; running = true; play.textContent = 'Stöðva'; tick(); };
-  const stop = () => { running = false; clearTimeout(timer); timer = null; play.textContent = 'Spila'; };
-  dots.forEach((d) => d.addEventListener('click', () => { stop(); show(Number(d.dataset.go)); }));
-  play.addEventListener('click', () => (running ? stop() : start()));
-  show(1);
-  if (still) { play.textContent = 'Spila'; }
-  else if ('IntersectionObserver' in window) {
-    new IntersectionObserver((es) => {
-      visible = es[0].isIntersecting;
-      if (visible && !timer && play.textContent === 'Stöðva') start();
-      if (!visible && running) { clearTimeout(timer); timer = null; running = false; }
-    }, { threshold: 0.35 }).observe(el);
-  } else start();
+  v.addEventListener('timeupdate', mark);
+  // on a phone the words in the picture are too small to read, so the same lines stand under it (site.css shows them)
+  const line = document.querySelector('.dline');
+  fetch('tools/film/timeline.json').then((r) => r.json()).then((tl) => {
+    const lines = tl.scenes.flatMap((s) => s.lines.map(([t, text]) => ({ t, title: s.title, text })));
+    const say = () => {
+      const now = v.currentTime < tl.end_card ? lines.filter((l) => v.currentTime >= l.t).pop() || lines[0] : null;
+      line.hidden = !now;
+      if (now) { line.children[0].textContent = now.title; line.children[1].textContent = now.text; }
+    };
+    v.addEventListener('timeupdate', say);
+    say();
+  }).catch(() => {});
+  v.addEventListener('play', () => { play.textContent = 'Stöðva'; });
+  v.addEventListener('pause', () => { play.textContent = 'Spila'; });
+  dots.forEach((d) => d.addEventListener('click', () => { v.currentTime = Number(d.dataset.go); mark(); held = false; seen = true; v.play().catch(() => {}); }));
+  play.addEventListener('click', () => { if (v.paused) { held = false; seen = true; v.play().catch(() => {}); } else { held = true; v.pause(); } });
+  mark();
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver((es) => { seen = es[0].isIntersecting; if (seen) go(); else v.pause(); }, { threshold: 0.35 }).observe(v);
+  } else { seen = true; go(); }
 })();

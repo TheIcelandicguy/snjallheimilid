@@ -9,55 +9,23 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
 
 ## Layout
 - `index.html` — the page: sticky header with anchors, hero with the call to action and the intro drawing (owner
-  2026-11-02: an inline SVG `.intro`, a sample house of 600 × 440 plan px with Icelandic room names, not a real
+  2026-11-02: an inline SVG `.intro`, the film's house of 14 × 10 m on 600 × 440 plan px with Icelandic room names, not a real
   house, written by `tools/intro.py` into index.html and site.css, so edit the script and rerun it, not the SVG:
   every stroke has `pathLength="1"`, its start `--d` and duration `--t`; outer wall, inner walls and names,
   windows and doors to 3.5 s, then the electrical layer as a wiring drawing: the run travels from the board T1
   circuit by circuit at a constant speed, Gr.1 lights with a drop to each switch, Gr.2 sockets round the walls,
-  the symbols appearing as the line reaches them, to 8.3 s; then the drawing fades to a watermark and the hero
-  text comes up at 8.5 s; `prefers-reduced-motion` shows the finished state at once; the hero's "Hvernig virkar
-  þetta?" button goes to `#dagur`), `#dagur` (owner 2026-11-03, "Einn dagur í snjallheimili": the same sample house as
-  a scene player, seven scenes from the storyboard he settled: 04:50 the alarm with the bathroom and the kitchen's
-  under-cabinet light at 10 %, 06:30 the same switch held dims the kitchen ceiling light alone, 08:00 leaving and every
-  light goes off in turn plus the iron's socket, 12:00 the board's energy bars, 18:40 curtains, warm living-room light
-  and 21 °C, 03:10 a 10 % hallway light and the water sensor's phone notice, then the closing line; the SVG between the
-  `<!-- dagur:svg -->` markers and the CSS from `/* Dagur:` are written by `tools/dagur.py` (edit the script and
-  rerun it; the optional argument patches the single-file artifact copy), the caption per scene is in `.dcap`, the
-  dots `[data-go]` and the `[data-play]` button in `.dots`; site.js sets `data-scene` on `.dagur` and the CSS does
-  the rest: per-light level variables, the scene's extras `.sc[data-s]`, small keyframes; auto-advance 4–5 s per
-  scene while the section is on screen, a dot stops the run, `prefers-reduced-motion` = dots only; in 3D since
-  2026-11-03 (owner: "meira 3D", then "svona 3D" with a furnished dollhouse render as the reference): `dagur3d.js`,
-  an ES module importing Three.js 0.160.0 from cdnjs, lays `img/dagur-floor.jpg` on the floor (a top-down furnished
-  render of the sample house made with Canva's image generator on 2026-11-03, 1456 × 1088 px, the same five rooms
-  as the drawing; the SVG house is painted on the floor only if the image fails), keeps the house in a HOUSE
-  table measured in the image's pixels (walls with windows and doors, the front door hinge, the lights, the kitchen
-  strip, the bars, the curtain window, the water sensor; another render means re-measuring it), raises the walls as
-  half-transparent slabs cut at 1 m like a dollhouse (owner 2026-11-03, full-height slabs hid the floor on the phone),
-  split at the openings with their edges drawn, a glow sprite and a point light per ceiling light and the strip,
-  the front door leaf, the energy bars, the curtain, the water rings and HTML labels projected from world points;
-  it watches `data-scene` and flies the camera per scene, every view steep from above with a 30° lens (owner
-  2026-11-03: a low camera fights the perspective painted into the floor image and the house looks stretched). Made
-  a film on 2026-11-03 (owner: "Vá!"): the floor is cut to the building's outline so the house floats; own
-  post-processing with no addons (HDR target, three bloom levels, lens streak, tilt-shift, radial blur in flight,
-  grade, vignette, grain); stars, northern lights and snow by night, cloud shadow, sun patches, shafts and dust by
-  day; signal arcs from what decides to what obeys, with the light coming on as the arc lands; ignition rings; a
-  shot per scene that drifts to a second one, all on one spring so the camera keeps its speed across a scene change (owner 2026-11-03: smoother between scenes), with labels, old signals and captions fading rather than cut; a clock in the corner that runs the day forward; walls rising when
-  the film is first seen; pointer parallax; in scene 1 an alarm clock on the bedside table shakes and rings before
-  the bathroom and strip lights answer at 10 %; scene 6 flashes the edges blue, scene 7 links every device to the
-  board and circles the house. Quality starts a step lower on a phone and steps down by itself under 50, 40 and 24 frames a second (`data-q` on the box, 3 = no
-  post-processing). Scene holds in site.js went up to 6-10 s; without WebGL, reduced motion or no CDN the SVG player
-  stays; `.d3` box, `.d3labels`, `.dsvg.d3off` hides the SVG), sections `#thjonusta`
+  the symbols appearing as the line reaches them, to 8.7 s; then the drawing fades to a watermark and the hero
+  text comes up at 8.9 s; `prefers-reduced-motion` shows the finished state at once; the hero's "Hvernig virkar
+  þetta?" button goes to `#dagur`), `#dagur` ("Einn dagur í snjallheimili": the film from `tools/film/` as `video/einn-dagur.mp4`, poster `img/einn-dagur.jpg`, captions and clock burned in; owner 2026-11-04 replaced the 3D player with it. site.js plays it muted while it is on screen; the dots `[data-go]` hold each scene's start in seconds, taken from the film's timeline, and `[data-play]` stops and starts it; reduced motion waits to be asked; under 700 px the words in the picture are too small, so `.dline` under it shows the same lines, read from `tools/film/timeline.json`), sections `#thjonusta`
   (four cards), `#ferli` (four numbered steps), `#daemi` (one house, numbers from the owner's own house run through
   quick.html on 2026-11-01: 13 modules, 155–190 þús. kr.), `#um`, `#samband` (contact form, honeypot `_gotcha`).
 - `site.css` — same colour tokens as quick.css in smart-home-estimator (light and dark by `prefers-color-scheme`),
   880 px wrap, cards, numbered steps, form.
-- `dagur3d.js` — the 3D scene player (see `#dagur` above).
-- `tools/film/` — the Blender remake of the Einn dagur film (owner 2026-11-03, from his reference picture of a new plan), rendered to MP4, not yet on the page. `tools/film/house.py` builds the house, `tools/film/film.py` keys the six scenes and renders the frames, `tools/film/hud.py` draws the clock, captions, energy meter and end card and writes the video, `tools/film/timeline.json` holds the texts, clock and energy figures, `tools/film/fetch_assets.py` downloads the CC0 Poly Haven models and textures. `tools/film/energy.json` and the figures in the timeline come from the owner's own house, with his leave; the day in the film is put together from two real days. Assets, frames and videos stay outside git in `E:\motion-tools`. Run with `blender -b --factory-startup --python tools/film/film.py -- --frames DIR`, then `python tools/film/hud.py DIR out.mp4`.
+- `tools/film/` — the Blender remake of the Einn dagur film (owner 2026-11-03, from his reference picture of a new plan), rendered to MP4, on the page as `video/einn-dagur.mp4` (copy of `einn-dagur-blender-lett.mp4` from `E:\motion-tools\out`). `tools/film/house.py` builds the house, `tools/film/film.py` keys the six scenes and renders the frames, `tools/film/hud.py` draws the clock, captions, energy meter and end card and writes the video, `tools/film/timeline.json` holds the texts, clock and energy figures, `tools/film/fetch_assets.py` downloads the CC0 Poly Haven models and textures. `tools/film/energy.json` and the figures in the timeline come from the owner's own house, with his leave; the day in the film is put together from two real days. Assets, frames and videos stay outside git in `E:\motion-tools`. Run with `blender -b --factory-startup --python tools/film/film.py -- --frames DIR`, then `python tools/film/hud.py DIR out.mp4`.
 - `site.js` — `AETLUN` = the estimate page's address (aetlun.snjallheimilið.is), set on every `[data-aetlun]` link;
   `FORM` = the Formspree id shared with quick.html, subject
   "Fyrirspurn af snjallheimilið.is"; the form posts JSON and shows the result in `#formMsg`.
-  Also the `#dagur` scene player (see index.html above).
-- `img/dagur-floor.jpg` — the furnished render of the sample house, the floor of the 3D scene player (Canva, 2026-11-03).
+  Also the `#dagur` film player (see index.html above).
 - `fonts/inter.woff2` — Inter, the one typeface of the logo, the site, the estimate page and the film's HUD (self-hosted, OFL, `fonts/inter-LICENSE.txt`). `tools/logo/outline.py` turns the text of the owner's logo sources in `tools/logo/src/` into outlines in `img/logo-larett.svg` and `img/logo-hringlaga.svg`, so they look the same without the font; their PNGs are drawn from those. Colours (owner 2026-11-04): the warm palette stays, and `--sky` / `--glass` in `site.css` are the logo's light colours, for lines and fills, not for text on the light ground.
 - `favicon.svg`, `.nojekyll` (Pages serves files as they are), `CNAME` (the custom domain for Pages), `README.md`,
   `LICENSE` (MIT for the code only).

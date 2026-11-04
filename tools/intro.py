@@ -10,25 +10,23 @@ def el(tag, d, cls, attrs, t=None):
     st = f'--d:{d:.2f}s' + (f';--t:{t:.2f}s' if t else '')
     els.append(f'<{tag} class="{cls}" style="{st}" pathLength="1" {a}/>')
 
-# ---- the house (as before) ----
+# ---- the house of the film (tools/film/house.py), 14 x 10 m ----
 el('path', 0.0, 'w o', {'d': 'M30 30H570V410H30Z'}, 1.3)
-for i, d in enumerate(['M250 30V260', 'M30 260H400', 'M400 30V410', 'M400 200H570']):
-    el('path', 1.3 + i * 0.3, 'w i', {'d': d}, 0.6)
-wins = [('M80 30H160', 'M80 26H160M80 34H160'), ('M300 30H370', 'M300 26H370M300 34H370'), ('M440 30H520', 'M440 26H520M440 34H520'),
-        ('M30 100V180', 'M26 100V180M34 100V180'), ('M570 260V340', 'M566 260V340M574 260V340')]
+for i, d in enumerate(['M308 30V235', 'M308 235H570', 'M30 220H115', 'M261 410V273', 'M261 273H377', 'M377 410V235']):
+    el('path', 1.3 + i * 0.2, 'w i', {'d': d}, 0.6)
+wins = [('M80 30H265', 'M80 26H265M80 34H265'), ('M385 30H489', 'M385 26H489M385 34H489')]
 for i, (cut, lines) in enumerate(wins):
     t = 2.5 + i * 0.1
     els.append(f'<path class="cut" style="--d:{t:.2f}s" d="{cut}"/>')
     el('path', t, 'win', {'d': lines}, 0.5)
-doors = [('M180 410H230', 'M180 410V360', 'M180 360A50 50 0 0 1 230 410'), ('M120 260H170', 'M120 260V210', 'M120 210A50 50 0 0 1 170 260'),
-         ('M300 260H350', 'M350 260V210', 'M350 210A50 50 0 0 0 300 260'), ('M400 80V130', 'M400 80H450', 'M450 80A50 50 0 0 1 400 130'),
-         ('M400 300V350', 'M400 350H450', 'M450 350A50 50 0 0 0 400 300')]
+doors = [('M300 410H342', 'M342 410V368', 'M342 368A42 42 0 0 0 300 410'), ('M300 273H335', 'M300 273V238', 'M300 238A35 35 0 0 1 335 273'),
+         ('M308 188V222', 'M308 222H342', 'M342 222A34 34 0 0 0 308 188'), ('M377 239V271', 'M377 271H409', 'M409 271A32 32 0 0 0 377 239')]
 for i, (cut, leaf, swing) in enumerate(doors):
     t = 3.0 + i * 0.1
     els.append(f'<path class="cut" style="--d:{t:.2f}s" d="{cut}"/>')
     el('path', t, 'door', {'d': leaf}, 0.3)
     el('path', t + 0.1, 'door', {'d': swing}, 0.5)
-for i, (n, x, y) in enumerate([('Stofa', 140, 145), ('Eldhús', 325, 145), ('Herbergi', 485, 115), ('Baðherbergi', 485, 305), ('Forstofa', 215, 335)]):
+for i, (n, x, y) in enumerate([('Stofa', 170, 75), ('Eldhús', 130, 270), ('Svefnherbergi', 440, 70), ('Baðherbergi', 475, 290), ('Forstofa', 320, 300)]):
     els.append(f'<text class="rn" style="--d:{2.0 + i * 0.1:.2f}s" x="{x}" y="{y + 30}">{n}</text>')
 
 # ---- the electrical layer: a pen that travels ----
@@ -65,18 +63,21 @@ def label(x, y, text, at, cls='gr'):
     els.append(f'<text class="{cls}" style="--d:{at:.2f}s" x="{x}" y="{y}">{text}</text>')
 
 # the board (tafla) in Forstofa
-el('path', clock, 'e', {'d': 'M44 374H76V406H44ZM44 374L76 406M76 374L44 406'}, 0.4)
-label(60, 420, 'T1', clock + 0.2)
+el('path', clock, 'e', {'d': 'M266 374H298V406H266ZM266 374L298 406M298 374L266 406'}, 0.4)
+label(282, 424, 'T1', clock + 0.2)
 clock += 0.5
 
-# Gr.1 lights: board -> Forstofa light -> Stofa -> Eldhús -> Herbergi -> Baðherbergi, a drop to the switch at each light
-label(84, 372, 'Gr.1', clock)
-lights = [((215, 335), (150, 410, 0, -1), [(140, 345)]),           # Forstofa, switch by the front door
-          ((140, 145), (100, 260, 0, -1), [(200, 300), (175, 215)]),           # Stofa, switch by its door
-          ((325, 145), (370, 260, 0, -1), [(200, 120), (260, 100)]),           # Eldhús
-          ((485, 115), (400, 150, 1, 0), [(380, 110), (420, 85)]),             # Herbergi
-          ((485, 305), (400, 370, 1, 0), [(520, 180), (520, 250)])]            # Baðherbergi
-prev = (76, 380)
+# Gr.1 lights: board -> Forstofa -> Eldhús -> Stofa -> the light outside the bedroom door -> Svefnherbergi ->
+# the light outside the bathroom door -> Baðherbergi, a drop to the switch at each light
+label(282, 366, 'Gr.1', clock)
+lights = [((320, 345), (355, 410, 0, -1), [(305, 365)]),                # Forstofa, switch by the front door
+          ((150, 345), (261, 340, -1, 0), [(270, 330), (210, 360)]),    # Eldhús
+          ((170, 125), (90, 220, 0, -1), [(110, 240), (120, 170)]),     # Stofa
+          ((285, 205), (308, 150, -1, 0), [(235, 175)]),                # outside the bedroom door
+          ((440, 130), (308, 170, 1, 0), [(340, 150)]),                 # Svefnherbergi
+          ((352, 250), (350, 273, 0, 1), [(410, 210)]),                # outside the bathroom door
+          ((475, 330), (377, 300, 1, 0), [(410, 270)])]                 # Baðherbergi
+prev = (298, 380)
 for (lx, ly), (sx, sy, dx, dy), via in lights:
     run([prev] + via + [(lx, ly)])
     light(lx, ly, clock - 0.1)
@@ -89,10 +90,10 @@ for (lx, ly), (sx, sy, dx, dy), via in lights:
 
 # Gr.2 sockets: a separate run from the board round the walls
 clock += 0.2
-label(84, 400, 'Gr.2', clock)
-socks = [((60, 30, 0, 1), [(76, 396), (48, 300), (48, 60)]), ((200, 30, 0, 1), [(120, 48)]), ((250, 120, -1, 0), [(235, 60)]),
-         ((570, 100, -1, 0), [(300, 80), (420, 60), (545, 60)]), ((520, 410, 0, -1), [(550, 240), (550, 390)]), ((320, 410, 0, -1), [(430, 392), (360, 392)])]
-prev = (76, 396)
+label(246, 394, 'Gr.2', clock)
+socks = [((30, 340, 1, 0), [(270, 395), (120, 392), (56, 380)]), ((30, 120, 1, 0), [(50, 240)]), ((290, 30, 0, 1), [(100, 52), (220, 52)]),
+         ((530, 30, 0, 1), [(330, 52), (470, 52)]), ((570, 150, -1, 0), [(545, 90)]), ((570, 340, -1, 0), [(548, 240)]), ((377, 370, -1, 0), [(420, 392), (392, 392), (372, 385), (368, 372)])]
+prev = (298, 396)
 for (x, y, dx, dy), via in socks:
     tip = (x + dx * 18, y + dy * 18)
     run([prev] + via + [tip], 'run k')
@@ -114,7 +115,7 @@ patch_html('index.html')
 if len(sys.argv) > 1: patch_html(sys.argv[1])
 
 css = open('site.css', encoding='utf-8').read()
-start = css.index('/* Intro:')
+start, stop = css.index('/* Intro:'), css.index('/* Dagur:')
 new = f'''/* Intro: a sample plan draws itself behind the hero: outer wall, inner walls and room names, openings, then the
    electrical layer as a wiring drawing: the run travels from the board (T1) circuit by circuit, Gr.1 lights with a
    drop to each switch, Gr.2 sockets round the walls, the symbols appearing as the line reaches them (generated by a
@@ -130,8 +131,8 @@ new = f'''/* Intro: a sample plan draws itself behind the hero: outer wall, inne
 .intro .e {{ stroke: var(--accent); stroke-width: 2; }}
 .intro .run {{ stroke: var(--accent); stroke-width: 1.4; opacity: .9; }}
 .intro .run.s {{ stroke-width: 1; }} .intro .run.k {{ stroke-width: 1.2; }}
-.intro .rn {{ stroke: none; fill: var(--muted); font: 15px system-ui, "Segoe UI", sans-serif; text-anchor: middle; opacity: 0; animation: introShow .4s ease-out var(--d) forwards; }}
-.intro .gr {{ stroke: none; fill: var(--accent); font: 600 11px system-ui, "Segoe UI", sans-serif; text-anchor: middle; opacity: 0; animation: introShow .3s ease-out var(--d) forwards; }}
+.intro .rn {{ stroke: none; fill: var(--muted); font: 15px Inter, system-ui, sans-serif; text-anchor: middle; opacity: 0; animation: introShow .4s ease-out var(--d) forwards; }}
+.intro .gr {{ stroke: none; fill: var(--accent); font: 600 11px Inter, system-ui, sans-serif; text-anchor: middle; opacity: 0; animation: introShow .3s ease-out var(--d) forwards; }}
 .intro [pathLength] {{ stroke-dasharray: 1; stroke-dashoffset: 1; animation: introDraw var(--t, .9s) linear var(--d) forwards; }}
 .hero .wrap > * {{ opacity: 0; animation: introText .8s ease-out {END + 0.2:.1f}s forwards; }}
 @keyframes introDraw {{ to {{ stroke-dashoffset: 0; }} }}
@@ -143,7 +144,7 @@ new = f'''/* Intro: a sample plan draws itself behind the hero: outer wall, inne
   .intro {{ opacity: .18; }} .intro [pathLength] {{ stroke-dashoffset: 0; }} .intro .cut, .intro .rn, .intro .gr, .hero .wrap > * {{ opacity: 1; }}
 }}
 '''
-open('site.css', 'w', encoding='utf-8').write(css[:start] + new)
+open('site.css', 'w', encoding='utf-8').write(css[:start] + new + css[stop:])
 # the artifact copy carries the CSS inline
 if len(sys.argv) > 1:
     a = open(sys.argv[1], encoding='utf-8').read()
