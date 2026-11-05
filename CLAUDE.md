@@ -23,7 +23,7 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
   then takes the film and captions of that language and sends the estimate link with `?lang=`.
 - Languages (owner 2026-11-04: English, Spanish, Polish): `tools/i18n.py` writes the three copies of index.html from the Icelandic one,
   every text node and text attribute (not svg, script, style) looked up in `i18n/en.json`, `i18n/es.json`, `i18n/pl.json`
-  (Icelandic text -> translation); a text without a translation stops the build, `--dump` lists what index.html needs.
+  (Icelandic text -> translation; the hero svg's room names and circuit labels, the list in the script, are looked up in the same files); a text without a translation stops the build, `--dump` lists what index.html needs.
   Rerun it after any change to index.html. The header's `.lang` switch and the hreflang links are in index.html by hand.
   The film per language: `tools/film/timeline.en.json` (.es, .pl) carry the scene lines and the HUD's words (`labels`),
   `python tools/film/hud.py FRAMES out.mp4 --lang en` draws them over the same frames (E:\motion-tools\film\langs.sh does the

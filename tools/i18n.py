@@ -24,6 +24,10 @@ ATTR = re.compile(r'\b(' + '|'.join(ATTRS) + r')="([^"]+)"')
 # the strings site.js shows: keyed by the Icelandic text, as in the JSON files
 JS_STRINGS = ['Nafn, netfang og erindi þarf að fylla út.', 'Sendi…', 'Takk, erindið er komið. Ég svara eins fljótt og ég get.',
               'Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint.', 'Fyrirspurn af snjallheimilið.is', 'Spila', 'Stöðva']
+# the room names and circuit labels drawn in the hero's svg (text class rn / gr); the svg is skipped as a whole above,
+# so these are looked up here, in the same JSON files
+SVG_STRINGS = ['Stofa', 'Eldhús', 'Svefnherbergi', 'Baðherbergi', 'Forstofa', 'Gr.1', 'Gr.2']
+SVG_TEXT = re.compile(r'(<text class="(?:rn|gr)"[^>]*>)([^<]+)(</text>)')
 
 
 def plain(s):
@@ -88,6 +92,10 @@ def translate(src, tr, lang, missing):
         pos = m.end()
     out.append(ATTR.sub(attr, TAG_TEXT.sub(text, src[pos:])))
     s = ''.join(out)
+    for k in SVG_STRINGS:
+        if k not in tr:
+            missing.add(k)
+    s = SVG_TEXT.sub(lambda m: m.group(1) + html.escape(tr.get(m.group(2), m.group(2)), quote=False) + m.group(3), s)
     s = s.replace('<html lang="is">', f'<html lang="{lang}">')
     # one level down: relative links and sources
     s = re.sub(r'\b(href|src|poster)="(?!https?:|#|/|data:|mailto:|\.\./)([^"]+)"', lambda m: f'{m.group(1)}="../{m.group(2)[2:] if m.group(2).startswith("./") else m.group(2)}"', s)
@@ -103,7 +111,7 @@ def translate(src, tr, lang, missing):
 def main():
     src = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
     if '--dump' in sys.argv:
-        print(json.dumps({s: '' for s in segments(src) + JS_STRINGS}, ensure_ascii=False, indent=2))
+        print(json.dumps({s: '' for s in segments(src) + JS_STRINGS + SVG_STRINGS}, ensure_ascii=False, indent=2))
         return
     for lang in LANGS:
         tr = json.load(open(os.path.join(ROOT, 'i18n', f'{lang}.json'), encoding='utf-8'))
@@ -117,7 +125,7 @@ def main():
         os.makedirs(os.path.join(ROOT, lang), exist_ok=True)
         with open(os.path.join(ROOT, lang, 'index.html'), 'w', encoding='utf-8') as f:
             f.write(page)
-        unused = [k for k in tr if k not in segments(src) and k not in JS_STRINGS]
+        unused = [k for k in tr if k not in segments(src) and k not in JS_STRINGS and k not in SVG_STRINGS]
         print(f'{lang}/index.html written' + (f'; unused keys: {unused}' if unused else ''))
 
 
