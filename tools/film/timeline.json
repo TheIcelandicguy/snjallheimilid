@@ -4,7 +4,7 @@
     {"t": 0,  "title": "Vekjaraklukkan hringir", "lines": [
       [0, "Klukkan er tíu mínútur í fimm og húsið sefur."],
       [2.2, "Svo hringir klukkan. Dagurinn byrjar snemma í dag."],
-      [8.2, "Þú lítur fram úr rúminu og það er enn myrkur."],
+      [8.2, "Þú sest upp í rúminu og það er enn myrkur."],
       [10.2, "Ljósið í eldhúsinu kviknar rólega og bíður eftir þér."]]},
     {"t": 13, "title": "Farið út", "lines": [
       [13, "Morgunninn líður og húsið er komið á fætur með þér."],
