@@ -96,3 +96,15 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
 .dots button { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); color: var(--muted); font: inherit; font-size: .9rem; cursor: pointer; }
 .dots button[aria-current="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
 .dots .play { width: auto; border-radius: 17px; padding: 0 12px; margin-left: auto; }
+
+/* Vörur í boði: the product tabs. Without script every panel shows; site.js adds .js and then one panel at a time. */
+.vtabs { margin: 16px 0; }
+.tablist { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+.tablist [role="tab"] { flex: none; font: inherit; font-size: .95rem; color: var(--muted); background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer; white-space: nowrap; }
+.tablist [role="tab"]:hover { border-color: var(--sky); color: var(--text); }
+.tablist [role="tab"][aria-selected="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+.tablist [role="tab"]:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }
+.panel { background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--sky); border-radius: 12px; padding: 18px; margin-top: 10px; }
+.panel p:last-child { margin-bottom: 0; }
+.vtabs:not(.js) .tablist { display: none; }
+.vtabs.js .panel:not(.on) { display: none; }

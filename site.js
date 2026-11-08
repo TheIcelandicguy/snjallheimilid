@@ -65,3 +65,24 @@ form.addEventListener('submit', async (e) => {
     new IntersectionObserver((es) => { seen = es[0].isIntersecting; if (seen) go(); else v.pause(); }, { threshold: 0.35 }).observe(v);
   } else { seen = true; go(); }
 })();
+
+/* Vörur í boði: tabs (role tablist). Click or arrow keys / Home / End change the panel; without this script every panel shows. */
+(() => {
+  const box = document.querySelector('.vtabs');
+  if (!box) return;
+  const tabs = [...box.querySelectorAll('[role=tab]')], panels = tabs.map((b) => document.getElementById(b.getAttribute('aria-controls')));
+  const show = (n, focus) => {
+    tabs.forEach((b, i) => { b.setAttribute('aria-selected', i === n ? 'true' : 'false'); b.tabIndex = i === n ? 0 : -1; panels[i].classList.toggle('on', i === n); });
+    if (focus) tabs[n].focus();
+  };
+  box.classList.add('js');
+  tabs.forEach((b, i) => {
+    b.addEventListener('click', () => show(i));
+    b.addEventListener('keydown', (e) => {
+      const k = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (k === undefined) return;
+      e.preventDefault(); show((k + tabs.length) % tabs.length, true);
+    });
+  });
+  show(0);
+})();

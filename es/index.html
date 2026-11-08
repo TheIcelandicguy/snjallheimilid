@@ -24,6 +24,7 @@
     <a class="brand" href="#"><img src="../favicon.svg" width="32" height="32" alt="">Snjallheimilið</a>
     <nav>
       <a href="#thjonusta">Servicios</a>
+      <a href="#vorur">Productos</a>
       <a href="#ferli">Cómo funciona</a>
       <a href="#daemi">Ejemplo</a>
       <a href="#um">Acerca de</a>
@@ -163,7 +164,27 @@
   </div>
 </section>
 
-<section id="ferli" class="alt">
+<section id="vorur" class="alt">
+  <div class="wrap">
+    <h2>Productos disponibles</h2>
+    <p class="muted">Este es el material que cuenta la estimación. Lo que conviene a tu casa se ve cuando tenemos tus respuestas.</p>
+    <div class="vtabs">
+      <div class="tablist" role="tablist" aria-label="Categorías de productos"><button type="button" role="tab" id="t-ljos" aria-controls="p-ljos" aria-selected="true">Luces</button><button type="button" role="tab" id="t-dimmun" aria-controls="p-dimmun">Regulación</button><button type="button" role="tab" id="t-rofar" aria-controls="p-rofar">Interruptores y enchufes</button><button type="button" role="tab" id="t-gluggatjold" aria-controls="p-gluggatjold">Cortinas y persianas</button><button type="button" role="tab" id="t-hiti" aria-controls="p-hiti">Calefacción</button><button type="button" role="tab" id="t-orka" aria-controls="p-orka">Energía y cuadro</button><button type="button" role="tab" id="t-skynjarar" aria-controls="p-skynjarar">Sensores</button><button type="button" role="tab" id="t-led" aria-controls="p-led">Tiras LED</button><button type="button" role="tab" id="t-stjorn" aria-controls="p-stjorn">Hub</button></div>
+      <div role="tabpanel" id="p-ljos" aria-labelledby="t-ljos" class="panel"><p>Un módulo Shelly por grupo de luces, en la caja del techo o en el cuadro sobre carril DIN. Las luces se encienden y apagan con el interruptor de pared como antes, y también desde la app, con un temporizador o con un sensor de movimiento.</p></div>
+      <div role="tabpanel" id="p-dimmun" aria-labelledby="t-dimmun" class="panel"><p>Un regulador por cada grupo de luces regulable, en la caja del techo, o en el cuadro, donde dos grupos comparten un módulo. Un interruptor basculante normal solo enciende y apaga, así que los grupos regulables llevan un pulsador con muelle: mantenerlo pulsado regula.</p></div>
+      <div role="tabpanel" id="p-rofar" aria-labelledby="t-rofar" class="panel"><p>Se mantienen los interruptores y enchufes existentes cuando conviene. Los nuevos son mecanismos de diseño de calidad con tecla y marco. Un pulsador inalámbrico o un Shelly i4 en la caja del interruptor conmuta sin un cable adicional.</p></div>
+      <div role="tabpanel" id="p-gluggatjold" aria-labelledby="t-gluggatjold" class="panel"><p>Un módulo por ventana motorizada. Las cortinas se mueven por horario o escena y también se controlan desde la app.</p></div>
+      <div role="tabpanel" id="p-hiti" aria-labelledby="t-hiti" class="panel"><p>Un módulo por zona de calefacción, radiadores o suelo radiante, y un termostato en cada zona: un sensor Bluetooth de temperatura y humedad, o una pantalla de pared Shelly, que es a la vez interruptor y termostato.</p></div>
+      <div role="tabpanel" id="p-orka" aria-labelledby="t-orka" class="panel"><p>Un medidor de energía en el cuadro muestra el consumo de la casa. El cuadro también puede llevar módulos Shelly Pro sobre carril DIN e interruptores automáticos inteligentes que se pueden apagar a distancia y muestran la carga. Se cuenta un automático por circuito.</p></div>
+      <div role="tabpanel" id="p-skynjarar" aria-labelledby="t-skynjarar" class="panel"><p>Sensores de movimiento, temperatura y humedad en las habitaciones y sensores en las puertas exteriores. Son inalámbricos y hablan Bluetooth con el módulo Shelly o la pasarela Bluetooth más cercana.</p></div>
+      <div role="tabpanel" id="p-led" aria-labelledby="t-led" class="panel"><p>Tiras COB en RGB, RGB con blanco ajustable o blanco ajustable (CCT), con fuente de alimentación y un controlador que maneja los colores. Las tiras se dibujan como luces lineales en el plano y se cuentan por metro.</p></div>
+      <div role="tabpanel" id="p-stjorn" aria-labelledby="t-stjorn" class="panel"><p>Home Assistant, como pequeño controlador o como pequeño ordenador, si quieres todo en un solo lugar. Sin controlador, los módulos funcionan en la app de Shelly.</p></div>
+    </div>
+    <div class="cta"><a class="btn primary" data-aetlun href="#">Ver rango de precio</a></div>
+  </div>
+</section>
+
+<section id="ferli">
   <div class="wrap">
     <h2>Cómo funciona</h2>
     <ol class="steps">
@@ -176,7 +197,7 @@
   </div>
 </section>
 
-<section id="daemi">
+<section id="daemi" class="alt">
   <div class="wrap">
     <h2>Ejemplo</h2>
     <article class="card example">
@@ -193,7 +214,7 @@
   </div>
 </section>
 
-<section id="um" class="alt">
+<section id="um">
   <div class="wrap">
     <h2>Sobre Snjallheimilið</h2>
     <p>Snjallheimilið es Davíð, en Akureyri. Años de experiencia en instalaciones eléctricas, formación en informática y redes, y una casa propia que lleva años siendo inteligente, con software que él mismo escribe y publica como código abierto para Home Assistant.</p>
@@ -202,7 +223,7 @@
   </div>
 </section>
 
-<section id="samband">
+<section id="samband" class="alt">
   <div class="wrap">
     <h2>Contacto</h2>
     <p>¿Una pregunta, una casa que quieres que revisemos, o simple curiosidad? Escribe unas líneas. Si prefieres un rango de precio primero, <a data-aetlun href="#">empieza por la estimación</a> y tus respuestas irán con la consulta.</p>

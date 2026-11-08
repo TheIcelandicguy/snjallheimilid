@@ -24,6 +24,7 @@
     <a class="brand" href="#"><img src="../favicon.svg" width="32" height="32" alt="">Snjallheimilið</a>
     <nav>
       <a href="#thjonusta">Usługi</a>
+      <a href="#vorur">Produkty</a>
       <a href="#ferli">Jak to działa</a>
       <a href="#daemi">Przykład</a>
       <a href="#um">O firmie</a>
@@ -163,7 +164,27 @@
   </div>
 </section>
 
-<section id="ferli" class="alt">
+<section id="vorur" class="alt">
+  <div class="wrap">
+    <h2>Dostępne produkty</h2>
+    <p class="muted">To materiał, który liczy wycena. Co pasuje do Twojego domu, okaże się, gdy będą Twoje odpowiedzi.</p>
+    <div class="vtabs">
+      <div class="tablist" role="tablist" aria-label="Kategorie produktów"><button type="button" role="tab" id="t-ljos" aria-controls="p-ljos" aria-selected="true">Światła</button><button type="button" role="tab" id="t-dimmun" aria-controls="p-dimmun">Ściemnianie</button><button type="button" role="tab" id="t-rofar" aria-controls="p-rofar">Łączniki i gniazda</button><button type="button" role="tab" id="t-gluggatjold" aria-controls="p-gluggatjold">Zasłony i rolety</button><button type="button" role="tab" id="t-hiti" aria-controls="p-hiti">Ogrzewanie</button><button type="button" role="tab" id="t-orka" aria-controls="p-orka">Energia i rozdzielnica</button><button type="button" role="tab" id="t-skynjarar" aria-controls="p-skynjarar">Czujniki</button><button type="button" role="tab" id="t-led" aria-controls="p-led">Taśmy LED</button><button type="button" role="tab" id="t-stjorn" aria-controls="p-stjorn">Kontroler</button></div>
+      <div role="tabpanel" id="p-ljos" aria-labelledby="t-ljos" class="panel"><p>Jeden moduł Shelly na grupę świateł, w puszce sufitowej lub w rozdzielnicy na szynie DIN. Światła włącza się i wyłącza łącznikiem na ścianie jak dotąd, a także z aplikacji, według harmonogramu lub z czujnika ruchu.</p></div>
+      <div role="tabpanel" id="p-dimmun" aria-labelledby="t-dimmun" class="panel"><p>Ściemniacz na każdą ściemnianą grupę świateł, w puszce sufitowej lub w rozdzielnicy, gdzie dwie grupy dzielą jeden moduł. Zwykły łącznik klawiszowy tylko włącza i wyłącza, więc ściemniane grupy dostają przycisk dzwonkowy: przytrzymanie ściemnia.</p></div>
+      <div role="tabpanel" id="p-rofar" aria-labelledby="t-rofar" class="panel"><p>Istniejące łączniki i gniazda zostają tam, gdzie to ma sens. Nowe łączniki i gniazda to wysokiej jakości osprzęt designerski z klawiszem i ramką. Bezprzewodowy przycisk lub Shelly i4 w puszce łącznika przełącza bez dodatkowego przewodu.</p></div>
+      <div role="tabpanel" id="p-gluggatjold" aria-labelledby="t-gluggatjold" class="panel"><p>Jeden moduł na zmotoryzowane okno. Zasłony ruszają według czasu lub sceny i można je też sterować z aplikacji.</p></div>
+      <div role="tabpanel" id="p-hiti" aria-labelledby="t-hiti" class="panel"><p>Jeden moduł na strefę grzewczą, grzejniki lub ogrzewanie podłogowe, i termostat w każdej strefie: czujnik temperatury i wilgotności Bluetooth albo wyświetlacz ścienny Shelly, który jest jednocześnie łącznikiem i termostatem.</p></div>
+      <div role="tabpanel" id="p-orka" aria-labelledby="t-orka" class="panel"><p>Licznik energii w rozdzielnicy pokazuje zużycie domu. W rozdzielnicy mogą też być moduły Shelly Pro na szynie DIN i inteligentne wyłączniki nadprądowe, które można wyłączyć zdalnie i które pokazują obciążenie. Wyłącznik liczony jest na każdy obwód.</p></div>
+      <div role="tabpanel" id="p-skynjarar" aria-labelledby="t-skynjarar" class="panel"><p>Czujniki ruchu, temperatury i wilgotności w pomieszczeniach oraz czujniki na drzwiach zewnętrznych. Są bezprzewodowe i łączą się przez Bluetooth z najbliższym modułem Shelly lub bramką Bluetooth.</p></div>
+      <div role="tabpanel" id="p-led" aria-labelledby="t-led" class="panel"><p>Taśmy COB w RGB, RGB z regulowaną bielą lub regulowanej bieli (CCT), z zasilaczem i sterownikiem obsługującym kolory. Taśmy rysuje się jako oświetlenie liniowe na planie i liczy za metr.</p></div>
+      <div role="tabpanel" id="p-stjorn" aria-labelledby="t-stjorn" class="panel"><p>Home Assistant, jako mała centrala lub mały komputer, jeśli chcesz mieć wszystko w jednym miejscu. Bez centrali moduły działają w aplikacji Shelly.</p></div>
+    </div>
+    <div class="cta"><a class="btn primary" data-aetlun href="#">Zobacz przedział cenowy</a></div>
+  </div>
+</section>
+
+<section id="ferli">
   <div class="wrap">
     <h2>Jak to działa</h2>
     <ol class="steps">
@@ -176,7 +197,7 @@
   </div>
 </section>
 
-<section id="daemi">
+<section id="daemi" class="alt">
   <div class="wrap">
     <h2>Przykład</h2>
     <article class="card example">
@@ -193,7 +214,7 @@
   </div>
 </section>
 
-<section id="um" class="alt">
+<section id="um">
   <div class="wrap">
     <h2>O Snjallheimilið</h2>
     <p>Snjallheimilið to Davíð z Akureyri. Wieloletnie doświadczenie w instalacjach elektrycznych, wykształcenie informatyczne i sieciowe oraz własny dom, który od lat jest inteligentny, z oprogramowaniem, które sam pisze i publikuje jako open source dla Home Assistant.</p>
@@ -202,7 +223,7 @@
   </div>
 </section>
 
-<section id="samband">
+<section id="samband" class="alt">
   <div class="wrap">
     <h2>Kontakt</h2>
     <p>Pytanie, dom do obejrzenia, a może zwykła ciekawość? Napisz kilka słów. Jeśli najpierw chcesz przedział cenowy, <a data-aetlun href="#">zacznij od wyceny</a>, a odpowiedzi dołączą do zapytania.</p>

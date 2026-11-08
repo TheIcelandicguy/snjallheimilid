@@ -24,6 +24,7 @@
     <a class="brand" href="#"><img src="../favicon.svg" width="32" height="32" alt="">Snjallheimilið</a>
     <nav>
       <a href="#thjonusta">Services</a>
+      <a href="#vorur">Products</a>
       <a href="#ferli">How it works</a>
       <a href="#daemi">Example</a>
       <a href="#um">About</a>
@@ -163,7 +164,27 @@
   </div>
 </section>
 
-<section id="ferli" class="alt">
+<section id="vorur" class="alt">
+  <div class="wrap">
+    <h2>Products on offer</h2>
+    <p class="muted">This is the material the estimate counts. What suits your house becomes clear once your answers are in.</p>
+    <div class="vtabs">
+      <div class="tablist" role="tablist" aria-label="Product categories"><button type="button" role="tab" id="t-ljos" aria-controls="p-ljos" aria-selected="true">Lights</button><button type="button" role="tab" id="t-dimmun" aria-controls="p-dimmun">Dimming</button><button type="button" role="tab" id="t-rofar" aria-controls="p-rofar">Switches and sockets</button><button type="button" role="tab" id="t-gluggatjold" aria-controls="p-gluggatjold">Curtains and blinds</button><button type="button" role="tab" id="t-hiti" aria-controls="p-hiti">Heating</button><button type="button" role="tab" id="t-orka" aria-controls="p-orka">Energy and board</button><button type="button" role="tab" id="t-skynjarar" aria-controls="p-skynjarar">Sensors</button><button type="button" role="tab" id="t-led" aria-controls="p-led">LED strips</button><button type="button" role="tab" id="t-stjorn" aria-controls="p-stjorn">Hub</button></div>
+      <div role="tabpanel" id="p-ljos" aria-labelledby="t-ljos" class="panel"><p>One Shelly module per light group, in the ceiling box or in the board on a DIN rail. The lights switch on and off from the wall switch as before, and also from the app, on a timer or from a motion sensor.</p></div>
+      <div role="tabpanel" id="p-dimmun" aria-labelledby="t-dimmun" class="panel"><p>A dimmer for each dimmed light group, in the ceiling box, or in the board where two groups share one module. An ordinary rocker switch only switches on and off, so dimmed groups get a spring-return push button: hold it to dim.</p></div>
+      <div role="tabpanel" id="p-rofar" aria-labelledby="t-rofar" class="panel"><p>Existing switches and sockets are kept where that suits. New switches and sockets are quality designer fittings with rocker and frame. A wireless button or a Shelly i4 in the switch box switches without an extra wire.</p></div>
+      <div role="tabpanel" id="p-gluggatjold" aria-labelledby="t-gluggatjold" class="panel"><p>One module per motorised window. The curtains move by time or scene and can also be controlled in the app.</p></div>
+      <div role="tabpanel" id="p-hiti" aria-labelledby="t-hiti" class="panel"><p>One module per heating zone, radiators or floor heating, and a thermostat in each zone: a Bluetooth temperature and humidity sensor, or a Shelly wall display, which is both a switch and a thermostat.</p></div>
+      <div role="tabpanel" id="p-orka" aria-labelledby="t-orka" class="panel"><p>An energy meter in the board shows the house's consumption. The board can also hold Shelly Pro modules on a DIN rail and smart circuit breakers that can be switched off remotely and show the load. One breaker is counted per circuit.</p></div>
+      <div role="tabpanel" id="p-skynjarar" aria-labelledby="t-skynjarar" class="panel"><p>Motion, temperature and humidity sensors in the rooms and sensors on the outer doors. They are wireless and talk Bluetooth to the nearest Shelly module or Bluetooth gateway.</p></div>
+      <div role="tabpanel" id="p-led" aria-labelledby="t-led" class="panel"><p>COB strips in RGB, RGB with tunable white or tunable white (CCT), with a driver and a controller that handles the colours. The strips are drawn as linear lights on the plan and counted per metre.</p></div>
+      <div role="tabpanel" id="p-stjorn" aria-labelledby="t-stjorn" class="panel"><p>Home Assistant, either as a small hub or a small computer, if you want everything in one place. Without a hub the modules work in the Shelly app.</p></div>
+    </div>
+    <div class="cta"><a class="btn primary" data-aetlun href="#">Get a price range</a></div>
+  </div>
+</section>
+
+<section id="ferli">
   <div class="wrap">
     <h2>How it works</h2>
     <ol class="steps">
@@ -176,7 +197,7 @@
   </div>
 </section>
 
-<section id="daemi">
+<section id="daemi" class="alt">
   <div class="wrap">
     <h2>Example</h2>
     <article class="card example">
@@ -193,7 +214,7 @@
   </div>
 </section>
 
-<section id="um" class="alt">
+<section id="um">
   <div class="wrap">
     <h2>About Snjallheimilið</h2>
     <p>Snjallheimilið is Davíð in Akureyri. Years of experience in electrical work, training in computer and network systems, and a home of his own that has been smart for years, running software he writes himself and publishes as open source for Home Assistant.</p>
@@ -202,7 +223,7 @@
   </div>
 </section>
 
-<section id="samband">
+<section id="samband" class="alt">
   <div class="wrap">
     <h2>Get in touch</h2>
     <p>A question, a house you would like looked at, or just curious? Write a few lines. If you want a price range first, <a data-aetlun href="#">start with the estimate</a>, and your answers will come with the enquiry.</p>

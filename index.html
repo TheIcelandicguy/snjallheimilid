@@ -24,6 +24,7 @@
     <a class="brand" href="#"><img src="favicon.svg" width="32" height="32" alt="">Snjallheimilið</a>
     <nav>
       <a href="#thjonusta">Þjónusta</a>
+      <a href="#vorur">Vörur</a>
       <a href="#ferli">Ferlið</a>
       <a href="#daemi">Dæmi</a>
       <a href="#um">Um</a>
@@ -163,7 +164,27 @@
   </div>
 </section>
 
-<section id="ferli" class="alt">
+<section id="vorur" class="alt">
+  <div class="wrap">
+    <h2>Vörur í boði</h2>
+    <p class="muted">Þetta er efnið sem áætlunin telur. Hvað hentar þínu húsi kemur í ljós þegar svörin liggja fyrir.</p>
+    <div class="vtabs">
+      <div class="tablist" role="tablist" aria-label="Vöruflokkar"><button type="button" role="tab" id="t-ljos" aria-controls="p-ljos" aria-selected="true">Ljós</button><button type="button" role="tab" id="t-dimmun" aria-controls="p-dimmun">Dimmun</button><button type="button" role="tab" id="t-rofar" aria-controls="p-rofar">Rofar og tenglar</button><button type="button" role="tab" id="t-gluggatjold" aria-controls="p-gluggatjold">Gluggatjöld</button><button type="button" role="tab" id="t-hiti" aria-controls="p-hiti">Hiti</button><button type="button" role="tab" id="t-orka" aria-controls="p-orka">Orka og tafla</button><button type="button" role="tab" id="t-skynjarar" aria-controls="p-skynjarar">Skynjarar</button><button type="button" role="tab" id="t-led" aria-controls="p-led">LED-borðar</button><button type="button" role="tab" id="t-stjorn" aria-controls="p-stjorn">Stjórnstöð</button></div>
+      <div role="tabpanel" id="p-ljos" aria-labelledby="t-ljos" class="panel"><p>Ein Shelly-eining á hvern ljósahóp, í loftdósinni eða í töflunni á DIN-teini. Ljósin kveikja og slökkva úr rofanum eins og áður, og líka úr appi, með tímastillingu eða hreyfiskynjara.</p></div>
+      <div role="tabpanel" id="p-dimmun" aria-labelledby="t-dimmun" class="panel"><p>Dimmer fyrir hvern dimmaðan ljósahóp, í loftdósinni, eða í töflunni þar sem tveir hópar deila einni einingu. Venjulegur vippurofi kveikir og slekkur aðeins, svo á dimmuðum hópum kemur þrýstirofi með gorm: haldið inni dimmar.</p></div>
+      <div role="tabpanel" id="p-rofar" aria-labelledby="t-rofar" class="panel"><p>Núverandi rofar og tenglar eru notaðir áfram þar sem það hentar. Nýir rofar og tenglar eru vandaðir hönnunarrofar með vippu og ramma. Þráðlaus hnappur eða Shelly i4 í rofadósinni kveikir án aukavírs.</p></div>
+      <div role="tabpanel" id="p-gluggatjold" aria-labelledby="t-gluggatjold" class="panel"><p>Ein eining á hvern glugga með mótor. Tjöldin hreyfast eftir tíma eða senu og má líka stjórna í appinu.</p></div>
+      <div role="tabpanel" id="p-hiti" aria-labelledby="t-hiti" class="panel"><p>Ein eining á hvert hitasvæði, ofna eða gólfhita, og hitastýring á hverju svæði: Bluetooth hita- og rakaskynjari, eða Shelly-skjár á vegg sem er bæði rofi og hitastýring.</p></div>
+      <div role="tabpanel" id="p-orka" aria-labelledby="t-orka" class="panel"><p>Orkumælir í töflu sýnir notkun hússins. Í töflunni geta líka verið Shelly Pro-einingar á DIN-teini og snjöll sjálfvör, sem má slökkva á úr fjarska og sýna álagið. Eitt sjálfvar er talið á hverja grein.</p></div>
+      <div role="tabpanel" id="p-skynjarar" aria-labelledby="t-skynjarar" class="panel"><p>Hreyfi-, hita- og rakaskynjarar í rýmum og skynjarar á útihurðum. Þeir eru þráðlausir, tala Bluetooth við næstu Shelly-einingu eða Bluetooth-gátt.</p></div>
+      <div role="tabpanel" id="p-led" aria-labelledby="t-led" class="panel"><p>COB-borðar í RGB, RGB með stillanlegu hvítu eða stillanlegu hvítu (CCT), með spenni og stýringu sem ræður við litina. Borðarnir eru teiknaðir sem línuleg ljós á grunnmyndinni og taldir á metra.</p></div>
+      <div role="tabpanel" id="p-stjorn" aria-labelledby="t-stjorn" class="panel"><p>Home Assistant, ýmist sem lítil stjórnstöð eða lítil tölva, ef þú vilt allt á einum stað. Án stjórnstöðvar virka einingarnar í Shelly-appinu.</p></div>
+    </div>
+    <div class="cta"><a class="btn primary" data-aetlun href="#">Fá verðbil</a></div>
+  </div>
+</section>
+
+<section id="ferli">
   <div class="wrap">
     <h2>Ferlið</h2>
     <ol class="steps">
@@ -176,7 +197,7 @@
   </div>
 </section>
 
-<section id="daemi">
+<section id="daemi" class="alt">
   <div class="wrap">
     <h2>Dæmi</h2>
     <article class="card example">
@@ -193,7 +214,7 @@
   </div>
 </section>
 
-<section id="um" class="alt">
+<section id="um">
   <div class="wrap">
     <h2>Um Snjallheimilið</h2>
     <p>Snjallheimilið er Davíð á Akureyri. Áralöng reynsla úr rafvirkjun, menntun í tölvu- og netkerfum og eigið heimili sem hefur verið snjallt í mörg ár, með kerfi sem hann skrifar sjálfur og gefur út sem opinn hugbúnað fyrir Home Assistant.</p>
@@ -202,7 +223,7 @@
   </div>
 </section>
 
-<section id="samband">
+<section id="samband" class="alt">
   <div class="wrap">
     <h2>Hafa samband</h2>
     <p>Spurning, hús sem þú vilt láta skoða, eða bara forvitni? Skrifaðu nokkrar línur. Ef þú vilt verðbil fyrst, <a data-aetlun href="#">byrjaðu á áætluninni</a>, þá fylgja svörin með fyrirspurninni.</p>
