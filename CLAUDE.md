@@ -49,3 +49,5 @@ https://aetlun.snjallheimilið.is (aetlun.xn--snjallheimili-gkb.is).
   nobody else can point a Pages site at it; HTTPS is enforced on both sites. The ASCII spelling snjallheimilid.is is
   not registered.
 - English version; photos of real installations (none yet); the example section wants a second house.
+
+- Visit counter (owner 2026-11-09): GoatCounter, one script before `</body>` in `index.html` (the language pages copy it), site `snjallheimilid.goatcounter.com`, no cookies; quick.html in the estimator repo carries the same line.
