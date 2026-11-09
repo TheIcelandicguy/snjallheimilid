@@ -130,5 +130,20 @@
   "Hitastýring": "Termostat",
   "Myndir eru úr vörulistum framleiðenda og söluaðila. Vörumerki og myndir eru eign eigenda sinna.": "Zdjęcia pochodzą z katalogów producentów i sprzedawców. Znaki towarowe i zdjęcia należą do ich właścicieli.",
   "Rofi": "Łącznik",
-  "Tvöfaldur rofi": "Łącznik podwójny"
+  "Tvöfaldur rofi": "Łącznik podwójny",
+  "Innlagnaefni": "Osprzęt instalacyjny",
+  "Rofar, tenglar og rammar, valið eftir útliti og verði. Rammi er seldur sér og ræðst af því hve margar einingar eru í dósinni, frá einni upp í fimm; BSEED selur rammann líka sér.": "Włączniki, gniazdka i ramki, dobrane pod kątem wyglądu i ceny. Ramka jest sprzedawana osobno i zależy od liczby modułów w puszce, od jednego do pięciu; BSEED też sprzedaje ramkę osobno.",
+  "Hvítt kerfi sem klemmist á grind. Rammar fyrir eina til fjórar einingar í röð; frá tveimur einingum þarf grind undir rammann.": "Biały system zatrzaskiwany na stelażu. Ramki na od jednego do czterech modułów w rzędzie; od dwóch modułów pod ramką potrzebny jest stelaż.",
+  "Þýskt hönnunarkerfi þar sem mekanismi, vippa og rammi eru hver í sínu lagi. Rammar frá einum upp í fimm.": "Niemiecki system designerski, w którym mechanizm, klawisz i ramka są osobnymi częściami. Ramki od jednego do pięciu.",
+  "Hönnunarkerfi með vippu og ramma, skipulagt eins og Berker: mekanismi, vippa og rammi, rammar frá einum upp í fimm.": "System designerski z klawiszem i ramką, zbudowany jak Berker: mechanizm, klawisz i ramka, ramki od jednego do pięciu.",
+  "Tengill": "Gniazdko",
+  "Tengill með barnavörn": "Gniazdko z przesłonami",
+  "Rammi, einfaldur": "Ramka pojedyncza",
+  "Rammi, þrefaldur": "Ramka potrójna",
+  "Grind fyrir tvöfaldan ramma": "Stelaż pod ramkę podwójną",
+  "Rofamekanismi": "Mechanizm włącznika",
+  "Vippa": "Klawisz",
+  "Legrand Mosaic N": "Legrand Mosaic N",
+  "Berker S1": "Berker S1",
+  "Gira S55": "Gira S55"
 }

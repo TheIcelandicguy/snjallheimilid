@@ -130,5 +130,20 @@
   "Hitastýring": "Thermostat",
   "Myndir eru úr vörulistum framleiðenda og söluaðila. Vörumerki og myndir eru eign eigenda sinna.": "Pictures are from the catalogues of the manufacturers and retailers. Trademarks and pictures belong to their owners.",
   "Rofi": "Switch",
-  "Tvöfaldur rofi": "Double switch"
+  "Tvöfaldur rofi": "Double switch",
+  "Innlagnaefni": "Wiring accessories",
+  "Rofar, tenglar og rammar, valið eftir útliti og verði. Rammi er seldur sér og ræðst af því hve margar einingar eru í dósinni, frá einni upp í fimm; BSEED selur rammann líka sér.": "Switches, sockets and frames, chosen for looks and price. A frame is sold separately and depends on how many units sit in the box, from one to five; BSEED also sells its frame separately.",
+  "Hvítt kerfi sem klemmist á grind. Rammar fyrir eina til fjórar einingar í röð; frá tveimur einingum þarf grind undir rammann.": "A white system that clips onto a mounting frame. Frames for one to four units in a row; from two units a mounting frame goes under the frame.",
+  "Þýskt hönnunarkerfi þar sem mekanismi, vippa og rammi eru hver í sínu lagi. Rammar frá einum upp í fimm.": "A German design system where the mechanism, the rocker and the frame are separate parts. Frames from one to five.",
+  "Hönnunarkerfi með vippu og ramma, skipulagt eins og Berker: mekanismi, vippa og rammi, rammar frá einum upp í fimm.": "A design system with a rocker and a frame, laid out like Berker: mechanism, rocker and frame, frames from one to five.",
+  "Tengill": "Socket",
+  "Tengill með barnavörn": "Socket with child protection",
+  "Rammi, einfaldur": "Frame, single",
+  "Rammi, þrefaldur": "Frame, triple",
+  "Grind fyrir tvöfaldan ramma": "Mounting frame for a double frame",
+  "Rofamekanismi": "Switch mechanism",
+  "Vippa": "Rocker",
+  "Legrand Mosaic N": "Legrand Mosaic N",
+  "Berker S1": "Berker S1",
+  "Gira S55": "Gira S55"
 }

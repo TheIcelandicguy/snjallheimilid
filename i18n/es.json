@@ -130,5 +130,20 @@
   "Hitastýring": "Termostato",
   "Myndir eru úr vörulistum framleiðenda og söluaðila. Vörumerki og myndir eru eign eigenda sinna.": "Las imágenes proceden de los catálogos de los fabricantes y distribuidores. Las marcas y las imágenes pertenecen a sus propietarios.",
   "Rofi": "Interruptor",
-  "Tvöfaldur rofi": "Interruptor doble"
+  "Tvöfaldur rofi": "Interruptor doble",
+  "Innlagnaefni": "Material de instalación",
+  "Rofar, tenglar og rammar, valið eftir útliti og verði. Rammi er seldur sér og ræðst af því hve margar einingar eru í dósinni, frá einni upp í fimm; BSEED selur rammann líka sér.": "Interruptores, enchufes y marcos, elegidos por aspecto y precio. El marco se vende aparte y depende de cuántas unidades lleva la caja, de una a cinco; BSEED también vende el marco por separado.",
+  "Hvítt kerfi sem klemmist á grind. Rammar fyrir eina til fjórar einingar í röð; frá tveimur einingum þarf grind undir rammann.": "Un sistema blanco que se encaja en un bastidor. Marcos de una a cuatro unidades en fila; desde dos unidades hace falta un bastidor bajo el marco.",
+  "Þýskt hönnunarkerfi þar sem mekanismi, vippa og rammi eru hver í sínu lagi. Rammar frá einum upp í fimm.": "Un sistema de diseño alemán en el que el mecanismo, la tecla y el marco son piezas separadas. Marcos de uno a cinco.",
+  "Hönnunarkerfi með vippu og ramma, skipulagt eins og Berker: mekanismi, vippa og rammi, rammar frá einum upp í fimm.": "Un sistema de diseño con tecla y marco, organizado como Berker: mecanismo, tecla y marco, marcos de uno a cinco.",
+  "Tengill": "Enchufe",
+  "Tengill með barnavörn": "Enchufe con protección infantil",
+  "Rammi, einfaldur": "Marco simple",
+  "Rammi, þrefaldur": "Marco triple",
+  "Grind fyrir tvöfaldan ramma": "Bastidor para marco doble",
+  "Rofamekanismi": "Mecanismo de interruptor",
+  "Vippa": "Tecla",
+  "Legrand Mosaic N": "Legrand Mosaic N",
+  "Berker S1": "Berker S1",
+  "Gira S55": "Gira S55"
 }
