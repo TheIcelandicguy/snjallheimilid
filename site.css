@@ -121,3 +121,4 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
 .pfig figcaption { font-size: .85rem; color: var(--muted); margin-top: 6px; }
 .small { font-size: .82rem; }
 
+.links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 14px; }
