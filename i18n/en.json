@@ -51,7 +51,7 @@
   "Lausnirnar byggja á Shelly-einingum: þær sitja í núverandi dósum, virka á heimanetinu án skýs og tala við Home Assistant, Google og Apple. Engin áskrift, engin læsing við eitt vörumerki umfram það sem þú velur sjálfur.": "The solutions are built on Shelly modules: they sit in the existing boxes, work on the home network without a cloud, and talk to Home Assistant, Google and Apple. No subscription, and no lock-in to one brand beyond what you choose yourself.",
   "Tenging við rafkerfi hússins er unnin af löggiltum rafvirkja í samræmi við reglugerð um raforkuvirki. Snjallheimilið sér um hönnunina, efnið og uppsetningu hugbúnaðar.": "Connection to the house's electrical installation is done by a licensed electrician in accordance with the Icelandic electrical regulations. Snjallheimilið takes care of the design, the materials and the software setup.",
   "Hafa samband": "Get in touch",
-  "Spurning, hús sem þú vilt láta skoða, eða bara forvitni? Skrifaðu nokkrar línur. Ef þú vilt verðbil fyrst,": "A question, a house you would like looked at, or just curious? Write a few lines. If you want a price range first,",
+  "Ertu með spurningu? Hús sem þú vilt láta skoða eða hreinlega bara að forvitnast? Skrifaðu nokkrar línur. Ef þú vilt verðbil fyrst,": "Do you have a question? A house you would like looked at, or are you simply curious? Write a few lines. If you want a price range first,",
   "byrjaðu á áætluninni": "start with the estimate",
   ", þá fylgja svörin með fyrirspurninni.": ", and your answers will come with the enquiry.",
   "Nafn": "Name",
@@ -158,5 +158,11 @@
   "Hvítt kerfi sem klemmist á grind. Rammar fyrir eina til fjórar dósir í röð og grind undir hverjum ramma, líka þeim einfalda.": "A white system that clips onto a mounting frame. Frames for one to four boxes in a row, with a mounting frame under each, the single one too.",
   "Grind undir einfaldan ramma": "Mounting frame under a single frame",
   "Legrand Valena": "Legrand Valena",
-  "Hagkvæmari lína Legrand fyrir hringlaga dósir. Rofar með einni, tveimur eða þremur vippum og rammar frá einum upp í fimm.": "Legrand's more economical line for round boxes. Switches with one, two or three rockers and frames from one up to five."
+  "Hagkvæmari lína Legrand fyrir hringlaga dósir. Rofar með einni, tveimur eða þremur vippum og rammar frá einum upp í fimm.": "Legrand's more economical line for round boxes. Switches with one, two or three rockers and frames from one up to five.",
+  "Hvað er Home Assistant?": "What is Home Assistant?",
+  "Home Assistant er stjórnstöð heimilisins: lítið tæki sem stendur heima hjá þér og tengir saman ljós, hita, gluggatjöld, skynjara og orkumælingu, sama frá hvaða framleiðanda tækin eru. Þú sérð allt húsið á einum skjá, í símanum, á spjaldtölvu eða í tölvu.": "Home Assistant is the hub of the home: a small device that sits in your house and ties together lights, heating, blinds, sensors and energy metering, whoever made the devices. You see the whole house on one screen, on your phone, a tablet or a computer.",
+  "Eitt app í stað margra. Shelly, Tuya, Plejd og fjöldi annarra merkja á sama stað.": "One app in place of many. Shelly, Tuya, Plejd and many other brands in one place.",
+  "Húsið bregst við sjálft. Ljós kviknar þegar gengið er inn, hitinn lækkar þegar enginn er heima og þú færð skilaboð ef gluggi stendur opinn.": "The house reacts by itself. A light comes on when someone walks in, the heating goes down when nobody is home, and you get a message if a window is left open.",
+  "Allt er hjá þér. Stjórnstöðin vinnur heima, virkar þótt netið detti út og kostar enga áskrift heima fyrir.": "Everything stays with you. The hub works at home, keeps working when the internet is down and costs no subscription to use at home.",
+  "Hún er ekki skylda. Án stjórnstöðvar virka tækin áfram í appi framleiðandans.": "It is not required. Without a hub the devices still work in the maker's own app."
 }

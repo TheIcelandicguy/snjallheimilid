@@ -51,7 +51,7 @@
   "Lausnirnar byggja á Shelly-einingum: þær sitja í núverandi dósum, virka á heimanetinu án skýs og tala við Home Assistant, Google og Apple. Engin áskrift, engin læsing við eitt vörumerki umfram það sem þú velur sjálfur.": "Las soluciones se basan en módulos Shelly: se colocan en las cajas existentes, funcionan en la red local sin nube y hablan con Home Assistant, Google y Apple. Sin suscripción y sin atarte a una marca más allá de lo que tú mismo elijas.",
   "Tenging við rafkerfi hússins er unnin af löggiltum rafvirkja í samræmi við reglugerð um raforkuvirki. Snjallheimilið sér um hönnunina, efnið og uppsetningu hugbúnaðar.": "La conexión a la instalación eléctrica de la casa la realiza un electricista autorizado conforme a la normativa eléctrica islandesa. Snjallheimilið se encarga del diseño, del material y de la configuración del software.",
   "Hafa samband": "Contacto",
-  "Spurning, hús sem þú vilt láta skoða, eða bara forvitni? Skrifaðu nokkrar línur. Ef þú vilt verðbil fyrst,": "¿Una pregunta, una casa que quieres que revisemos, o simple curiosidad? Escribe unas líneas. Si prefieres un rango de precio primero,",
+  "Ertu með spurningu? Hús sem þú vilt láta skoða eða hreinlega bara að forvitnast? Skrifaðu nokkrar línur. Ef þú vilt verðbil fyrst,": "¿Tienes una pregunta? ¿Una casa que quieres que revisemos, o simplemente curiosidad? Escribe unas líneas. Si prefieres un rango de precio primero,",
   "byrjaðu á áætluninni": "empieza por la estimación",
   ", þá fylgja svörin með fyrirspurninni.": " y tus respuestas irán con la consulta.",
   "Nafn": "Nombre",
@@ -158,5 +158,11 @@
   "Hvítt kerfi sem klemmist á grind. Rammar fyrir eina til fjórar dósir í röð og grind undir hverjum ramma, líka þeim einfalda.": "Un sistema blanco que se fija a un bastidor. Marcos para una a cuatro cajas en fila, con un bastidor bajo cada uno, también el sencillo.",
   "Grind undir einfaldan ramma": "Bastidor para un marco sencillo",
   "Legrand Valena": "Legrand Valena",
-  "Hagkvæmari lína Legrand fyrir hringlaga dósir. Rofar með einni, tveimur eða þremur vippum og rammar frá einum upp í fimm.": "La línea más económica de Legrand para cajas redondas. Interruptores con una, dos o tres teclas y marcos de uno a cinco."
+  "Hagkvæmari lína Legrand fyrir hringlaga dósir. Rofar með einni, tveimur eða þremur vippum og rammar frá einum upp í fimm.": "La línea más económica de Legrand para cajas redondas. Interruptores con una, dos o tres teclas y marcos de uno a cinco.",
+  "Hvað er Home Assistant?": "¿Qué es Home Assistant?",
+  "Home Assistant er stjórnstöð heimilisins: lítið tæki sem stendur heima hjá þér og tengir saman ljós, hita, gluggatjöld, skynjara og orkumælingu, sama frá hvaða framleiðanda tækin eru. Þú sérð allt húsið á einum skjá, í símanum, á spjaldtölvu eða í tölvu.": "Home Assistant es la central de la casa: un pequeño aparato que está en tu casa y une luces, calefacción, persianas, sensores y medición de energía, sea cual sea el fabricante. Ves toda la casa en una pantalla, en el móvil, la tableta o el ordenador.",
+  "Eitt app í stað margra. Shelly, Tuya, Plejd og fjöldi annarra merkja á sama stað.": "Una app en lugar de muchas. Shelly, Tuya, Plejd y muchas otras marcas en un mismo sitio.",
+  "Húsið bregst við sjálft. Ljós kviknar þegar gengið er inn, hitinn lækkar þegar enginn er heima og þú færð skilaboð ef gluggi stendur opinn.": "La casa reacciona sola. Una luz se enciende al entrar, la calefacción baja cuando no hay nadie y recibes un aviso si una ventana queda abierta.",
+  "Allt er hjá þér. Stjórnstöðin vinnur heima, virkar þótt netið detti út og kostar enga áskrift heima fyrir.": "Todo se queda contigo. La central trabaja en casa, sigue funcionando si se cae internet y no cuesta ninguna suscripción para usarla en casa.",
+  "Hún er ekki skylda. Án stjórnstöðvar virka tækin áfram í appi framleiðandans.": "No es obligatoria. Sin central, los aparatos siguen funcionando en la app del fabricante."
 }

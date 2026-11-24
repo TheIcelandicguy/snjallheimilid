@@ -114,6 +114,11 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
 .sys { background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--sky); border-radius: 12px; padding: 18px; }
 .sys h3 { margin: 0 0 6px; }
 .sys > p { margin: 0 0 14px; }
+.sys.ha { margin: 16px 0 0; border-top-color: var(--accent); }
+.sys .points { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+.sys.ha figure { margin: 14px 0 0; }
+.sys.ha figure img { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); display: block; }
+.sys.ha figcaption { margin-top: 6px; }
 .pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
 .pfig { margin: 0; }
 .pimg { background: #fff; border-radius: 10px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; padding: 8px; }
