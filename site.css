@@ -159,6 +159,7 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
 .lv-svg .plate { fill: var(--plate); stroke: var(--edge); rx: var(--rx); }
 /* Legrand Mosaic: a 45 mm module in an 82 mm plate, so the part is smaller in its frame than on the lines whose rocker fills a 55 mm opening */
 .lv-svg .cell { transform-origin: 30px 36px; }
+.lv-svg .band { fill: none; stroke: #fff; stroke-opacity: .55; stroke-width: 2.5; stroke-linecap: round; }
 .lv[data-line="mosaic"] .lv-svg .cell { transform: scale(.74); }
 .lv-svg .gloss { display: none; fill: url(#lv-gloss); rx: var(--rx); pointer-events: none; }
 .lv[data-line="bseed_glass"] .lv-svg .gloss, .lv[data-line="merten"] .lv-svg .gloss { display: block; }

@@ -211,5 +211,9 @@
   "Grátt": "Gris",
   "Gyllt": "Dorado",
   "BSEED gler": "BSEED gler",
-  "BSEED plast": "BSEED plast"
+  "BSEED plast": "BSEED plast",
+  "Rammar taldir í einingum, fyrir ferkantaðar dósir": "Marcos contados en módulos, para cajas cuadradas",
+  "Þrjár einingar: mjór rofi og tengill": "Tres módulos: un interruptor estrecho y un enchufe",
+  "Fjórar einingar: rofi og tengill": "Cuatro módulos: un interruptor y un enchufe",
+  "Sex einingar: tveir tenglar og tveir mjóir rofar": "Seis módulos: dos enchufes y dos interruptores estrechos"
 }

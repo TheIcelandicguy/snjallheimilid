@@ -62,11 +62,19 @@ UI = {
     'wall': ('Veggur', 'Wall', 'Pared', 'Ściana'),
     'fit': ('Litur', 'Colour', 'Color', 'Kolor'),
     'combo': ('Saman í einum ramma', 'Together in one frame', 'Juntos en un marco', 'Razem w jednej ramce'),
+    'units': ('Rammar taldir í einingum, fyrir ferkantaðar dósir', 'Frames counted in units, for square boxes', 'Marcos contados en módulos, para cajas cuadradas', 'Ramki liczone w modułach, do puszek prostokątnych'),
     'smart': ('Snjallhlutir', 'Smart parts', 'Piezas inteligentes', 'Części smart'),
     'note': ('Teikningar, ekki ljósmyndir: þær sýna gerð og lögun hlutanna, ekki nákvæmt útlit. Ekki fást allir hlutir í öllum litum.',
              'Drawings, not photographs: they show the kind and the shape of the parts, not their exact look. Not every part comes in every colour.',
              'Dibujos, no fotografías: muestran el tipo y la forma de las piezas, no su aspecto exacto. No todas las piezas existen en todos los colores.',
              'Rysunki, nie zdjęcia: pokazują rodzaj i kształt części, a nie ich dokładny wygląd. Nie każda część jest dostępna w każdym kolorze.'),
+}
+# Mosaic's frames counted in units (FIT_LINES.mosaic.frames.square in the estimate: 3, 4, 5, 6 and 8 units in one row): three of them, filled
+UNIT_FRAMES = [('u3', [('sw', 1), ('socket', 2)]), ('u4', [('sw1', 2), ('socket', 2)]), ('u6', [('socket', 2), ('socket', 2), ('sw', 1), ('sw', 1)])]
+UNIT_NAMES = {
+    'u3': ('Þrjár einingar: mjór rofi og tengill', 'Three units: a narrow switch and a socket', 'Tres módulos: un interruptor estrecho y un enchufe', 'Trzy moduły: wąski łącznik i gniazdko'),
+    'u4': ('Fjórar einingar: rofi og tengill', 'Four units: a switch and a socket', 'Cuatro módulos: un interruptor y un enchufe', 'Cztery moduły: łącznik i gniazdko'),
+    'u6': ('Sex einingar: tveir tenglar og tveir mjóir rofar', 'Six units: two sockets and two narrow switches', 'Seis módulos: dos enchufes y dos interruptores estrechos', 'Sześć modułów: dwa gniazdka i dwa wąskie łączniki'),
 }
 WALLS = [('white', '#f3f1ec', ('Hvítur veggur', 'White wall', 'Pared blanca', 'Biała ściana')),
          ('grey', '#cfd2d4', ('Ljósgrár veggur', 'Light grey wall', 'Pared gris claro', 'Jasnoszara ściana')),
@@ -179,20 +187,52 @@ def glyph(k, x):
     return key(x)  # a blank cover
 
 
-def frame(kinds):
+def plate(w, h, shaped):
+    """the frame's own outline: a rounded rectangle whose radius the style sheet sets, or Mosaic's plate, whose lower corners are rounder than its upper"""
+    if not shaped:
+        return f'<rect class="plate" x="0.5" y="0.5" width="{w - 1}" height="{h - 1}"/><rect class="gloss" x="0.5" y="0.5" width="{w - 1}" height="{h - 1}"/>'
+    a, b = 4, 11
+    return (f'<path class="plate" d="M{a} .5H{w - a}A{a} {a} 0 0 1 {w - .5} {a}V{h - b}A{b} {b} 0 0 1 {w - b} {h - .5}H{b}A{b} {b} 0 0 1 .5 {h - b}V{a}A{a} {a} 0 0 1 {a} .5Z"/>'
+            f'<path class="band" d="M{a + 2} 5H{w - a - 2}"/>')
+
+
+U, UH = 24, 48  # a unit of a Mosaic frame counted in units (22.5 mm wide, 45 high), as drawn
+
+
+def unit_frame(mods):
+    """a Mosaic frame counted in units (owner 2026-11-25: the 3 and 4 unit frames): one plate with one long opening, its modules side by side, each one
+    unit wide (a narrow switch, a narrow network outlet, a narrow blank cover) or two (everything else)"""
+    n = sum(u for _k, u in mods)
+    w, h = U * n + 36, 74
+    body, x = '', 18
+    for k, u in mods:
+        if u == 2:
+            sc = UH / 54
+            body += f'<g transform="translate({x - 3 * sc:.2f} {13 - 9 * sc:.2f}) scale({sc:.4f})">{glyph(k, 0)}</g>'
+        elif k == 'sw':
+            body += (f'<g class="rock"><rect class="k" x="{x}" y="13" width="{U}" height="{UH}" rx="2"/><rect class="sh a" x="{x}" y="13" width="{U}" height="{UH / 2}" rx="2"/>'
+                     f'<rect class="sh b" x="{x}" y="{13 + UH / 2}" width="{U}" height="{UH / 2}" rx="2"/><line class="i" x1="{x + U / 2 - 3.5}" y1="20" x2="{x + U / 2 + 3.5}" y2="20"/></g>')
+        elif k == 'net':
+            body += f'<rect class="k" x="{x}" y="13" width="{U}" height="{UH}" rx="2"/>' + jack(x + U / 2, 36, 7)
+        else:
+            body += f'<rect class="k" x="{x}" y="13" width="{U}" height="{UH}" rx="2"/>'
+        x += U * u
+    return f'<svg class="lv-svg" viewBox="0 0 {w} {h}" style="--n:{(w - 14) / C:.3f}" aria-hidden="true">{plate(w, h, True)}{body}</svg>'
+
+
+def frame(kinds, shaped=False):
     n = len(kinds)
     w, h = C * n + 2 * PAD, 72 + 2 * PAD - 12
     # each part in a group of its own, so that the style sheet can draw it smaller in its frame where the line's centre part is (Mosaic's 45 mm module)
     body = ''.join(f'<g transform="translate({PAD + i * C} {PAD - 6})"><g class="cell">{glyph(k, 0)}</g></g>' for i, k in enumerate(kinds))
-    return (f'<svg class="lv-svg" viewBox="0 0 {w} {h}" style="--n:{n}" aria-hidden="true"><rect class="plate" x="0.5" y="0.5" width="{w - 1}" height="{h - 1}"/>'
-            f'<rect class="gloss" x="0.5" y="0.5" width="{w - 1}" height="{h - 1}"/>{body}</svg>')
+    return f'<svg class="lv-svg" viewBox="0 0 {w} {h}" style="--n:{n}" aria-hidden="true">{plate(w, h, shaped)}{body}</svg>'
 
 
-def fig(kinds):
+def fig(kinds, shaped=False):
     cap = ' + '.join(NAMES[k][0] for k in kinds) if len(kinds) == 1 else None
     names = ' + '.join(NAMES[k][0] for k in kinds)
     inner = f'<figcaption>{NAMES[kinds[0]][0]}</figcaption>' if cap else ''.join(f'<span>{NAMES[k][0]}</span>' for k in kinds)
-    return f'<figure class="lv-fig{" wide" if len(kinds) > 1 else ""}">{frame(kinds)}' + (inner if cap else f'<figcaption>{inner}</figcaption>') + '</figure>'
+    return f'<figure class="lv-fig{" wide" if len(kinds) > 1 else ""}">{frame(kinds, shaped)}' + (inner if cap else f'<figcaption>{inner}</figcaption>') + '</figure>'
 
 
 def build():
@@ -205,9 +245,12 @@ def build():
            '      <div class="lv-bar lv-fits"><span class="lv-lab">' + t('fit') + '</span>' + ''.join(f'<button type="button" class="lv-fit" data-fit="{k}" aria-pressed="{"true" if i == 0 else "false"}">{n[0]}</button>' for i, (k, n) in enumerate(FITS)) + '</div>',
            '      <div class="lv-wall">']
     for i, name, _f, plain, smart, combos in LINES:
-        out.append(f'        <div class="lv-set" data-set="{i}"><h4>{name}</h4><div class="lv-grid">' + ''.join(fig([k]) for k in plain) + '</div>'
+        sh = i == 'mosaic'
+        out.append(f'        <div class="lv-set" data-set="{i}"><h4>{name}</h4><div class="lv-grid">' + ''.join(fig([k], sh) for k in plain) + '</div>'
                    + (f'<h5>{t("smart")}</h5><div class="lv-grid">' + ''.join(fig([k]) for k in smart) + '</div>' if smart else '')
-                   + f'<h5>{t("combo")}</h5><div class="lv-grid">' + ''.join(fig(c) for c in combos) + '</div></div>')
+                   + f'<h5>{t("combo")}</h5><div class="lv-grid">' + ''.join(fig(c, sh) for c in combos) + '</div>'
+                   + (f'<h5>{t("units")}</h5><div class="lv-grid">' + ''.join(f'<figure class="lv-fig wide">{unit_frame(m)}<figcaption>{UNIT_NAMES[k][0]}</figcaption></figure>' for k, m in UNIT_FRAMES) + '</div>' if sh else '')
+                   + '</div>')
     out += ['      </div>', f'      <p class="muted small">{t("note")}</p>', '    </div>', '    <!-- lines-view:end -->']
     return '\n'.join(out)
 
@@ -225,7 +268,7 @@ def main():
         at = s.index('<div class="systems">', sec)
         s = s[:at] + block + nl + '    ' + s[at:]
     io.open(p, 'w', encoding='utf-8', newline='').write(s)
-    texts = list(NAMES.values()) + list(UI.values()) + [n for _k, _c, n in WALLS] + [n for _k, n in FITS] + [(name,) * 4 for _i, name, *_r in LINES]
+    texts = list(NAMES.values()) + list(UI.values()) + list(UNIT_NAMES.values()) + [n for _k, _c, n in WALLS] + [n for _k, n in FITS] + [(name,) * 4 for _i, name, *_r in LINES]
     for col, lang in enumerate(('en', 'es', 'pl'), 1):
         f = os.path.join(ROOT, 'i18n', lang + '.json')
         raw = io.open(f, encoding='utf-8', newline='').read()
