@@ -48,7 +48,7 @@ def arg(name, default):
     return a[a.index('--' + name) + 1] if '--' + name in a else default
 
 
-def mat(name, color, rough=0.4, coat=0.0, metal=0.0, emit=None):
+def mat(name, color, rough=0.4, coat=0.0, metal=0.0, emit=None, sss=0.0):
     m = bpy.data.materials.new(name)
     m.use_nodes = True
     b = next(n for n in m.node_tree.nodes if n.type == 'BSDF_PRINCIPLED')
@@ -58,6 +58,9 @@ def mat(name, color, rough=0.4, coat=0.0, metal=0.0, emit=None):
     if 'Coat Weight' in b.inputs:
         b.inputs['Coat Weight'].default_value = coat
         b.inputs['Coat Roughness'].default_value = 0.03
+    if sss and 'Subsurface Weight' in b.inputs:
+        b.inputs['Subsurface Weight'].default_value = sss
+        b.inputs['Subsurface Radius'].default_value = (0.002, 0.002, 0.002)
     if emit:
         b.inputs['Emission Color'].default_value = (*emit, 1)
         b.inputs['Emission Strength'].default_value = 7
@@ -119,8 +122,9 @@ class Kit:
         self.L, self.wall = L, wall
         c = FITS[fit]
         key = tuple(min(1, x * 1.05 + 0.004) for x in c)
-        self.frame = mat('frame', c, L['rough'], L['coat'])
-        self.key = mat('key', key, max(0.1, L['rough']), L['coat'] * 0.6)
+        soft = 0.12 if arg('hero', '') and not L.get('touch') else 0.0
+        self.frame = mat('frame', c, L['rough'], L['coat'], sss=soft)
+        self.key = mat('key', key, max(0.1, L['rough']), L['coat'] * 0.6, sss=soft)
         self.dark = mat('recess', tuple(x * 0.72 for x in key), 0.5)
         self.shadow = mat('shadow', (0.015, 0.015, 0.015), 0.8)
         self.hole = mat('hole', (0.008, 0.008, 0.008), 0.6)
@@ -238,11 +242,32 @@ def scene(wall_hex, w, h, samples):
     bm = bmesh.new()
     bmesh.ops.create_cube(bm, size=1)
     bmesh.ops.scale(bm, vec=(4, 0.1, 4), verts=bm.verts)
-    wall = obj('wall', bm, mat('wall', lin, 0.85), (0, 0.05, 0), smooth=False)  # a thick wall, its face at y = 0, so that a socket's well can go into it
+    wm = mat('wall', lin, 0.85)
+    if arg('hero', ''):
+        nt = wm.node_tree
+        b = next(n for n in nt.nodes if n.type == 'BSDF_PRINCIPLED')
+        noise, bump = nt.nodes.new('ShaderNodeTexNoise'), nt.nodes.new('ShaderNodeBump')
+        noise.inputs['Scale'].default_value = 900
+        noise.inputs['Detail'].default_value = 6
+        bump.inputs['Strength'].default_value = 0.22
+        bump.inputs['Distance'].default_value = 0.0006
+        nt.links.new(noise.outputs['Fac'], bump.inputs['Height'])
+        nt.links.new(bump.outputs['Normal'], b.inputs['Normal'])
+    wall = obj('wall', bm, wm, (0, 0.05, 0), smooth=False)  # a thick wall, its face at y = 0, so that a socket's well can go into it
     world = bpy.data.worlds.new('w')
     world.use_nodes = True
     world.node_tree.nodes['Background'].inputs[0].default_value = (0.9, 0.92, 1, 1)
     world.node_tree.nodes['Background'].inputs[1].default_value = 0.16
+    hdri = arg('hdri', '')
+    if hdri and os.path.exists(hdri):  # a real room's light in place of the plain sky
+        nt = world.node_tree
+        env, mp, tc = nt.nodes.new('ShaderNodeTexEnvironment'), nt.nodes.new('ShaderNodeMapping'), nt.nodes.new('ShaderNodeTexCoord')
+        env.image = bpy.data.images.load(hdri)
+        mp.inputs['Rotation'].default_value = (0, 0, math.radians(float(arg('hdri_rot', 200))))
+        nt.links.new(tc.outputs['Generated'], mp.inputs['Vector'])
+        nt.links.new(mp.outputs['Vector'], env.inputs['Vector'])
+        nt.links.new(env.outputs['Color'], nt.nodes['Background'].inputs[0])
+        nt.nodes['Background'].inputs[1].default_value = float(arg('hdri_strength', 0.5))
     s.world = world
 
     def light(name, loc, energy, size, color=(1, 0.96, 0.9)):
@@ -259,8 +284,13 @@ def scene(wall_hex, w, h, samples):
     cam.lens = float(arg('lens', 70))
     co = bpy.data.objects.new('cam', cam)
     s.collection.objects.link(co)
-    co.location = (0.16, -0.95, 0.07)
-    co.rotation_euler = (Vector((0, 0, 0)) - Vector(co.location)).to_track_quat('-Z', 'Y').to_euler()
+    co.location = tuple(float(v) for v in arg('cam', '0.16,-0.95,0.07').split(','))
+    aim = Vector(tuple(float(v) for v in arg('aim', '0,0,0').split(',')))
+    co.rotation_euler = (aim - Vector(co.location)).to_track_quat('-Z', 'Y').to_euler()
+    if arg('fstop', ''):  # a shallow depth of field, as a camera this close has
+        cam.dof.use_dof = True
+        cam.dof.focus_distance = (aim - Vector(co.location)).length
+        cam.dof.aperture_fstop = float(arg('fstop', 4))
     s.camera = co
     return wall
 
