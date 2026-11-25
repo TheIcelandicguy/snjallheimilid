@@ -26,7 +26,7 @@ WELL_R, WELL_D = 19.5 * MM, 17.5 * MM  # the round well of a Schuko socket (CEE 
 LINES = {
     # Legrand F02902EN/02 (plate 0 788 02L: 82 x 82 x 8.5, opening 45.5) and F02937EN/01 (rocker 45 x 45, 12.5 in front of the support: 4 proud);
     # the socket 0 772 11 is flush with the plate (F00754FR/09). Wide chamfer on the outer edge (Legrand: "larges chanfreins"); corner radius est.
-    'mosaic': dict(size=82, t=8.5, r=5, open=45.5, centre=45, proud_sw=4, proud_so=0.3, soft=(3.0, 1), rough=0.16, coat=0.35, halves=True),
+    'mosaic': dict(size=82, t=8.5, r=5, open=45.5, centre=45, proud_sw=4, proud_so=0.3, soft=(1.4, 2), rough=0.16, coat=0.35, halves=True),
     # Legrand F01994EN/00 (plate 7540 01: 86 x 86 x 9.8), F02081EN/01 (switch 14 in front of the support: 4.2 proud), F01949EN/01 (socket 11: 1.2 proud).
     # Opening and visible rocker about 55 (est. from the plate drawing); the plate is slightly domed; corner radius est. from the catalogue picture
     'valena': dict(size=86, t=9.8, r=6.5, open=55.5, centre=55, proud_sw=4.2, proud_so=1.2, soft=(2.6, 6), rough=0.14, coat=0.4),
@@ -58,6 +58,15 @@ def mat(name, color, rough=0.4, coat=0.0, metal=0.0, emit=None, sss=0.0):
     if 'Coat Weight' in b.inputs:
         b.inputs['Coat Weight'].default_value = coat
         b.inputs['Coat Roughness'].default_value = 0.03
+    if sss:
+        nt = m.node_tree
+        noise, ramp = nt.nodes.new('ShaderNodeTexNoise'), nt.nodes.new('ShaderNodeMapRange')
+        noise.inputs['Scale'].default_value = 260
+        noise.inputs['Detail'].default_value = 3
+        ramp.inputs['To Min'].default_value = max(0.02, rough - 0.035)
+        ramp.inputs['To Max'].default_value = rough + 0.05
+        nt.links.new(noise.outputs['Fac'], ramp.inputs['Value'])
+        nt.links.new(ramp.outputs['Result'], b.inputs['Roughness'])
     if sss and 'Subsurface Weight' in b.inputs:
         b.inputs['Subsurface Weight'].default_value = sss
         b.inputs['Subsurface Radius'].default_value = (0.002, 0.002, 0.002)
@@ -104,7 +113,7 @@ def cyl(r, d, seg=64, caps=True):
     return bm
 
 
-def cut(o, cutter):
+def cut(o, cutter, first=True):
     m = o.modifiers.new('cut', 'BOOLEAN')
     m.operation, m.object = 'DIFFERENCE', cutter
     try:
@@ -113,7 +122,8 @@ def cut(o, cutter):
         pass
     cutter.hide_render = True
     cutter.hide_viewport = True
-    o.modifiers.move(len(o.modifiers) - 1, 0)  # cut first, bevel after
+    if first:
+        o.modifiers.move(len(o.modifiers) - 1, 0)  # cut first, bevel after
 
 
 class Kit:
@@ -128,6 +138,7 @@ class Kit:
         self.dark = mat('recess', tuple(x * 0.72 for x in key), 0.5)
         self.shadow = mat('shadow', (0.015, 0.015, 0.015), 0.8)
         self.hole = mat('hole', (0.008, 0.008, 0.008), 0.6)
+        self.shut = mat('shutter', (0.035, 0.035, 0.04), 0.35)
         self.metal = mat('metal', (0.75, 0.74, 0.70), 0.25, metal=1.0)
         self.led = mat('led', (0.1, 0.3, 0.6), 0.3, emit=(0.25, 0.65, 1))
 
@@ -177,14 +188,18 @@ class Kit:
         body = obj('socket', slab(c, d, c, 1.2 * MM), self.key, (x, -d / 2, z), bevel=0.5 * MM)
         r = min(WELL_R, c / 2 - 2.2 * MM)
         cutter = obj('cutter', cyl(r, WELL_D * 2), self.dark, (x, -d, z), smooth=False)
-        for o in (body, self.wall, self.backs[round(x, 5)]):  # the well is deeper than the part stands out: it goes into the wall, as it does into the wall box
+        cut(body, cutter, first=False)  # after its bevel: bevelling the cut face leaves a crease across the plate
+        for o in (self.wall, self.backs[round(x, 5)]):  # the well is deeper than the part stands out: it goes into the wall, as it does into the wall box
             cut(o, cutter)
         obj('well', cyl(r - 0.15 * MM, WELL_D, 64, caps=False), self.key, (x, -d + WELL_D / 2, z))
         obj('floor', cyl(r - 0.1 * MM, 1 * MM), self.key, (x, -d + WELL_D - 0.6 * MM, z))
+        top = -d + WELL_D - 1.1 * MM  # the face of the well's floor
+        obj('boss', slab(27 * MM, 1.2 * MM, 10.5 * MM, 5.2 * MM), self.key, (x, top - 0.6 * MM, z), bevel=0.3 * MM)  # the raised pad the two pin holes sit in
         for sx in (-9.5, 9.5):
-            obj('pin', cyl(2.4 * MM, 2 * MM, 24), self.hole, (x + sx * MM, -d + WELL_D - 1.6 * MM, z))
-        for sz in (-1, 1):  # the earth clips, standing in notches at the top and the bottom of the well
-            obj('earth', slab(4.2 * MM, WELL_D - 4 * MM, 1.4 * MM), self.metal, (x, -d + WELL_D / 2 + 1.5 * MM, z + sz * (r - 0.9 * MM)), bevel=0.2 * MM)
+            obj('pin', cyl(2.6 * MM, 0.5 * MM, 32), self.hole, (x + sx * MM, top - 1.2 * MM - 0.02 * MM, z), smooth=False)
+            obj('shutter', cyl(1.9 * MM, 0.5 * MM, 32), self.shut, (x + sx * MM, top - 1.2 * MM - 0.06 * MM, z), smooth=False)  # the child shutter behind each hole
+        for sz in (-1, 1):  # the earth clips: sprung metal strips in notches at the top and the bottom of the well, standing in from its wall
+            obj('earth', slab(4.4 * MM, WELL_D - 2.5 * MM, 2.6 * MM), self.metal, (x, -d + (WELL_D - 2.5 * MM) / 2 + 0.9 * MM, z + sz * (r - 1.1 * MM)), bevel=0.35 * MM)
 
     def blank(self, x, z):
         L = self.L
@@ -208,6 +223,25 @@ class Kit:
 
     def width(self, kinds):
         return self.L['size'] * MM + PITCH * (len(kinds) - 1)
+
+
+def finalize():
+    dg = bpy.context.evaluated_depsgraph_get()
+    done = []
+    for o in bpy.data.objects:
+        if o.type != 'MESH' or o.hide_render or not o.modifiers:
+            continue
+        me = bpy.data.meshes.new_from_object(o.evaluated_get(dg))
+        done.append((o, me))
+    for o, me in done:
+        o.modifiers.clear()
+        o.data = me
+        for p in me.polygons:
+            p.use_smooth = True
+        try:
+            me.set_sharp_from_angle(angle=math.radians(32))
+        except Exception:
+            pass
 
 
 def scene(wall_hex, w, h, samples):
@@ -306,6 +340,8 @@ def main():
     for b, wd in zip(boxes, widths):
         kit.box(b, x + wd / 2, 0)
         x += wd + gap
+    bpy.context.view_layer.update()
+    finalize()
     out = arg('out', 'lines3d.png')
     bpy.context.scene.render.filepath = os.path.abspath(out)
     bpy.ops.render.render(write_still=True)
