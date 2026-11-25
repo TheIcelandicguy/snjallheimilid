@@ -177,7 +177,6 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
 .lv-svg .f { fill: var(--ink); } .lv-svg text.f { font-family: inherit; }
 .lv-svg .lid { fill: var(--key); stroke: var(--edge); stroke-width: .8; opacity: .92; }
 .lv-svg .hit { fill: transparent; }
-.lv-svg .rock { cursor: pointer; }
 .lv-svg .sh { fill: var(--shade); opacity: 0; transition: opacity .16s; pointer-events: none; }
 .lv-svg .rock .sh.b { opacity: 1; } .lv-svg .rock.on .sh.b { opacity: 0; } .lv-svg .rock.on .sh.a { opacity: 1; }
 .lv-svg .led { fill: none; stroke: var(--led); stroke-width: 1.6; transition: fill .2s, stroke .2s, filter .2s; }

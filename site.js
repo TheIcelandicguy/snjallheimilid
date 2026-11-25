@@ -88,8 +88,8 @@ form.addEventListener('submit', async (e) => {
 })();
 
 // The drawn view of the fitting lines (owner 2026-11-24; the markup is written by tools/lines_view.py). Without this script every line's set shows, one
-// under the other. With it: a tab shows one line, a round swatch paints the wall, BSEED's lines can be had in four colours, and a rocker or a smart key
-// answers a press. While the view is on screen one switch is pressed now and then, so it is seen that they can be; not with reduced motion.
+// under the other. With it: a tab shows one line, a round swatch paints the wall, BSEED's lines can be had in four colours, and the
+// drawings can be swapped for the 3D pictures. The drawings themselves do nothing when pressed (owner 2026-11-25: leave the interactive part out).
 (() => {
   const lv = document.querySelector('.lv');
   if (!lv) return;
@@ -113,18 +113,10 @@ form.addEventListener('submit', async (e) => {
   lv.classList.add('js');
   line(lv.querySelector('.lv-tab'));
   lv.addEventListener('click', (e) => {
-    const tab = e.target.closest('.lv-tab'), sw = e.target.closest('.lv-sw'), f = e.target.closest('.lv-fit'), rock = e.target.closest('.rock'), mode = e.target.closest('.lv-mode');
+    const tab = e.target.closest('.lv-tab'), sw = e.target.closest('.lv-sw'), f = e.target.closest('.lv-fit'), mode = e.target.closest('.lv-mode');
     if (tab) line(tab);
     else if (mode) { lv.dataset.mode = mode.dataset.mode; press([...lv.querySelectorAll('.lv-mode')], mode); pics(); }
     else if (sw) { wall.style.setProperty('--wall', sw.dataset.wall); wall.classList.toggle('darkwall', dark(sw.dataset.wall)); press([...lv.querySelectorAll('.lv-sw')], sw); }
     else if (f) fit(f.dataset.fit);
-    else if (rock) { rock.classList.toggle('on'); touched = true; }
   });
-  let touched = false, seen = false;
-  if ('IntersectionObserver' in window) new IntersectionObserver((list) => { seen = list[0].isIntersecting; }, { threshold: 0.2 }).observe(wall);
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => {
-    if (!seen || touched || document.hidden) return;
-    const rocks = lv.querySelectorAll('.lv-set.on .rock');
-    if (rocks.length) rocks[Math.floor(Math.random() * rocks.length)].classList.toggle('on');
-  }, 1600);
 })();

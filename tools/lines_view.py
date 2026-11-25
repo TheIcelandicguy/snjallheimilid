@@ -3,7 +3,7 @@
 Writes the block between <!-- lines-view:start --> and <!-- lines-view:end --> in index.html: for each line a set of frames, one per kind of part the
 line offers, plus a few frames of several positions, each an inline SVG with its name under it. The drawings are our own (flat shapes that show the kind
 and the shape of a part, not a maker's picture); their colours come from CSS variables, so site.css paints the same drawing white, black, grey or gold,
-and site.js only switches which set shows, the wall's colour and the fitting's colour, and lets a rocker be pressed. Without script every set shows.
+and site.js only switches which set shows, the wall's colour, the fitting's colour and whether the drawing or its 3D picture shows. Without script every set shows.
 
 What each line offers is LINES below, copied from the estimate's tables (smart-home-estimator: FIT_LINES in prices.js, quickKindsFor() in quick.js) on
 2026-11-24: when a part is added there, add it here and run this again, then tools/i18n.py. New texts get their en / es / pl translation from NAMES and
@@ -54,10 +54,10 @@ NAMES = {
 }
 UI = {
     'title': ('Sjáðu línurnar á vegg', 'See the lines on a wall', 'Mira las líneas en una pared', 'Zobacz linie na ścianie'),
-    'help': ('Veldu línu, lit á vegg og lit á efninu. Hver mynd er einn hlutur sem línan býður; ýttu á rofa til að prófa hann.',
-             'Pick a line, a wall colour and a colour for the fittings. Each picture is one part the line offers; press a switch to try it.',
-             'Elige una línea, un color de pared y un color para el material. Cada dibujo es una pieza que ofrece la línea; pulsa un interruptor para probarlo.',
-             'Wybierz linię, kolor ściany i kolor osprzętu. Każdy rysunek to jedna część, którą oferuje linia; naciśnij włącznik, aby go wypróbować.'),
+    'help': ('Veldu línu, lit á vegg og lit á efninu. Hver mynd er einn hlutur sem línan býður.',
+             'Pick a line, a wall colour and a colour for the fittings. Each picture is one part the line offers.',
+             'Elige una línea, un color de pared y un color para el material. Cada dibujo es una pieza que ofrece la línea.',
+             'Wybierz linię, kolor ściany i kolor osprzętu. Każdy rysunek to jedna część, którą oferuje linia.'),
     'line': ('Lína', 'Line', 'Línea', 'Linia'),
     'view': ('Sýn', 'View', 'Vista', 'Widok'),
     'draw': ('Teikning', 'Drawing', 'Dibujo', 'Rysunek'),
