@@ -59,15 +59,18 @@ UI = {
              'Elige una línea, un color de pared y un color para el material. Cada dibujo es una pieza que ofrece la línea; pulsa un interruptor para probarlo.',
              'Wybierz linię, kolor ściany i kolor osprzętu. Każdy rysunek to jedna część, którą oferuje linia; naciśnij włącznik, aby go wypróbować.'),
     'line': ('Lína', 'Line', 'Línea', 'Linia'),
+    'view': ('Sýn', 'View', 'Vista', 'Widok'),
+    'draw': ('Teikning', 'Drawing', 'Dibujo', 'Rysunek'),
+    'three': ('Þrívídd', '3D', '3D', '3D'),
     'wall': ('Veggur', 'Wall', 'Pared', 'Ściana'),
     'fit': ('Litur', 'Colour', 'Color', 'Kolor'),
     'combo': ('Saman í einum ramma', 'Together in one frame', 'Juntos en un marco', 'Razem w jednej ramce'),
     'units': ('Rammar taldir í einingum, fyrir ferkantaðar dósir', 'Frames counted in units, for square boxes', 'Marcos contados en módulos, para cajas cuadradas', 'Ramki liczone w modułach, do puszek prostokątnych'),
     'smart': ('Snjallhlutir', 'Smart parts', 'Piezas inteligentes', 'Części smart'),
-    'note': ('Teikningar, ekki ljósmyndir: þær sýna gerð og lögun hlutanna, ekki nákvæmt útlit. Ekki fást allir hlutir í öllum litum.',
-             'Drawings, not photographs: they show the kind and the shape of the parts, not their exact look. Not every part comes in every colour.',
-             'Dibujos, no fotografías: muestran el tipo y la forma de las piezas, no su aspecto exacto. No todas las piezas existen en todos los colores.',
-             'Rysunki, nie zdjęcia: pokazują rodzaj i kształt części, a nie ich dokładny wygląd. Nie każda część jest dostępna w każdym kolorze.'),
+    'note': ('Teikningar og tölvugerðar þrívíddarmyndir, ekki ljósmyndir: þær sýna gerð, stærð og lögun hlutanna, ekki nákvæmt útlit. Ekki fást allir hlutir í öllum litum.',
+             'Drawings and computer-made 3D pictures, not photographs: they show the kind, the size and the shape of the parts, not their exact look. Not every part comes in every colour.',
+             'Dibujos e imágenes 3D hechas por ordenador, no fotografías: muestran el tipo, el tamaño y la forma de las piezas, no su aspecto exacto. No todas las piezas existen en todos los colores.',
+             'Rysunki i komputerowe obrazy 3D, nie zdjęcia: pokazują rodzaj, rozmiar i kształt części, a nie ich dokładny wygląd. Nie każda część jest dostępna w każdym kolorze.'),
 }
 # Mosaic's frames counted in units (FIT_LINES.mosaic.frames.square in the estimate: 3, 4, 5, 6 and 8 units in one row): three of them, filled
 UNIT_FRAMES = [('u3', [('sw', 1), ('socket', 2)]), ('u4', [('sw1', 2), ('socket', 2)]), ('u6', [('socket', 2), ('socket', 2), ('sw', 1), ('sw', 1)])]
@@ -196,6 +199,19 @@ def plate(w, h, shaped):
             f'<path class="band" d="M{a + 2} 5H{w - a - 2}"/>')
 
 
+# The 3D picture of a frame (tools/lines3d: lines3d.py --batch, then to_webp.py): img/lines3d/<line>-<fit>-<file>.webp, the frame with MARGIN mm of
+# see-through wall round it for its shadow. The picture has no src here: site.js sets it when the 3D view is chosen, so nobody who keeps to the drawings
+# downloads one. --k is how much wider the picture is than its frame, which the style sheet uses to lay the frame where the drawing's is
+MARGIN = 12
+SIZES = {'mosaic': 82, 'valena': 86, 'merten': 80.5, 'bseed_glass': 86, 'bseed_plastic': 86}
+
+
+def pic(line, file, width_mm):
+    k = (width_mm + 2 * MARGIN) / width_mm
+    w, h = round((width_mm + 2 * MARGIN) * 4), round((SIZES[line] + 2 * MARGIN) * 4)
+    return f'<img class="lv-pic" alt="" data-file="{file}" width="{w}" height="{h}" style="--k:{k:.3f}" decoding="async">'
+
+
 U, UH = 24, 48  # a unit of a Mosaic frame counted in units (22.5 mm wide, 45 high), as drawn
 
 
@@ -228,11 +244,12 @@ def frame(kinds, shaped=False):
     return f'<svg class="lv-svg" viewBox="0 0 {w} {h}" style="--n:{n}" aria-hidden="true">{plate(w, h, shaped)}{body}</svg>'
 
 
-def fig(kinds, shaped=False):
+def fig(kinds, shaped=False, line=''):
     cap = ' + '.join(NAMES[k][0] for k in kinds) if len(kinds) == 1 else None
     names = ' + '.join(NAMES[k][0] for k in kinds)
     inner = f'<figcaption>{NAMES[kinds[0]][0]}</figcaption>' if cap else ''.join(f'<span>{NAMES[k][0]}</span>' for k in kinds)
-    return f'<figure class="lv-fig{" wide" if len(kinds) > 1 else ""}">{frame(kinds, shaped)}' + (inner if cap else f'<figcaption>{inner}</figcaption>') + '</figure>'
+    photo = pic(line, '_'.join(kinds), SIZES[line] + 71 * (len(kinds) - 1)) if line else ''
+    return f'<figure class="lv-fig{" wide" if len(kinds) > 1 else ""}" style="--n:{len(kinds)}">{frame(kinds, shaped)}{photo}' + (inner if cap else f'<figcaption>{inner}</figcaption>') + '</figure>'
 
 
 def build():
@@ -243,13 +260,14 @@ def build():
            '      <div class="lv-bar"><span class="lv-lab">' + t('line') + '</span>' + ''.join(f'<button type="button" class="lv-tab" data-line="{i}" data-fits="{" ".join(f)}" aria-pressed="{"true" if n == 0 else "false"}">{name}</button>' for n, (i, name, f, *_r) in enumerate(LINES)) + '</div>',
            '      <div class="lv-bar"><span class="lv-lab">' + t('wall') + '</span>' + ''.join(f'<button type="button" class="lv-sw" data-wall="{c}" style="--c:{c}" aria-label="{n[0]}" title="{n[0]}" aria-pressed="{"true" if i == 0 else "false"}"></button>' for i, (_k, c, n) in enumerate(WALLS)) + '</div>',
            '      <div class="lv-bar lv-fits"><span class="lv-lab">' + t('fit') + '</span>' + ''.join(f'<button type="button" class="lv-fit" data-fit="{k}" aria-pressed="{"true" if i == 0 else "false"}">{n[0]}</button>' for i, (k, n) in enumerate(FITS)) + '</div>',
+           '      <div class="lv-bar lv-modes"><span class="lv-lab">' + t('view') + '</span><button type="button" class="lv-mode" data-mode="draw" aria-pressed="true">' + t('draw') + '</button><button type="button" class="lv-mode" data-mode="3d" aria-pressed="false">' + t('three') + '</button></div>',
            '      <div class="lv-wall">']
     for i, name, _f, plain, smart, combos in LINES:
         sh = i == 'mosaic'
-        out.append(f'        <div class="lv-set" data-set="{i}"><h4>{name}</h4><div class="lv-grid">' + ''.join(fig([k], sh) for k in plain) + '</div>'
-                   + (f'<h5>{t("smart")}</h5><div class="lv-grid">' + ''.join(fig([k]) for k in smart) + '</div>' if smart else '')
-                   + f'<h5>{t("combo")}</h5><div class="lv-grid">' + ''.join(fig(c, sh) for c in combos) + '</div>'
-                   + (f'<h5>{t("units")}</h5><div class="lv-grid">' + ''.join(f'<figure class="lv-fig wide">{unit_frame(m)}<figcaption>{UNIT_NAMES[k][0]}</figcaption></figure>' for k, m in UNIT_FRAMES) + '</div>' if sh else '')
+        out.append(f'        <div class="lv-set" data-set="{i}"><h4>{name}</h4><div class="lv-grid">' + ''.join(fig([k], sh, i) for k in plain) + '</div>'
+                   + (f'<h5>{t("smart")}</h5><div class="lv-grid">' + ''.join(fig([k], False, i) for k in smart) + '</div>' if smart else '')
+                   + f'<h5>{t("combo")}</h5><div class="lv-grid">' + ''.join(fig(c, sh, i) for c in combos) + '</div>'
+                   + (f'<h5>{t("units")}</h5><div class="lv-grid">' + ''.join(f'<figure class="lv-fig wide" style="--n:{(U * sum(u for _k, u in m) + 22) / C:.3f}">{unit_frame(m)}{pic(i, k, sum(u for _k, u in m) * 22.5 + 36.5)}<figcaption>{UNIT_NAMES[k][0]}</figcaption></figure>' for k, m in UNIT_FRAMES) + '</div>' if sh else '')
                    + '</div>')
     out += ['      </div>', f'      <p class="muted small">{t("note")}</p>', '    </div>', '    <!-- lines-view:end -->']
     return '\n'.join(out)

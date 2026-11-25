@@ -138,8 +138,8 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
 .lv h3 { margin: 0 0 4px; }
 .lv-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; }
 .lv-lab { flex: 0 0 4.2em; color: var(--muted); font-size: .9rem; }
-.lv-tab, .lv-fit { min-height: 40px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--text); font: inherit; font-size: .9rem; cursor: pointer; }
-.lv-tab[aria-pressed="true"], .lv-fit[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); font-weight: 600; }
+.lv-tab, .lv-fit, .lv-mode { min-height: 40px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--text); font: inherit; font-size: .9rem; cursor: pointer; }
+.lv-tab[aria-pressed="true"], .lv-fit[aria-pressed="true"], .lv-mode[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); font-weight: 600; }
 .lv-sw { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--c); cursor: pointer; padding: 0; }
 .lv-sw[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: 2px; }
 .lv-fits[hidden] { display: none; }
@@ -159,6 +159,13 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
 .lv-svg .plate { fill: var(--plate); stroke: var(--edge); rx: var(--rx); }
 /* Legrand Mosaic: a 45 mm module in an 82 mm plate, so the part is smaller in its frame than on the lines whose rocker fills a 55 mm opening */
 .lv-svg .cell { transform-origin: 30px 36px; }
+/* The 3D picture of a frame: shown in place of its drawing when .lv has data-mode="3d". It is --k times as wide as the frame in it (the wall round the
+   frame holds its shadow), so it is drawn that much wider than the drawing and pulled back by negative margins: the frame sits where the drawing sat. */
+.lv-modes { display: none; } .lv.js .lv-modes { display: flex; }
+.lv-pic { display: none; --fw: calc(var(--n) * 68px + 16px); width: calc(var(--fw) * var(--k)); max-width: calc(100% * var(--k)); height: auto; margin: calc(var(--fw) * (1 - var(--k)) / 2); margin-block: -9px -3px; }
+.lv[data-mode="3d"] .lv-fig .lv-svg { display: none; }
+.lv[data-mode="3d"] .lv-pic { display: block; }
+
 .lv-svg .band { fill: none; stroke: #fff; stroke-opacity: .55; stroke-width: 2.5; stroke-linecap: round; }
 .lv[data-line="mosaic"] .lv-svg .cell { transform: scale(.74); }
 .lv-svg .gloss { display: none; fill: url(#lv-gloss); rx: var(--rx); pointer-events: none; }
