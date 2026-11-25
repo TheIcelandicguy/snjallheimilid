@@ -53,6 +53,7 @@ NAMES = {
     'heate': ('Hitastillir, rafhiti', 'Thermostat, electric heating', 'Termostato, calefacción eléctrica', 'Termostat, ogrzewanie elektryczne'),
 }
 UI = {
+    'hero': ('Nærmynd, tölvugerð', 'Close-up, computer-made', 'Primer plano, generado por ordenador', 'Zbliżenie, wygenerowane komputerowo'),
     'title': ('Sjáðu línurnar á vegg', 'See the lines on a wall', 'Mira las líneas en una pared', 'Zobacz linie na ścianie'),
     'help': ('Veldu línu, lit á vegg og lit á efninu. Hver mynd er einn hlutur sem línan býður.',
              'Pick a line, a wall colour and a colour for the fittings. Each picture is one part the line offers.',
@@ -87,17 +88,31 @@ WALLS = [('white', '#f3f1ec', ('Hvítur veggur', 'White wall', 'Pared blanca', '
          ('dark', '#2b2e33', ('Dökkur veggur', 'Dark wall', 'Pared oscura', 'Ciemna ściana'))]
 FITS = [('white', ('Hvítt', 'White', 'Blanco', 'Biały')), ('black', ('Svart', 'Black', 'Negro', 'Czarny')),
         ('grey', ('Grátt', 'Grey', 'Gris', 'Szary')), ('gold', ('Gyllt', 'Gold', 'Dorado', 'Złoty'))]
+# What each line offers, colour by colour, is tools/lines.json: written by the estimator's tools/lines_offer.mjs from the table its estimate books from
+# (owner 2026-11-25: one source, so the page cannot show a part the estimate has not). Kept by hand here: the tabs' names, which parts are the smart
+# ones, and the frames of several positions shown as examples
+OFFER = json.load(io.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'lines.json'), encoding='utf-8'))
+TABS = [('mosaic', 'Legrand Mosaic N'), ('valena', 'Legrand Valena'), ('merten', 'Merten System M'), ('bseed_glass', 'BSEED gler'), ('bseed_plastic', 'BSEED plast')]
+SMART = ['touch1', 'touch2', 'touch3', 'touch4', 'tdim', 'ssocket', 'sblind', 'scurtain', 'heatw', 'heate']
+COMBOS = {'mosaic': [['sw2', 'socket'], ['socket', 'socket', 'socket']], 'valena': [['sw3', 'socket'], ['sw1', 'sw2', 'socket']], 'merten': [['sw2', 'socket'], ['socket', 'socket', 'net']],
+          'bseed_glass': [['touch2', 'socket'], ['touch3', 'tdim', 'socket_usb']], 'bseed_plastic': [['sw2', 'socket'], ['touch2', 'sblind', 'socket', 'net']]}
+
+
+def offered(line):
+    """Every part a line has in any of its colours, in the order of its first colour and then what only another colour has."""
+    out = []
+    for parts in OFFER[line].values():
+        out += [k for k in parts if k not in out]
+    return out
+
+
+def fits_of(line, kinds):
+    """The colours of a line in which every one of these parts is made."""
+    return [c for c, parts in OFFER[line].items() if all(k in parts for k in kinds)]
+
+
 # line: (tab name, colours, the plain parts, the smart parts, frames of several positions)
-LINES = [
-    ('mosaic', 'Legrand Mosaic N', ['white'], ['sw1', 'sw2', 'socket', 'socket_usb', 'usb', 'net', 'net2', 'tv', 'blank'], [], [['sw2', 'socket'], ['socket', 'socket', 'socket']]),
-    ('valena', 'Legrand Valena', ['white'], ['sw1', 'sw2', 'sw3', 'socket', 'socket_usb', 'usb', 'net', 'net2', 'tv', 'blind', 'blank'], [], [['sw3', 'socket'], ['sw1', 'sw2', 'socket']]),
-    ('merten', 'Merten System M', ['white'], ['sw1', 'sw2', 'socket', 'socket_usb', 'net', 'hdmi', 'blind', 'blank'], [], [['sw2', 'socket'], ['socket', 'socket', 'net']]),
-    ('bseed_glass', 'BSEED gler', ['white', 'black', 'grey', 'gold'], ['sw1', 'sw2', 'sw3', 'socket', 'socket_usb', 'socket_cover', 'socket_usb2', 'charger65', 'blind', 'bell', 'dimmer'],
-     ['touch1', 'touch2', 'touch3', 'touch4', 'tdim', 'ssocket', 'sblind', 'scurtain'], [['touch2', 'socket'], ['touch3', 'tdim', 'socket_usb']]),
-    ('bseed_plastic', 'BSEED plast', ['white', 'black', 'grey', 'gold'],
-     ['sw1', 'sw2', 'neon1', 'neon2', 'socket', 'socket_usb', 'socket_cover', 'socket_usb2', 'charger65', 'net', 'net2', 'tv', 'sat', 'tel', 'hdmi', 'blind', 'fan', 'bell', 'dimmer', 'blank'],
-     ['touch1', 'touch2', 'touch3', 'touch4', 'tdim', 'ssocket', 'sblind', 'scurtain', 'heatw', 'heate'], [['sw2', 'socket'], ['touch2', 'sblind', 'socket', 'net']]),
-]
+LINES = [(i, name, list(OFFER[i]), [k for k in offered(i) if k not in SMART], [k for k in offered(i) if k in SMART], COMBOS[i]) for i, name in TABS]
 
 
 def word(cx, t, size=8, y=57):
@@ -249,7 +264,8 @@ def fig(kinds, shaped=False, line=''):
     names = ' + '.join(NAMES[k][0] for k in kinds)
     inner = f'<figcaption>{NAMES[kinds[0]][0]}</figcaption>' if cap else ''.join(f'<span>{NAMES[k][0]}</span>' for k in kinds)
     photo = pic(line, '_'.join(kinds), SIZES[line] + 71 * (len(kinds) - 1)) if line else ''
-    return f'<figure class="lv-fig{" wide" if len(kinds) > 1 else ""}" style="--n:{len(kinds)}">{frame(kinds, shaped)}{photo}' + (inner if cap else f'<figcaption>{inner}</figcaption>') + '</figure>'
+    some = line and len(fits_of(line, kinds)) < len(OFFER[line])  # not made in every colour of the line: the page shows it with those colours only
+    return f'<figure class="lv-fig{" wide" if len(kinds) > 1 else ""}"{(" data-fits=" + chr(34) + " ".join(fits_of(line, kinds)) + chr(34)) if some else ""} style="--n:{len(kinds)}">{frame(kinds, shaped)}{photo}' + (inner if cap else f'<figcaption>{inner}</figcaption>') + '</figure>'
 
 
 def build():
@@ -264,7 +280,9 @@ def build():
            '      <div class="lv-wall">']
     for i, name, _f, plain, smart, combos in LINES:
         sh = i == 'mosaic'
-        out.append(f'        <div class="lv-set" data-set="{i}"><h4>{name}</h4><div class="lv-grid">' + ''.join(fig([k], sh, i) for k in plain) + '</div>'
+        # a close-up of the line in a room's light (tools/lines3d/lines3d.py --hero), shown with the 3D pictures and fetched only then
+        hero = f'<figure class="lv-hero"><img alt="{name}" data-src="img/lines3d/hero-{i}.webp" width="1400" height="800" decoding="async"><figcaption>{t("hero")}</figcaption></figure>'
+        out.append(f'        <div class="lv-set" data-set="{i}"><h4>{name}</h4>{hero}<div class="lv-grid">' + ''.join(fig([k], sh, i) for k in plain) + '</div>'
                    + (f'<h5>{t("smart")}</h5><div class="lv-grid">' + ''.join(fig([k], False, i) for k in smart) + '</div>' if smart else '')
                    + f'<h5>{t("combo")}</h5><div class="lv-grid">' + ''.join(fig(c, sh, i) for c in combos) + '</div>'
                    + (f'<h5>{t("units")}</h5><div class="lv-grid">' + ''.join(f'<figure class="lv-fig wide" style="--n:{(U * sum(u for _k, u in m) + 22) / C:.3f}">{unit_frame(m)}{pic(i, k, sum(u for _k, u in m) * 22.5 + 36.5)}<figcaption>{UNIT_NAMES[k][0]}</figcaption></figure>' for k, m in UNIT_FRAMES) + '</div>' if sh else '')

@@ -99,8 +99,10 @@ form.addEventListener('submit', async (e) => {
   // the gloss of a glass frame, drawn once for every drawing to use
   wall.insertAdjacentHTML('afterbegin', '<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="lv-gloss" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".45" stop-color="#fff" stop-opacity=".04"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs></svg>');
   // the 3D pictures of the line and colour in hand, asked for only once the 3D view is chosen
-  const pics = () => { if (lv.dataset.mode !== '3d') return; lv.querySelectorAll('.lv-set.on .lv-pic').forEach((im) => { const src = `${base}img/lines3d/${lv.dataset.line}-${lv.dataset.fit}-${im.dataset.file}.webp`; if (im.getAttribute('src') !== src) im.src = src; }); };
-  const fit = (k) => { lv.dataset.fit = k; press([...lv.querySelectorAll('.lv-fit')], lv.querySelector(`.lv-fit[data-fit="${k}"]`)); pics(); };
+  const pics = () => { if (lv.dataset.mode !== '3d') return; lv.querySelectorAll('.lv-set.on .lv-hero img[data-src]').forEach((im) => { im.src = base + im.dataset.src; im.removeAttribute('data-src'); }); lv.querySelectorAll('.lv-set.on .lv-fig:not([hidden]) .lv-pic').forEach((im) => { const src = `${base}img/lines3d/${lv.dataset.line}-${lv.dataset.fit}-${im.dataset.file}.webp`; if (im.getAttribute('src') !== src) im.src = src; }); };
+  // a part that is not made in every colour of its line is shown with the colours it is made in
+  const made = () => lv.querySelectorAll('.lv-fig[data-fits]').forEach((f) => { f.hidden = !f.dataset.fits.split(' ').includes(lv.dataset.fit); });
+  const fit = (k) => { lv.dataset.fit = k; press([...lv.querySelectorAll('.lv-fit')], lv.querySelector(`.lv-fit[data-fit="${k}"]`)); made(); pics(); };
   const line = (tab) => {
     lv.dataset.line = tab.dataset.line;
     press([...lv.querySelectorAll('.lv-tab')], tab);

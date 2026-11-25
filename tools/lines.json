@@ -1,0 +1,23 @@
+{
+ "mosaic": {
+  "white": ["sw1", "sw2", "socket", "socket_usb", "usb", "net", "net2", "tv", "blank"]
+ },
+ "valena": {
+  "white": ["sw1", "sw2", "sw3", "socket", "socket_usb", "usb", "net", "net2", "tv", "blind", "blank"]
+ },
+ "merten": {
+  "white": ["sw1", "sw2", "socket", "socket_usb", "net", "hdmi", "blind", "blank"]
+ },
+ "bseed_glass": {
+  "white": ["sw1", "sw2", "sw3", "socket", "socket_usb", "socket_cover", "socket_usb2", "charger65", "blind", "bell", "dimmer", "touch1", "touch2", "touch3", "touch4", "tdim", "ssocket", "sblind", "scurtain"],
+  "black": ["sw1", "sw2", "sw3", "socket", "socket_usb", "socket_cover", "socket_usb2", "charger65", "blind", "bell", "dimmer", "touch1", "touch2", "touch3", "touch4", "tdim", "ssocket", "sblind", "scurtain"],
+  "grey": ["sw1", "sw2", "sw3", "socket", "socket_usb", "socket_cover", "socket_usb2", "charger65", "blind", "bell", "dimmer", "touch1", "touch2", "touch3", "touch4", "tdim", "ssocket", "sblind", "scurtain"],
+  "gold": ["sw1", "sw2", "sw3", "socket", "socket_usb", "socket_cover", "socket_usb2", "charger65", "blind", "dimmer", "touch1", "touch2", "touch3", "touch4", "tdim", "ssocket", "sblind", "scurtain"]
+ },
+ "bseed_plastic": {
+  "white": ["sw1", "sw2", "neon1", "neon2", "socket", "socket_usb", "socket_cover", "socket_usb2", "charger65", "net", "net2", "tv", "sat", "tel", "hdmi", "blind", "fan", "bell", "dimmer", "blank", "touch1", "touch2", "touch3", "touch4", "tdim", "ssocket", "sblind", "scurtain", "heatw", "heate"],
+  "black": ["sw1", "sw2", "neon1", "neon2", "socket", "socket_usb", "socket_cover", "socket_usb2", "charger65", "net", "net2", "tv", "sat", "tel", "hdmi", "blind", "fan", "bell", "dimmer", "blank", "touch1", "touch2", "touch3", "touch4", "tdim", "ssocket", "sblind", "scurtain", "heatw"],
+  "grey": ["sw1", "sw2", "neon1", "neon2", "socket", "socket_usb", "socket_cover", "socket_usb2", "charger65", "net", "net2", "tv", "sat", "tel", "blind", "fan", "bell", "dimmer", "blank", "touch1", "touch2", "touch3", "touch4", "tdim", "ssocket", "sblind", "scurtain"],
+  "gold": ["sw1", "sw2", "neon1", "neon2", "socket", "socket_usb", "socket_cover", "socket_usb2", "charger65", "net", "net2", "tv", "sat", "tel", "hdmi", "blind", "fan", "bell", "dimmer", "blank", "touch1", "touch2", "touch3", "touch4", "tdim", "ssocket", "sblind", "scurtain"]
+ }
+}

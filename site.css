@@ -184,3 +184,10 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
 .lv-svg .lamp { fill: var(--recess); stroke: var(--edge); stroke-width: .6; transition: fill .2s, filter .2s; }
 .lv-svg .rock.on .lamp { fill: #ff6a3d; filter: drop-shadow(0 0 2.5px #ff6a3d); }
 @media (prefers-reduced-motion: reduce) { .lv-wall, .lv-svg .sh, .lv-svg .led, .lv-svg .lamp { transition: none; } .lv.js .lv-set.on { animation: none; } }
+
+.lv-fig[hidden] { display: none; }
+/* the close-up of a line: with the 3D pictures only; it has a wall of its own, so it is framed like a photograph */
+.lv-hero { display: none; margin: 0 0 18px; }
+.lv[data-mode="3d"] .lv-hero { display: block; }
+.lv-hero img { display: block; width: 100%; max-width: 760px; height: auto; border-radius: 10px; box-shadow: 0 6px 22px rgba(0, 0, 0, .28); }
+.lv-hero figcaption { margin-top: 6px; font-size: .78rem; opacity: .75; color: var(--wall-ink, inherit); }

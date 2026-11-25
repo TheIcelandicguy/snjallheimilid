@@ -4,7 +4,7 @@
 One picture:    blender -b --factory-startup --python lines3d.py -- --out FILE.png [--line valena] [--fit white] [--wall d8c7a8]
                 [--boxes "sw2+socket;sw1;socket"] [--w 1400 --h 900 --samples 96] [--lens 70]
                 [--hero 1 --hdri FILE.hdr --cam x,y,z --aim x,y,z --fstop 5.6]   a close-up with a room's light, wall grain and depth of field
-Every part:     blender -b --factory-startup --python lines3d.py -- --batch DIR [--only LINE] [--fits white,black] [--hdri FILE.hdr]
+Every part:     blender -b --factory-startup --python lines3d.py -- --batch DIR [--only LINE] [--fits white,black] [--parts heatw,heate] [--hdri FILE.hdr]
                 writes DIR/<line>-<fit>-<part>.png for every part of PARTS, each frame alone on a see-through wall that keeps only its shadow,
                 so the page can lay it over a wall of any colour (tools/lines_view.py names the same files).
 
@@ -49,18 +49,12 @@ LINES = {
 }
 FITS = {'white': (0.90, 0.90, 0.88), 'black': (0.012, 0.012, 0.014), 'grey': (0.28, 0.29, 0.31), 'gold': (0.62, 0.47, 0.20)}
 
-# what the batch renders: line -> (its colours, its boxes). The same list as LINES and UNIT_FRAMES of tools/lines_view.py, which names the files
-PARTS = {
-    'mosaic': (['white'], ['sw1', 'sw2', 'socket', 'socket_usb', 'usb', 'net', 'net2', 'tv', 'blank', 'sw2+socket', 'socket+socket+socket',
-                           'u:n-sw+socket', 'u:sw1+socket', 'u:socket+socket+n-sw+n-sw']),
-    'valena': (['white'], ['sw1', 'sw2', 'sw3', 'socket', 'socket_usb', 'usb', 'net', 'net2', 'tv', 'blind', 'blank', 'sw3+socket', 'sw1+sw2+socket']),
-    'merten': (['white'], ['sw1', 'sw2', 'socket', 'socket_usb', 'net', 'hdmi', 'blind', 'blank', 'sw2+socket', 'socket+socket+net']),
-    'bseed_glass': (['white', 'black', 'grey', 'gold'], ['sw1', 'sw2', 'sw3', 'socket', 'socket_usb', 'socket_cover', 'socket_usb2', 'charger65', 'blind', 'bell', 'dimmer',
-                                                         'touch1', 'touch2', 'touch3', 'touch4', 'tdim', 'ssocket', 'sblind', 'scurtain', 'touch2+socket', 'touch3+tdim+socket_usb']),
-    'bseed_plastic': (['white', 'black', 'grey', 'gold'], ['sw1', 'sw2', 'neon1', 'neon2', 'socket', 'socket_usb', 'socket_cover', 'socket_usb2', 'charger65', 'net', 'net2', 'tv', 'sat',
-                                                           'tel', 'hdmi', 'blind', 'fan', 'bell', 'dimmer', 'blank', 'touch1', 'touch2', 'touch3', 'touch4', 'tdim', 'ssocket', 'sblind',
-                                                           'scurtain', 'heatw', 'heate', 'sw2+socket', 'touch2+sblind+socket+net']),
-}
+# what the batch renders: line -> colour -> its boxes. The lists are those of tools/lines_view.py (what each line offers colour by colour from
+# tools/lines.json, and the example frames), which also names the files; only Mosaic's frames counted in units are written here
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+import lines_view as LV  # noqa: E402
+UNIT_BOXES = ['u:n-sw+socket', 'u:sw1+socket', 'u:socket+socket+n-sw+n-sw']
+PARTS = {i: {c: list(parts) + ['+'.join(k) for k in LV.COMBOS[i] if c in LV.fits_of(i, k)] + (UNIT_BOXES if i == 'mosaic' else []) for c, parts in LV.OFFER[i].items()} for i, _n in LV.TABS}
 
 
 def arg(name, default):
@@ -356,7 +350,9 @@ class Kit:
         elif kind in ('heatw', 'heate') and L.get('touch'):
             _o, d = self.centre(x, z, 'proud_touch')
             self.on('screen', slab(34 * MM, 0.4 * MM, 24 * MM, 2 * MM), self.screen, x, z + 6 * MM, d, lift=0.2, smooth=False)
-            self.label('21°', x, z + 6 * MM, d + 0.0005, 9, self.digits)
+            self.label('21°', x - 3 * MM, z + 6 * MM, d + 0.0005, 9, self.digits)
+            # which heating it switches, as the drawn view marks it: waves for water, a bolt for electric (the two look the same otherwise)
+            self.label('≈' if kind == 'heatw' else '⚡', x + 11.5 * MM, z + 10 * MM, d + 0.0005, 5, self.digits)
             self.label('−', x - 11 * MM, z - 16 * MM, d, 6, self.lit)
             self.label('+', x + 11 * MM, z - 16 * MM, d, 6, self.lit)
             self.ring(x, z - 16 * MM, d, 2.4)
@@ -591,15 +587,17 @@ def batch(folder):
     engine(int(arg('samples', 72)))
     bpy.context.scene.render.image_settings.file_format = 'PNG'
     bpy.context.scene.render.image_settings.color_mode = 'RGBA'
-    only, fits = arg('only', ''), arg('fits', '')
+    only, fits, parts = arg('only', ''), arg('fits', ''), arg('parts', '')  # --parts heatw,heate: only these boxes
     px, margin, n = 4, 44 * MM, 0
-    for line, (colours, boxes) in PARTS.items():
+    for line, by_colour in PARTS.items():
         if only and line != only:
             continue
-        for fit in colours:
+        for fit, boxes in by_colour.items():
             if fits and fit not in fits.split(','):
                 continue
             for box in boxes:
+                if parts and box not in parts.split(','):
+                    continue
                 out = os.path.join(folder, f'{line}-{fit}-{box_file(box)}.png')
                 if os.path.exists(out) and not arg('again', ''):
                     continue
