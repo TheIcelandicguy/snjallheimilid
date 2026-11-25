@@ -222,5 +222,8 @@
   "Teikningar og tölvugerðar þrívíddarmyndir, ekki ljósmyndir: þær sýna gerð, stærð og lögun hlutanna, ekki nákvæmt útlit. Ekki fást allir hlutir í öllum litum.": "Rysunki i komputerowe obrazy 3D, nie zdjęcia: pokazują rodzaj, rozmiar i kształt części, a nie ich dokładny wygląd. Nie każda część jest dostępna w każdym kolorze.",
   "Veldu línu, lit á vegg og lit á efninu. Hver mynd er einn hlutur sem línan býður.": "Wybierz linię, kolor ściany i kolor osprzętu. Każdy rysunek to jedna część, którą oferuje linia.",
   "Rammi, 3 einingar": "Ramka, 3 moduły",
-  "Rammi, 5 einingar": "Ramka, 5 modułów"
+  "Rammi, 5 einingar": "Ramka, 5 modułów",
+  "Rofi, ein eining": "Łącznik, jeden moduł",
+  "Nettengill, ein eining": "Gniazdo sieciowe, jeden moduł",
+  "Nettengill, tvær einingar": "Gniazdo sieciowe, dwa moduły"
 }
