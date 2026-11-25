@@ -182,7 +182,8 @@ def glyph(k, x):
 def frame(kinds):
     n = len(kinds)
     w, h = C * n + 2 * PAD, 72 + 2 * PAD - 12
-    body = ''.join(f'<g transform="translate({PAD} {PAD - 6})">{glyph(k, i * C)}</g>' for i, k in enumerate(kinds))
+    # each part in a group of its own, so that the style sheet can draw it smaller in its frame where the line's centre part is (Mosaic's 45 mm module)
+    body = ''.join(f'<g transform="translate({PAD + i * C} {PAD - 6})"><g class="cell">{glyph(k, 0)}</g></g>' for i, k in enumerate(kinds))
     return (f'<svg class="lv-svg" viewBox="0 0 {w} {h}" style="--n:{n}" aria-hidden="true"><rect class="plate" x="0.5" y="0.5" width="{w - 1}" height="{h - 1}"/>'
             f'<rect class="gloss" x="0.5" y="0.5" width="{w - 1}" height="{h - 1}"/>{body}</svg>')
 
