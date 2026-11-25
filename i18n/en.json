@@ -220,5 +220,7 @@
   "Teikning": "Drawing",
   "Þrívídd": "3D",
   "Teikningar og tölvugerðar þrívíddarmyndir, ekki ljósmyndir: þær sýna gerð, stærð og lögun hlutanna, ekki nákvæmt útlit. Ekki fást allir hlutir í öllum litum.": "Drawings and computer-made 3D pictures, not photographs: they show the kind, the size and the shape of the parts, not their exact look. Not every part comes in every colour.",
-  "Veldu línu, lit á vegg og lit á efninu. Hver mynd er einn hlutur sem línan býður.": "Pick a line, a wall colour and a colour for the fittings. Each picture is one part the line offers."
+  "Veldu línu, lit á vegg og lit á efninu. Hver mynd er einn hlutur sem línan býður.": "Pick a line, a wall colour and a colour for the fittings. Each picture is one part the line offers.",
+  "Rammi, 3 einingar": "Frame, 3 units",
+  "Rammi, 5 einingar": "Frame, 5 units"
 }
