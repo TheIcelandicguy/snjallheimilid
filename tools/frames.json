@@ -1,0 +1,7 @@
+{
+ "mosaic": {"white":[1,2,3,4]},
+ "valena": {"white":[1,2,3,4,5]},
+ "merten": {"white":[1,2,3,4,5]},
+ "bseed_glass": {"white":[1,2,3,4,5],"black":[1,2,3,4,5],"grey":[1,2,3,4,5],"gold":[1,2,3,4,5]},
+ "bseed_plastic": {"white":[1,2,3,4],"black":[1,2,3,4],"grey":[1,2,3,4],"gold":[1,2,3,4]}
+}
