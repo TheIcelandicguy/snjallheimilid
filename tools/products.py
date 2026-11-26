@@ -11,10 +11,12 @@ import io
 import json
 import os
 
-from lines_view import FITS, MARGIN, NAMES, OFFER, SIZES, SMART, TABS, fits_of, offered
+from lines_view import FITS, MARGIN, NAMES, OFFER, SIZES, SMART, TABS, fits_of, glyph, offered
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 HOST = 'https://xn--snjallheimili-gkb.is/'
+# the sizes of frame each line has in each colour, in positions side by side: written by the estimator's tools/lines_offer.mjs, like lines.json
+FRAMES = json.load(io.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'frames.json'), encoding='utf-8'))
 
 # the kinds of part, as the filter groups them: id, (is, en, es, pl), the parts
 CATS = [
@@ -61,6 +63,29 @@ TEXTS = {
              'Obrazy są wygenerowane komputerowo, to nie zdjęcia: pokazują rodzaj, rozmiar i kształt części, a nie ich dokładny wygląd. Na tej stronie nie ma cen; wycena podaje przedział cen materiału.'),
     # the link to this page under the lines view of index.html
     'all': ('Skoða alla hluti með síum', 'See every part, with filters', 'Ver todas las piezas, con filtros', 'Zobacz wszystkie części, z filtrami'),
+    # the frame builder
+    'pb': ('Settu saman ramma', 'Put a frame together', 'Monta un marco', 'Złóż ramkę'),
+    'pbhelp': ('Ýttu á plúsinn á hlut til að setja hann í rammann, eða dragðu hann þangað. Ýttu á hólf í rammanum til að færa það eða taka það úr.',
+               'Press the plus on a part to put it in the frame, or drag it there. Press a position in the frame to move it or take it out.',
+               'Pulsa el más de una pieza para ponerla en el marco, o arrástrala hasta él. Pulsa un hueco del marco para moverlo o quitarlo.',
+               'Naciśnij plus na części, aby włożyć ją do ramki, albo przeciągnij ją tam. Naciśnij pole w ramce, aby je przesunąć lub wyjąć.'),
+    'add': ('Setja í ramma', 'Put in the frame', 'Poner en el marco', 'Włóż do ramki'),
+    'less': ('Minni rammi', 'Smaller frame', 'Marco más pequeño', 'Mniejsza ramka'),
+    'more': ('Stærri rammi', 'Larger frame', 'Marco más grande', 'Większa ramka'),
+    'left': ('Færa til vinstri', 'Move left', 'Mover a la izquierda', 'Przesuń w lewo'),
+    'right': ('Færa til hægri', 'Move right', 'Mover a la derecha', 'Przesuń w prawo'),
+    'out': ('Taka úr', 'Take out', 'Quitar', 'Wyjmij'),
+    'reset': ('Tæma ramma', 'Empty the frame', 'Vaciar el marco', 'Opróżnij ramkę'),
+    'slot': ('Tómt hólf', 'Empty position', 'Hueco vacío', 'Puste pole'),
+    'm_full': ('Stærsti rammi línunnar í þessum lit tekur {n} hólf.', 'The largest frame of this line in this colour takes {n} positions.', 'El marco más grande de esta línea en este color tiene {n} huecos.', 'Największa ramka tej linii w tym kolorze ma {n} pól.'),
+    'm_line': ('Hlutir úr annarri línu passa ekki í þennan ramma. Tæmdu rammann til að byrja á annarri línu.', 'Parts of another line do not fit this frame. Empty the frame to start on another line.',
+               'Las piezas de otra línea no encajan en este marco. Vacía el marco para empezar con otra línea.', 'Części z innej linii nie pasują do tej ramki. Opróżnij ramkę, aby zacząć od innej linii.'),
+    'm_fit': ('Þessi hlutur fæst ekki í litnum sem ramminn er í.', 'This part is not made in the colour of the frame.', 'Esta pieza no existe en el color del marco.', 'Ta część nie jest dostępna w kolorze ramki.'),
+    's1': ('Einfaldur rammi', 'Single frame', 'Marco simple', 'Ramka pojedyncza'),
+    's2': ('Tvöfaldur rammi', 'Double frame', 'Marco doble', 'Ramka podwójna'),
+    's3': ('Þrefaldur rammi', 'Triple frame', 'Marco triple', 'Ramka potrójna'),
+    's4': ('Fjórfaldur rammi', 'Frame of four', 'Marco cuádruple', 'Ramka poczwórna'),
+    's5': ('Fimmfaldur rammi', 'Frame of five', 'Marco quíntuple', 'Ramka pięciokrotna'),
     'logo': ('Merki Snjallheimilisins', '', '', ''),
 }
 T = lambda k: TEXTS[k][0]
@@ -83,6 +108,8 @@ def group(name, title, body, open_=False):
 
 def build():
     cs = cards()
+    pbfits = ''.join(f'<button type="button" class="pb-fit" data-fit="{f}" style="--c:{DOT[f]}" aria-label="{n[0]}" title="{n[0]}" aria-pressed="false"></button>' for f, n in FITS)
+    pbdata = json.dumps({'glyphs': {k: glyph(k, 0) for k in NAMES}, 'sizes': FRAMES}, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
     n_line = {i: sum(1 for c in cs if c[0] == i) for i, _n in TABS}
     n_fit = {f: sum(1 for c in cs if f in c[3]) for f, _n in FITS}
     n_cat = {c: sum(1 for x in cs if CAT_OF[x[2]] == c) for c, _n, _k in CATS}
@@ -119,6 +146,22 @@ def build():
   <div class="wrap">
     <h1>{T("h1")}</h1>
     <p class="lede">{T("lead")}</p>
+    <!-- the frame builder (vorur.js): a frame of the line and colour of its first part, drawn from the same shapes as the lines view -->
+    <div class="lv pb" id="pb" data-line="" data-fit="white" hidden>
+      <h2 class="pb-h">{T("pb")}</h2>
+      <p class="muted pb-help">{T("pbhelp")}</p>
+      <div class="lv-wall pb-wall" id="pbWall"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="lv-gloss" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".45" stop-color="#fff" stop-opacity=".04"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs></svg><div class="pb-frame" id="pbFrame"></div></div>
+      <p class="pb-name" id="pbName"></p>
+      <div class="pb-bar">
+        <span class="pb-set"><button type="button" class="pb-b" id="pbLess" aria-label="{T("less")}" title="{T("less")}">−</button><button type="button" class="pb-b" id="pbMore" aria-label="{T("more")}" title="{T("more")}">+</button></span>
+        <span class="pb-set" id="pbFits">{pbfits}</span>
+        <span class="pb-set" id="pbSel" hidden><button type="button" class="pb-b" id="pbLeft" aria-label="{T("left")}" title="{T("left")}">←</button><button type="button" class="pb-b" id="pbRight" aria-label="{T("right")}" title="{T("right")}">→</button><button type="button" class="pb-b wide" id="pbOut">{T("out")}</button></span>
+        <button type="button" class="pb-b wide pb-reset" id="pbReset">{T("reset")}</button>
+      </div>
+      <p class="pb-msg" id="pbMsg" role="status"></p>
+      <div hidden id="pbText"><span data-t="add">{T("add")}</span><span data-t="slot">{T("slot")}</span><span data-t="full">{T("m_full")}</span><span data-t="line">{T("m_line")}</span><span data-t="fit">{T("m_fit")}</span><span data-t="s1">{T("s1")}</span><span data-t="s2">{T("s2")}</span><span data-t="s3">{T("s3")}</span><span data-t="s4">{T("s4")}</span><span data-t="s5">{T("s5")}</span></div>
+      <script type="application/json" id="pbData">{pbdata}</script>
+    </div>
     <div class="pv-head"><button type="button" class="btn pv-toggle" id="pvToggle" aria-expanded="false" aria-controls="pvFilters">{T("filters")}<span id="pvOn"></span></button><p class="pv-count">{T("count")} <b id="pvCount">{len(cs)}</b></p><button type="button" class="btn pv-clear" id="pvClear" hidden>{T("clear")}</button></div>
     <div class="pv-body">
     <form class="pv-filters" id="pvFilters">''',

@@ -228,6 +228,42 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
 @media (min-width: 800px) {
   .pv-toggle { display: none; }
   .pv-body { display: grid; grid-template-columns: 230px 1fr; gap: 20px; align-items: start; }
-  .pv.js .pv-filters { display: block; position: sticky; top: 76px; margin: 0; max-height: calc(100vh - 92px); overflow: auto; }
+  .pv.js .pv-filters { display: block; position: sticky; top: calc(var(--top, 60px) + var(--pbh, 0px) + 12px); margin: 0; max-height: calc(100vh - var(--top, 60px) - var(--pbh, 0px) - 28px); overflow: auto; }
 }
+
+/* The frame builder on the product page (.pb, also .lv so that the drawing takes the lines view's colours and shapes). Empty it is a heading and a
+   line of help; holding a frame it stays under the page's header. Over each position of the drawing lies a button to press, drag and drop on. */
+.pb { margin: 18px 0 0; }
+.pb[hidden] { display: none; }
+.pb-h { font-size: 1.15rem; margin: 0 0 4px; } .pb-h::after { display: none; }
+.pb-help { margin: 0; }
+.pb-wall, .pb-name, .pb-bar { display: none; }
+.pb.has { position: sticky; top: var(--top, 60px); z-index: 4; background: var(--bg); padding: 10px 0 8px; border-bottom: 1px solid var(--line); }
+.pb.has .pb-wall { display: flex; justify-content: center; padding: 12px 10px 14px; border-radius: 12px; }
+.pb.has .pb-name { display: block; margin: 8px 0 0; font-size: .9rem; }
+.pb.has .pb-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 8px; }
+.pb.drag .pb-wall { outline: 2px dashed var(--accent); outline-offset: 2px; }
+.pb-frame { position: relative; max-width: 100%; }
+.pb .lv-svg { width: calc(var(--n) * 56px + 13px); }
+.pb .lv-svg .slot { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 4 3; opacity: .7; }
+.pb-slot { position: absolute; top: 0; bottom: 0; background: none; border: 0; padding: 0; border-radius: 6px; cursor: pointer; }
+.pb-slot.on { outline: 3px solid var(--accent); outline-offset: -2px; }
+.pb-slot:focus-visible { outline: 3px solid var(--sky); outline-offset: -2px; }
+.pb-set { display: inline-flex; gap: 6px; align-items: center; }
+.pb-set[hidden] { display: none; }
+.pb-b { min-width: 40px; height: 40px; padding: 0 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--text); font: inherit; font-size: 1.05rem; cursor: pointer; }
+.pb-b.wide { padding: 0 12px; font-size: .9rem; }
+.pb-b:disabled { opacity: .4; cursor: default; }
+.pb-reset { margin-left: auto; }
+.pb-fit { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(128, 128, 128, .6); background: var(--c); padding: 0; cursor: pointer; }
+.pb-fit[hidden] { display: none; }
+.pb-fit[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pb-fit:disabled { opacity: .3; cursor: default; }
+.pb-msg { margin: 6px 0 0; font-size: .9rem; color: var(--accent); min-height: 0; }
+.pb-msg:empty { display: none; }
+.pv-pic { position: relative; }
+.pv-add { position: absolute; right: 6px; bottom: 6px; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); color: var(--text); font: inherit; font-size: 1.4rem; line-height: 1; cursor: pointer; box-shadow: 0 1px 4px rgba(0, 0, 0, .25); }
+.pv-add.off { opacity: .35; }
+.pv-card[draggable="true"] { cursor: grab; }
+@media (max-width: 799px) { .pb.has .pb-h, .pb.has .pb-help { display: none; } }
 
