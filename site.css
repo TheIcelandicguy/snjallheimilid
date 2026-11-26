@@ -114,6 +114,11 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
 .sys { background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--sky); border-radius: 12px; padding: 18px; }
 .sys h3 { margin: 0 0 6px; }
 .sys > p { margin: 0 0 14px; }
+.sys.ha { margin: 16px 0 0; border-top-color: var(--accent); }
+.sys .points { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+.sys.ha figure { margin: 14px 0 0; }
+.sys.ha figure img { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); display: block; }
+.sys.ha figcaption { margin-top: 6px; }
 .pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
 .pfig { margin: 0; }
 .pimg { background: #fff; border-radius: 10px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; padding: 8px; }
@@ -122,3 +127,67 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
 .small { font-size: .82rem; }
 
 .links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 14px; }
+
+/* The drawn view of the fitting lines on a wall (owner 2026-11-24; markup written by tools/lines_view.py). The drawings take their colours from the
+   variables below: data-fit on .lv is the colour of the fittings, data-line the line's shape (corner radius, glass gloss), --wall the wall. */
+.lv { margin: 18px 0 24px; --wall: #f3f1ec; --plate: #f4f4f1; --key: #ffffff; --recess: #e6e6e1; --ink: #7d838a; --edge: rgba(0, 0, 0, .22); --shade: rgba(0, 0, 0, .09); --led: #57b7ff; --rx: 6px; }
+.lv[data-fit="black"] { --plate: #17181a; --key: #24272a; --recess: #0f1011; --ink: #a7adb3; --edge: rgba(255, 255, 255, .16); --shade: rgba(255, 255, 255, .08); }
+.lv[data-fit="grey"] { --plate: #8b9097; --key: #9ba0a7; --recess: #777c83; --ink: #2e3136; --edge: rgba(0, 0, 0, .28); --shade: rgba(0, 0, 0, .12); }
+.lv[data-fit="gold"] { --plate: #c5a45c; --key: #d6b970; --recess: #b08f48; --ink: #54421a; --edge: rgba(0, 0, 0, .26); --shade: rgba(0, 0, 0, .12); }
+.lv[data-line="mosaic"] { --rx: 3px; } .lv[data-line="valena"] { --rx: 10px; } .lv[data-line="merten"] { --rx: 1.5px; } .lv[data-line="bseed_glass"] { --rx: 5px; } .lv[data-line="bseed_plastic"] { --rx: 7px; }
+.lv h3 { margin: 0 0 4px; }
+.lv-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; }
+.lv-lab { flex: 0 0 4.2em; color: var(--muted); font-size: .9rem; }
+.lv-tab, .lv-fit, .lv-mode { min-height: 40px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--text); font: inherit; font-size: .9rem; cursor: pointer; }
+.lv-tab[aria-pressed="true"], .lv-fit[aria-pressed="true"], .lv-mode[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); font-weight: 600; }
+.lv-sw { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--c); cursor: pointer; padding: 0; }
+.lv-sw[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lv-fits[hidden] { display: none; }
+.lv-wall { overflow: hidden; background: radial-gradient(120% 90% at 18% 0%, rgba(255, 255, 255, .22), rgba(255, 255, 255, 0) 60%), linear-gradient(rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, .10)), var(--wall); border: 1px solid var(--line); border-radius: 14px; padding: 18px 14px 22px; transition: background-color .35s; color: var(--wall-ink, #1f2328); }
+.lv-wall.darkwall { --wall-ink: #f1f3f5; }
+.lv-set h4 { margin: 0 0 12px; font-size: 1rem; } .lv-set h5 { margin: 20px 0 10px; font-size: .86rem; font-weight: 600; opacity: .8; }
+.lv-set + .lv-set { margin-top: 28px; }
+.lv.js .lv-set { display: none; } .lv.js .lv-set.on { display: block; animation: lv-in .35s ease-out; }
+.lv.js .lv-set h4 { display: none; }
+@keyframes lv-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.lv-grid { display: flex; flex-wrap: wrap; gap: 16px 10px; align-items: flex-start; }
+.lv-fig { margin: 0; flex: 0 0 auto; width: 98px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+.lv-fig.wide { width: auto; flex: 0 1 auto; max-width: 100%; }
+.lv-fig figcaption { font-size: .7rem; line-height: 1.25; max-width: 100%; overflow-wrap: anywhere; }
+.lv-fig.wide figcaption { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 10px; }
+.lv-svg { width: calc(var(--n) * 68px + 16px); max-width: 100%; height: auto; display: block; filter: drop-shadow(0 2px 2.5px rgba(0, 0, 0, .32)); }
+.lv-svg .plate { fill: var(--plate); stroke: var(--edge); rx: var(--rx); }
+/* Legrand Mosaic: a 45 mm module in an 82 mm plate, so the part is smaller in its frame than on the lines whose rocker fills a 55 mm opening */
+.lv-svg .cell { transform-origin: 30px 36px; }
+/* The 3D picture of a frame: shown in place of its drawing when .lv has data-mode="3d". It is --k times as wide as the frame in it (the wall round the
+   frame holds its shadow), so it is drawn that much wider than the drawing and pulled back by negative margins: the frame sits where the drawing sat. */
+.lv-modes { display: none; } .lv.js .lv-modes { display: flex; }
+.lv-pic { display: none; --fw: calc(var(--n) * 68px + 16px); width: calc(var(--fw) * var(--k)); max-width: calc(100% * var(--k)); height: auto; margin: calc(var(--fw) * (1 - var(--k)) / 2); margin-block: -9px -3px; }
+.lv[data-mode="3d"] .lv-fig .lv-svg { display: none; }
+.lv[data-mode="3d"] .lv-pic { display: block; }
+
+.lv-svg .band { fill: none; stroke: #fff; stroke-opacity: .55; stroke-width: 2.5; stroke-linecap: round; }
+.lv[data-line="mosaic"] .lv-svg .cell { transform: scale(.74); }
+.lv-svg .gloss { display: none; fill: url(#lv-gloss); rx: var(--rx); pointer-events: none; }
+.lv[data-line="bseed_glass"] .lv-svg .gloss, .lv[data-line="merten"] .lv-svg .gloss { display: block; }
+.lv-svg .k { fill: var(--key); stroke: var(--edge); stroke-width: .8; }
+.lv-svg .d { fill: var(--recess); stroke: var(--edge); stroke-width: .8; }
+.lv-svg .i, .lv-svg .knob { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.lv-svg .knob { stroke-width: 2.4; }
+.lv-svg .f { fill: var(--ink); } .lv-svg text.f { font-family: inherit; }
+.lv-svg .lid { fill: var(--key); stroke: var(--edge); stroke-width: .8; opacity: .92; }
+.lv-svg .hit { fill: transparent; }
+.lv-svg .sh { fill: var(--shade); opacity: 0; transition: opacity .16s; pointer-events: none; }
+.lv-svg .rock .sh.b { opacity: 1; } .lv-svg .rock.on .sh.b { opacity: 0; } .lv-svg .rock.on .sh.a { opacity: 1; }
+.lv-svg .led { fill: none; stroke: var(--led); stroke-width: 1.6; transition: fill .2s, stroke .2s, filter .2s; }
+.lv-svg .rock.on .led, .lv-svg .led.on { fill: #ffb341; stroke: #ffb341; filter: drop-shadow(0 0 2.5px #ffb341); }
+.lv-svg .lamp { fill: var(--recess); stroke: var(--edge); stroke-width: .6; transition: fill .2s, filter .2s; }
+.lv-svg .rock.on .lamp { fill: #ff6a3d; filter: drop-shadow(0 0 2.5px #ff6a3d); }
+@media (prefers-reduced-motion: reduce) { .lv-wall, .lv-svg .sh, .lv-svg .led, .lv-svg .lamp { transition: none; } .lv.js .lv-set.on { animation: none; } }
+
+.lv-fig[hidden] { display: none; }
+/* the close-up of a line: with the 3D pictures only; it has a wall of its own, so it is framed like a photograph */
+.lv-hero { display: none; margin: 0 0 18px; }
+.lv[data-mode="3d"] .lv-hero { display: block; }
+.lv-hero img { display: block; width: 100%; max-width: 760px; height: auto; border-radius: 10px; box-shadow: 0 6px 22px rgba(0, 0, 0, .28); }
+.lv-hero figcaption { margin-top: 6px; font-size: .78rem; opacity: .75; color: var(--wall-ink, inherit); }
