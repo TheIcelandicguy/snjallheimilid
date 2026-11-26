@@ -191,3 +191,43 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
 .lv[data-mode="3d"] .lv-hero { display: block; }
 .lv-hero img { display: block; width: 100%; max-width: 760px; height: auto; border-radius: 10px; box-shadow: 0 6px 22px rgba(0, 0, 0, .28); }
 .lv-hero figcaption { margin-top: 6px; font-size: .78rem; opacity: .75; color: var(--wall-ink, inherit); }
+
+/* The product page (vorur.html, written by tools/products.py; vorur.js filters). A card is one part of one line on a wall-coloured tile; the
+   filters are a list of groups with a count beside each choice. Under 800 px the filters open from a button; without script they are hidden. */
+.pv { padding-block: 32px 56px; }
+.pv-head { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; margin: 18px 0 12px; }
+.pv-count { margin: 0; color: var(--muted); font-size: .95rem; }
+.pv-count b { color: var(--text); }
+.pv-toggle, .pv-clear { padding: 8px 14px; font-size: .95rem; }
+.pv-clear { margin-left: auto; }
+.pv-clear[hidden], .pv-card[hidden], .pv-none[hidden] { display: none; }
+.pv:not(.js) .pv-filters, .pv:not(.js) .pv-toggle { display: none; }
+.pv-filters { display: none; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 14px; margin-bottom: 14px; }
+.pv.filters-open .pv-filters { display: block; }
+.pv-group { border-bottom: 1px solid var(--line); }
+.pv-group:last-child { border-bottom: 0; }
+.pv-group summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.pv-group summary::-webkit-details-marker { display: none; }
+.pv-group summary::after { content: ""; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; margin-right: 4px; }
+.pv-group[open] summary::after { transform: rotate(45deg); }
+.pv-opts { padding: 0 0 10px; }
+.pv-opts label { display: flex; align-items: center; gap: 10px; min-height: 40px; color: var(--text); font-size: .95rem; cursor: pointer; }
+.pv-opts label.zero { color: var(--muted); opacity: .6; cursor: default; }
+.pv-opts input { display: inline-block; width: 20px; height: 20px; margin: 0; padding: 0; flex: none; accent-color: var(--accent); }
+.pv-n { color: var(--muted); }
+.pv-dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: var(--c); border: 1px solid rgba(128, 128, 128, .55); flex: none; }
+.pv-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; align-content: start; }
+.pv-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.pv-pic { background: radial-gradient(120% 90% at 18% 0%, rgba(255, 255, 255, .22), rgba(255, 255, 255, 0) 60%), #e9e6df; border-radius: 8px; overflow: hidden; }
+.pv-pic img { display: block; width: 100%; height: auto; }
+.pv-card h3 { font-size: .95rem; margin: 6px 0 0; }
+.pv-line { margin: 0; color: var(--muted); font-size: .82rem; }
+.pv-dots { margin: 2px 0 0; display: flex; gap: 5px; }
+.pv-none { color: var(--muted); padding: 24px 0; }
+.pv .cta { margin: 24px 0 14px; }
+@media (min-width: 800px) {
+  .pv-toggle { display: none; }
+  .pv-body { display: grid; grid-template-columns: 230px 1fr; gap: 20px; align-items: start; }
+  .pv.js .pv-filters { display: block; position: sticky; top: 76px; margin: 0; max-height: calc(100vh - 92px); overflow: auto; }
+}
+

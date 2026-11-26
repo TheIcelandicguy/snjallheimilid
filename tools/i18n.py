@@ -16,6 +16,8 @@ import sys
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 LANGS = ['en', 'es', 'pl']
+# the pages: index.html is written by hand, vorur.html by tools/products.py. A link from one to another stays inside the language's folder
+PAGES = ['index.html', 'vorur.html']
 HOST = 'https://xn--snjallheimili-gkb.is/'
 ATTRS = ('content', 'alt', 'aria-label', 'placeholder', 'title')
 SKIP = re.compile(r'<(svg|script|style)\b.*?</\1>', re.S)
@@ -98,7 +100,7 @@ def translate(src, tr, lang, missing):
     s = SVG_TEXT.sub(lambda m: m.group(1) + html.escape(tr.get(m.group(2), m.group(2)), quote=False) + m.group(3), s)
     s = s.replace('<html lang="is">', f'<html lang="{lang}">')
     # one level down: relative links and sources
-    s = re.sub(r'\b(href|src|poster)="(?!https?:|#|/|data:|mailto:|\.\./)([^"]+)"', lambda m: f'{m.group(1)}="../{m.group(2)[2:] if m.group(2).startswith("./") else m.group(2)}"', s)
+    s = re.sub(r'\b(href|src|poster)="(?!https?:|#|/|data:|mailto:|\.\./|(?:' + '|'.join(re.escape(p) for p in PAGES) + r')(?:[#?"]))([^"]+)"', lambda m: f'{m.group(1)}="../{m.group(2)[2:] if m.group(2).startswith("./") else m.group(2)}"', s)
     s = s.replace('../video/einn-dagur.mp4', f'../video/einn-dagur.{lang}.mp4')
     js = {k: tr[k] for k in JS_STRINGS if k in tr}
     for k in JS_STRINGS:
@@ -109,24 +111,26 @@ def translate(src, tr, lang, missing):
 
 
 def main():
-    src = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
+    srcs = {p: open(os.path.join(ROOT, p), encoding='utf-8').read() for p in PAGES}
+    used = [s for src in srcs.values() for s in segments(src)] + JS_STRINGS + SVG_STRINGS
     if '--dump' in sys.argv:
-        print(json.dumps({s: '' for s in segments(src) + JS_STRINGS + SVG_STRINGS}, ensure_ascii=False, indent=2))
+        print(json.dumps({s: '' for s in dict.fromkeys(used)}, ensure_ascii=False, indent=2))
         return
     for lang in LANGS:
         tr = json.load(open(os.path.join(ROOT, 'i18n', f'{lang}.json'), encoding='utf-8'))
         missing = set()
-        page = translate(src, tr, lang, missing)
+        pages = {p: translate(src, tr, lang, missing) for p, src in srcs.items()}
         if missing:
             print(f'{lang}: {len(missing)} text(s) without a translation:')
             for t in sorted(missing):
                 print('  ', json.dumps(t, ensure_ascii=False))
             sys.exit(1)
         os.makedirs(os.path.join(ROOT, lang), exist_ok=True)
-        with open(os.path.join(ROOT, lang, 'index.html'), 'w', encoding='utf-8') as f:
-            f.write(page)
-        unused = [k for k in tr if k not in segments(src) and k not in JS_STRINGS and k not in SVG_STRINGS]
-        print(f'{lang}/index.html written' + (f'; unused keys: {unused}' if unused else ''))
+        for p, page in pages.items():
+            with open(os.path.join(ROOT, lang, p), 'w', encoding='utf-8') as f:
+                f.write(page)
+        unused = [k for k in tr if k not in used]
+        print(f'{lang}: {", ".join(pages)} written' + (f'; unused keys: {unused}' if unused else ''))
 
 
 if __name__ == '__main__':
