@@ -3,7 +3,7 @@
 # Snjallheimilið
 
 Heimasíða Snjallheimilisins: snjallvæðing heimila á Akureyri. Kyrrstæð síða (HTML, CSS, vanilla JS), hýst á
-GitHub Pages, ætluð léninu `snjallheimilið.is`.
+GitHub Pages, ætluð léninu `snjallheimilid.is`.
 
 Verðáætlunin sem síðan vísar á er í [smart-home-estimator](https://github.com/TheIcelandicguy/smart-home-estimator)
 (`quick.html`); slóðin er `AETLUN` í `site.js`.
