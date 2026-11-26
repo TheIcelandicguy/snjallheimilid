@@ -18,14 +18,14 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 LANGS = ['en', 'es', 'pl']
 # the pages: index.html is written by hand, vorur.html by tools/products.py. A link from one to another stays inside the language's folder
 PAGES = ['index.html', 'vorur.html']
-HOST = 'https://xn--snjallheimili-gkb.is/'
+HOST = 'https://snjallheimilid.is/'
 ATTRS = ('content', 'alt', 'aria-label', 'placeholder', 'title')
 SKIP = re.compile(r'<(svg|script|style)\b.*?</\1>', re.S)
 TAG_TEXT = re.compile(r'>([^<>]+)<')
 ATTR = re.compile(r'\b(' + '|'.join(ATTRS) + r')="([^"]+)"')
 # the strings site.js shows: keyed by the Icelandic text, as in the JSON files
 JS_STRINGS = ['Nafn, netfang og erindi þarf að fylla út.', 'Sendi…', 'Takk, erindið er komið. Ég svara eins fljótt og ég get.',
-              'Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint.', 'Fyrirspurn af snjallheimilið.is', 'Spila', 'Stöðva']
+              'Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint.', 'Fyrirspurn af snjallheimilid.is', 'Spila', 'Stöðva']
 # the room names and circuit labels drawn in the hero's svg (text class rn / gr); the svg is skipped as a whole above,
 # so these are looked up here, in the same JSON files
 SVG_STRINGS = ['Stofa', 'Eldhús', 'Svefnherbergi', 'Baðherbergi', 'Forstofa', 'Gr.1', 'Gr.2']

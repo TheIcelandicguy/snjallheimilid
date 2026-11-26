@@ -1,8 +1,8 @@
 'use strict';
 /* Snjallheimilið: the home page's small script. The estimate lives in the smart-home-estimator repo (quick.html);
-   AETLUN is its address, every [data-aetlun] link points there (aetlun.snjallheimilið.is since 2026-11-02).
+   AETLUN is its address, every [data-aetlun] link points there (aetlun.snjallheimilid.is since 2026-11-02).
    The contact form posts JSON to Formspree (same form as the estimate page, another subject). */
-const AETLUN = 'https://aetlun.xn--snjallheimili-gkb.is/quick.html';
+const AETLUN = 'https://aetlun.snjallheimilid.is/quick.html';
 const FORM = 'mjyypvge';
 // the page's language: tools/i18n.py writes en/, es/ and pl/ copies of index.html and sets window.I18N there, with the
 // few strings this script shows; Icelandic is the source and needs no table
@@ -21,7 +21,7 @@ form.addEventListener('submit', async (e) => {
   if (!f.name.value.trim() || !f.email.value.trim() || !f.message.value.trim()) return say(t('Nafn, netfang og erindi þarf að fylla út.'), 'err');
   if (f._gotcha.value) return; // a bot filled the hidden field
   const btn = f.querySelector('button[type=submit]'); btn.disabled = true; say(t('Sendi…'), '');
-  const data = { name: f.name.value, email: f.email.value, phone: f.phone.value, place: f.place.value, message: f.message.value, _subject: t('Fyrirspurn af snjallheimilið.is'), lang: LANG };
+  const data = { name: f.name.value, email: f.email.value, phone: f.phone.value, place: f.place.value, message: f.message.value, _subject: t('Fyrirspurn af snjallheimilid.is'), lang: LANG };
   try {
     const r = await fetch(`https://formspree.io/f/${FORM}`, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) });
     if (!r.ok) throw new Error('svar ' + r.status);

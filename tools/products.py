@@ -14,7 +14,7 @@ import os
 from lines_view import FITS, MARGIN, NAMES, OFFER, SIZES, SMART, TABS, fits_of, glyph, offered
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-HOST = 'https://xn--snjallheimili-gkb.is/'
+HOST = 'https://snjallheimilid.is/'
 # the sizes of frame each line has in each colour, in positions side by side: written by the estimator's tools/lines_offer.mjs, like lines.json
 FRAMES = json.load(io.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'frames.json'), encoding='utf-8'))
 
@@ -180,7 +180,7 @@ def build():
     out.append(f'''    </ul>
     </div>
     <p class="pv-none" id="pvNone" hidden>{T("none")}</p>
-    <div class="cta"><a class="btn primary" data-aetlun href="https://aetlun.xn--snjallheimili-gkb.is/quick.html">{T("cta")}</a></div>
+    <div class="cta"><a class="btn primary" data-aetlun href="https://aetlun.snjallheimilid.is/quick.html">{T("cta")}</a></div>
     <p class="muted small">{T("note")}</p>
   </div>
 </section>
