@@ -10,12 +10,17 @@ i18n/<lang>.json where the key is missing; es / pl are Claude's, not read by a n
 import io
 import json
 import os
+import re
 
 from lines_view import FITS, MARGIN, NAMES, OFFER, SIZES, SMART, TABS, fits_of, glyph, offered
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 HOST = 'https://snjallheimilid.is/'
 # the sizes of frame each line has in each colour, in positions side by side: written by the estimator's tools/lines_offer.mjs, like lines.json
+# the policy and the visit counter's tag are index.html's, copied so that the two pages cannot differ
+INDEX = io.open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
+CSP = re.search(r'<meta http-equiv="Content-Security-Policy"[^>]*>', INDEX).group(0)
+COUNTER = re.search(r'<script data-goatcounter[^>]*></script>', INDEX).group(0)
 FRAMES = json.load(io.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'frames.json'), encoding='utf-8'))
 
 # the kinds of part, as the filter groups them: id, (is, en, es, pl), the parts
@@ -119,6 +124,7 @@ def build():
 <html lang="is">
 <head>
 <meta charset="utf-8">
+{CSP}
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{T("title")}</title>
 <meta name="description" content="{T("desc")}">
@@ -193,7 +199,7 @@ def build():
   </div>
 </footer>
 <script src="vorur.js"></script>
-<script data-goatcounter="https://snjallheimilid.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+''' + COUNTER + '''
 </body>
 </html>
 ''')

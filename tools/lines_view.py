@@ -93,6 +93,8 @@ FITS = [('white', ('Hvítt', 'White', 'Blanco', 'Biały')), ('black', ('Svart', 
 # ones, and the frames of several positions shown as examples
 OFFER = json.load(io.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'lines.json'), encoding='utf-8'))
 TABS = [('mosaic', 'Legrand Mosaic N'), ('valena', 'Legrand Valena'), ('merten', 'Merten System M'), ('bseed_glass', 'BSEED gler'), ('bseed_plastic', 'BSEED plast')]
+# a line's name is the maker's and stands in every language, but for the word that tells BSEED's two lines apart: (Icelandic, en, es, pl)
+LINE_NAMES = {'BSEED gler': ('BSEED gler', 'BSEED glass', 'BSEED cristal', 'BSEED szkło'), 'BSEED plast': ('BSEED plast', 'BSEED plastic', 'BSEED plástico', 'BSEED plastik')}
 SMART = ['touch1', 'touch2', 'touch3', 'touch4', 'tdim', 'ssocket', 'sblind', 'scurtain', 'heatw', 'heate']
 COMBOS = {'mosaic': [['sw2', 'socket'], ['socket', 'socket', 'socket']], 'valena': [['sw3', 'socket'], ['sw1', 'sw2', 'socket']], 'merten': [['sw2', 'socket'], ['socket', 'socket', 'net']],
           'bseed_glass': [['touch2', 'socket'], ['touch3', 'tdim', 'socket_usb']], 'bseed_plastic': [['sw2', 'socket'], ['touch2', 'sblind', 'socket', 'net']]}
@@ -304,7 +306,7 @@ def main():
         at = s.index('<div class="systems">', sec)
         s = s[:at] + block + nl + '    ' + s[at:]
     io.open(p, 'w', encoding='utf-8', newline='').write(s)
-    texts = list(NAMES.values()) + list(UI.values()) + list(UNIT_NAMES.values()) + [n for _k, _c, n in WALLS] + [n for _k, n in FITS] + [(name,) * 4 for _i, name, *_r in LINES]
+    texts = list(NAMES.values()) + list(UI.values()) + list(UNIT_NAMES.values()) + [n for _k, _c, n in WALLS] + [n for _k, n in FITS] + [LINE_NAMES.get(name, (name,) * 4) for _i, name, *_r in LINES]
     for col, lang in enumerate(('en', 'es', 'pl'), 1):
         f = os.path.join(ROOT, 'i18n', lang + '.json')
         raw = io.open(f, encoding='utf-8', newline='').read()

@@ -1,24 +1,31 @@
 'use strict';
 /* Snjallheimilið: the home page's small script. The estimate lives in the smart-home-estimator repo (quick.html);
-   AETLUN is its address, every [data-aetlun] link points there (aetlun.snjallheimilid.is since 2026-11-02).
+   AETLUN is its address, every [data-aetlun] link points there (aetlun.snjallheimilid.is since 2026-11-02); the markup
+   carries the same address, so the links work without this script, and tools/i18n.py writes ?lang= into the copies.
    The contact form posts JSON to Formspree (same form as the estimate page, another subject). */
 const AETLUN = 'https://aetlun.snjallheimilid.is/quick.html';
 const FORM = 'mjyypvge';
-// the page's language: tools/i18n.py writes en/, es/ and pl/ copies of index.html and sets window.I18N there, with the
-// few strings this script shows; Icelandic is the source and needs no table
-const LANG = (window.I18N && window.I18N.lang) || 'is';
-const t = (s) => (window.I18N && window.I18N.t[s]) || s;
+// the page's language: tools/i18n.py writes en/, es/ and pl/ copies of index.html and puts the few strings this script
+// shows into them as JSON (#i18n, data and not script: the page's Content-Security-Policy runs no script written in the
+// page); Icelandic is the source and needs no table
+const I18N = JSON.parse((document.getElementById('i18n') || {}).textContent || 'null');
+const LANG = (I18N && I18N.lang) || 'is';
+const t = (s) => (I18N && I18N.t[s]) || s;
 const base = LANG === 'is' ? '' : '../';
 
 document.querySelectorAll('[data-aetlun]').forEach((a) => { a.href = AETLUN + (LANG === 'is' ? '' : '?lang=' + LANG); });
 document.querySelectorAll('.lang a').forEach((a) => { if (a.getAttribute('lang') === LANG) a.setAttribute('aria-current', 'page'); });
 document.getElementById('year').textContent = String(new Date().getFullYear());
 
+// without this script the form posts itself to Formspree (method and action in the markup) and the browser checks the fields;
+// with it the answer is shown here, so the browser's own check is switched off and the fields are checked below
+const MAIL = 'david@snjallheimilid.is';
 const form = document.getElementById('contact'), msg = document.getElementById('formMsg');
+form.noValidate = true;
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const f = e.target, say = (t, cls) => { msg.textContent = t; msg.className = 'fine ' + cls; };
-  if (!f.name.value.trim() || !f.email.value.trim() || !f.message.value.trim()) return say(t('Nafn, netfang og erindi þarf að fylla út.'), 'err');
+  if (!f.name.value.trim() || !f.email.value.trim() || !f.message.value.trim() || !f.email.checkValidity()) return say(t('Nafn, netfang og erindi þarf að fylla út.'), 'err');
   if (f._gotcha.value) return; // a bot filled the hidden field
   const btn = f.querySelector('button[type=submit]'); btn.disabled = true; say(t('Sendi…'), '');
   const data = { name: f.name.value, email: f.email.value, phone: f.phone.value, place: f.place.value, message: f.message.value, _subject: t('Fyrirspurn af snjallheimilid.is'), lang: LANG };
@@ -27,7 +34,10 @@ form.addEventListener('submit', async (e) => {
     if (!r.ok) throw new Error('svar ' + r.status);
     f.reset(); say(t('Takk, erindið er komið. Ég svara eins fljótt og ég get.'), 'ok');
   } catch (err) {
-    say(t('Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint.').replace('{err}', err.message), 'err'); btn.disabled = false;
+    // the address stands in the message as a link: the text around it is set as text, never as HTML
+    const [a, b] = t('Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint á {mail}.').replace('{err}', err.message).split('{mail}');
+    const link = document.createElement('a'); link.href = 'mailto:' + MAIL; link.textContent = MAIL;
+    say(a, 'err'); msg.append(link, b || ''); btn.disabled = false;
   }
 });
 

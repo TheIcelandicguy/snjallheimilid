@@ -7,7 +7,8 @@ translation stops the build and is listed, so the pages never ship half-translat
   python tools/i18n.py --dump   print every text of index.html that needs a translation, as JSON keys
 
 Relative links and sources get ../ in front; the film and its captions take the language's own files
-(video/einn-dagur.<lang>.mp4, tools/film/timeline.<lang>.json), and site.js gets its few strings in window.I18N."""
+(video/einn-dagur.<lang>.mp4, tools/film/timeline.<lang>.json), and site.js gets its few strings as JSON in the page
+(#i18n: data, not script, so the pages' Content-Security-Policy needs no hash for it)."""
 import html
 import json
 import os
@@ -19,13 +20,14 @@ LANGS = ['en', 'es', 'pl']
 # the pages: index.html is written by hand, vorur.html by tools/products.py. A link from one to another stays inside the language's folder
 PAGES = ['index.html', 'vorur.html']
 HOST = 'https://snjallheimilid.is/'
+AETLUN = 'https://aetlun.snjallheimilid.is/quick.html'  # the estimate page, as in site.js and in the pages' [data-aetlun] links
 ATTRS = ('content', 'alt', 'aria-label', 'placeholder', 'title')
 SKIP = re.compile(r'<(svg|script|style)\b.*?</\1>', re.S)
 TAG_TEXT = re.compile(r'>([^<>]+)<')
 ATTR = re.compile(r'\b(' + '|'.join(ATTRS) + r')="([^"]+)"')
 # the strings site.js shows: keyed by the Icelandic text, as in the JSON files
 JS_STRINGS = ['Nafn, netfang og erindi þarf að fylla út.', 'Sendi…', 'Takk, erindið er komið. Ég svara eins fljótt og ég get.',
-              'Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint.', 'Fyrirspurn af snjallheimilid.is', 'Spila', 'Stöðva']
+              'Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint á {mail}.', 'Fyrirspurn af snjallheimilid.is', 'Spila', 'Stöðva']
 # the room names and circuit labels drawn in the hero's svg (text class rn / gr); the svg is skipped as a whole above,
 # so these are looked up here, in the same JSON files
 SVG_STRINGS = ['Stofa', 'Eldhús', 'Svefnherbergi', 'Baðherbergi', 'Forstofa', 'Gr.1', 'Gr.2']
@@ -39,6 +41,8 @@ def plain(s):
 def needs(s):
     """A text that is words, not a number, a symbol or a name that stays the same in every language."""
     t = plain(s)
+    if re.fullmatch(r'[\w.+-]+@[\w.-]+', t) or t.startswith('default-src '):  # an e-mail address and the Content-Security-Policy stand as they are
+        return False
     return bool(t) and bool(re.search(r'[A-Za-zÀ-ÿÞþÐðÆæÖö]{2}', t)) and '=' not in t and t not in ('Snjallheimilið', 'GitHub', 'Akureyri', 'Snjallheimilið · Akureyri', 'IS', 'EN', 'ES', 'PL', 'website', 'Íslenska', 'English', 'Español', 'Polski')
 
 
@@ -102,11 +106,13 @@ def translate(src, tr, lang, missing):
     # one level down: relative links and sources
     s = re.sub(r'\b(href|src|poster)="(?!https?:|#|/|data:|mailto:|\.\./|(?:' + '|'.join(re.escape(p) for p in PAGES) + r')(?:[#?"]))([^"]+)"', lambda m: f'{m.group(1)}="../{m.group(2)[2:] if m.group(2).startswith("./") else m.group(2)}"', s)
     s = s.replace('../video/einn-dagur.mp4', f'../video/einn-dagur.{lang}.mp4')
+    # the estimate opens in the page's language (the scripts set the same address; this is for a page without script)
+    s = s.replace(f'href="{AETLUN}"', f'href="{AETLUN}?lang={lang}"')
     js = {k: tr[k] for k in JS_STRINGS if k in tr}
     for k in JS_STRINGS:
         if k not in tr:
             missing.add(k)
-    s = s.replace('<script src="../site.js"></script>', '<script>window.I18N=' + json.dumps({'lang': lang, 't': js}, ensure_ascii=False) + '</script>\n<script src="../site.js"></script>')
+    s = s.replace('<script src="../site.js"></script>', '<script type="application/json" id="i18n">' + json.dumps({'lang': lang, 't': js}, ensure_ascii=False).replace('</', '<\\/') + '</script>\n<script src="../site.js"></script>')
     return s
 
 

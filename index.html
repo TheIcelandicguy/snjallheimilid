@@ -2,6 +2,10 @@
 <html lang="is">
 <head>
 <meta charset="utf-8">
+<!-- What the page may load and where it may send: its own files, the visit counter and the contact form's post, nothing else.
+     No script stands in the page itself (the language pages carry their strings as JSON, which is data); style is allowed inline
+     because the drawings carry their measures in style attributes. check_docs.py checks every page against this. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://gc.zgo.at/count.v5.js; style-src 'self' 'unsafe-inline'; img-src 'self' https://snjallheimilid.goatcounter.com; media-src 'self'; font-src 'self'; connect-src 'self' https://formspree.io https://snjallheimilid.goatcounter.com; object-src 'none'; base-uri 'self'; form-action https://formspree.io">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Snjallheimilið – snjallvæðing heimila á Akureyri</title>
 <meta name="description" content="Snjallheimilið: ljós, tenglar, hiti og skynjarar sem vinna saman. Svaraðu nokkrum spurningum og fáðu verðbil á efninu strax; teikning, efnislisti og tilboð á eftir.">
@@ -116,7 +120,7 @@
     <h1>Hvað kostar að gera heimilið snjallt?</h1>
     <p class="lede">Ljós sem kveikja sjálf, tenglar sem slökkva á sér, hiti sem fylgir deginum og skynjarar sem láta vita. Allt í núverandi rofum og dósum, með Shelly-einingum sem virka án nettengingar við útlönd.</p>
     <div class="cta">
-      <a class="btn primary" data-aetlun href="#">Fáðu verðbil á 2 mínútum</a>
+      <a class="btn primary" data-aetlun href="https://aetlun.snjallheimilid.is/quick.html">Fáðu verðbil á 2 mínútum</a>
       <a class="btn" href="#dagur">Hvernig virkar þetta?</a>
     </div>
     <p class="fine">Þú svarar spurningum um rýmin, ljósin og tenglana. Áætlunin sýnir efnið og verðbil, engin skuldbinding.</p>
@@ -135,7 +139,7 @@
         <button type="button" class="play" data-play>Spila</button>
       </div>
     </div>
-    <div class="cta"><a class="btn primary" data-aetlun href="#">Fá verðbil</a></div>
+    <div class="cta"><a class="btn primary" data-aetlun href="https://aetlun.snjallheimilid.is/quick.html">Fá verðbil</a></div>
   </div>
 </section>
 
@@ -180,7 +184,7 @@
       <div role="tabpanel" id="p-led" aria-labelledby="t-led" class="panel"><p>COB-borðar í RGB, RGB með stillanlegu hvítu eða stillanlegu hvítu (CCT), með spenni og stýringu sem ræður við litina. Borðarnir eru teiknaðir sem línuleg ljós á grunnmyndinni og taldir á metra.</p></div>
       <div role="tabpanel" id="p-stjorn" aria-labelledby="t-stjorn" class="panel"><p>Home Assistant, ýmist sem lítil stjórnstöð eða lítil tölva, ef þú vilt allt á einum stað. Án stjórnstöðvar virka einingarnar í Shelly-appinu.</p></div>
     </div>
-    <div class="cta"><a class="btn primary" data-aetlun href="#">Fá verðbil</a></div>
+    <div class="cta"><a class="btn primary" data-aetlun href="https://aetlun.snjallheimilid.is/quick.html">Fá verðbil</a></div>
   </div>
 </section>
 
@@ -194,7 +198,7 @@
     <div class="sys"><h3>Plejd</h3><p>Sænskt Bluetooth mesh-kerfi fyrir ljós. Einingarnar tala saman og styrkja netið, kerfið virkar án nettengingar og er sett upp í Plejd-appinu. Gateway þarf til að stýra að heiman. Enginn opinber Home Assistant-stuðningur, aðeins samfélagslausnir.</p><div class="pgrid"><figure class="pfig"><div class="pimg"><img src="img/products/plejd/gwy.jpg" width="180" height="180" loading="lazy" alt="Gateway"></div><figcaption>Gateway</figcaption></figure><figure class="pfig"><div class="pimg"><img src="img/products/plejd/dim.jpg" width="180" height="180" loading="lazy" alt="Dimmer í dós"></div><figcaption>Dimmer í dós</figcaption></figure><figure class="pfig"><div class="pimg"><img src="img/products/plejd/rel.jpg" width="180" height="180" loading="lazy" alt="Rofaliði í dós"></div><figcaption>Rofaliði í dós</figcaption></figure><figure class="pfig"><div class="pimg"><img src="img/products/plejd/jal.jpg" width="180" height="180" loading="lazy" alt="Gluggatjaldastýring"></div><figcaption>Gluggatjaldastýring</figcaption></figure><figure class="pfig"><div class="pimg"><img src="img/products/plejd/wph.jpg" width="180" height="180" loading="lazy" alt="Þráðlaus veggrofi"></div><figcaption>Þráðlaus veggrofi</figcaption></figure><figure class="pfig"><div class="pimg"><img src="img/products/plejd/wms.jpg" width="180" height="180" loading="lazy" alt="Hreyfiskynjari"></div><figcaption>Hreyfiskynjari</figcaption></figure><figure class="pfig"><div class="pimg"><img src="img/products/plejd/trm.jpg" width="180" height="180" loading="lazy" alt="Hitastillir"></div><figcaption>Hitastillir</figcaption></figure><figure class="pfig"><div class="pimg"><img src="img/products/plejd/led.jpg" width="180" height="180" loading="lazy" alt="LED-straumgjafi"></div><figcaption>LED-straumgjafi</figcaption></figure></div></div>
     <div class="sys"><h3>Tuya (Zigbee og Wi-Fi)</h3><p>Opinn vettvangur með mörgum framleiðendum, til dæmis BSEED. Hentar þar sem verð skiptir máli og útlit hönnunarrofa er mikilvægt: glerrofar, tenglar með USB og hitastýringar. Virkar með Zigbee og Home Assistant. Vottun, gæði og ábyrgð þarf að kanna fyrir hverja vöru.</p><div class="pgrid"><figure class="pfig"><div class="pimg"><img src="img/products/tuya/socket.jpg" width="180" height="180" loading="lazy" alt="Tengill með USB"></div><figcaption>Tengill með USB</figcaption></figure><figure class="pfig"><div class="pimg"><img src="img/products/tuya/touch.jpg" width="180" height="180" loading="lazy" alt="Rofi"></div><figcaption>Rofi</figcaption></figure><figure class="pfig"><div class="pimg"><img src="img/products/tuya/curtain.jpg" width="180" height="180" loading="lazy" alt="Tvöfaldur rofi"></div><figcaption>Tvöfaldur rofi</figcaption></figure><figure class="pfig"><div class="pimg"><img src="img/products/tuya/dim.jpg" width="180" height="180" loading="lazy" alt="Snertirofi úr gleri"></div><figcaption>Snertirofi úr gleri</figcaption></figure></div></div>
     </div>
-    <p class="muted small">Myndir eru úr vörulistum framleiðenda og söluaðila. Vörumerki og myndir eru eign eigenda sinna.</p>
+    <p class="muted small">Vörumyndirnar eru úr vörulistum framleiðenda og söluaðila og sýndar til að auðkenna vörurnar. Þær eru eign framleiðendanna: Shelly, Plejd og BSEED. Vörumerki eru eign eigenda sinna.</p>
   </div>
 </section>
 
@@ -228,7 +232,7 @@
     </div>
     <p class="muted">Berker, Gira, Elko og Bticino fást hjá Rönning. Við gerum áætlun um þau kerfi sé þess óskað.</p>
     <p class="links"><a href="https://www.ronning.is/category/0340---rofar--tenglar" target="_blank" rel="noopener">Berker</a> <a href="https://www.ronning.is/category/0342---gira-rofar--tenglar" target="_blank" rel="noopener">Gira</a> <a href="https://www.ronning.is/category/0341---elko-rofar--tenglar" target="_blank" rel="noopener">Elko</a> <a href="https://www.ronning.is/category/0343---bticino-rofar--tenglar" target="_blank" rel="noopener">Bticino</a></p>
-    <p class="muted small">Myndir eru úr vörulistum framleiðenda og söluaðila. Vörumerki og myndir eru eign eigenda sinna.</p>
+    <p class="muted small">Vörumyndirnar á spjöldunum eru úr vörulistum framleiðenda og söluaðila og sýndar til að auðkenna vörurnar. Þær eru eign framleiðendanna: Legrand, Schneider Electric (Merten) og BSEED. Teikningarnar og tölvugerðu myndirnar hér að ofan eru eigin verk Snjallheimilisins. Vörumerki eru eign eigenda sinna.</p>
   </div>
 </section>
 
@@ -241,7 +245,7 @@
       <li><div><b>Þú sendir fyrirspurn.</b> Svörin fylgja með, svo ég byrja ekki á núlli. Ég hef samband og við förum yfir húsið.</div></li>
       <li><div><b>Teikning, efnislisti og tilboð.</b> Lagnir og staðsetningar teiknaðar á grunnmynd hússins, efnislisti með verði, og nákvæmara verð en vefurinn getur gefið.</div></li>
     </ol>
-    <div class="cta"><a class="btn primary" data-aetlun href="#">Byrja áætlun</a></div>
+    <div class="cta"><a class="btn primary" data-aetlun href="https://aetlun.snjallheimilid.is/quick.html">Byrja áætlun</a></div>
   </div>
 </section>
 
@@ -274,8 +278,9 @@
 <section id="samband" class="alt">
   <div class="wrap">
     <h2>Hafa samband</h2>
-    <p>Ertu með spurningu? Hús sem þú vilt láta skoða eða hreinlega bara að forvitnast? Skrifaðu nokkrar línur. Ef þú vilt verðbil fyrst, <a data-aetlun href="#">byrjaðu á áætluninni</a>, þá fylgja svörin með fyrirspurninni.</p>
-    <form id="contact" novalidate>
+    <p>Ertu með spurningu? Hús sem þú vilt láta skoða eða hreinlega bara að forvitnast? Skrifaðu nokkrar línur. Ef þú vilt verðbil fyrst, <a data-aetlun href="https://aetlun.snjallheimilid.is/quick.html">byrjaðu á áætluninni</a>, þá fylgja svörin með fyrirspurninni.</p>
+    <form id="contact" method="post" action="https://formspree.io/f/mjyypvge">
+      <input type="hidden" name="_subject" value="Fyrirspurn af snjallheimilid.is">
       <div class="grid2">
         <label>Nafn<input name="name" required autocomplete="name"></label>
         <label>Netfang<input name="email" type="email" required autocomplete="email"></label>
@@ -285,6 +290,7 @@
       <label>Erindi<textarea name="message" rows="5" required></textarea></label>
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="gotcha" aria-hidden="true">
       <div class="cta"><button type="submit" class="btn primary">Senda</button><span id="formMsg" class="fine" role="status"></span></div>
+      <p class="muted small">Það sem þú sendir fer til Snjallheimilisins (Davíðs) í gegnum Formspree (þjónusta í Bandaríkjunum) og er aðeins notað til að svara erindinu. Því er eytt þegar málinu er lokið eða eftir 31 dag, eða fyrr ef þú biður um það. Þú getur líka sent póst beint á <a href="mailto:david@snjallheimilid.is">david@snjallheimilid.is</a>.</p>
     </form>
   </div>
 </section>
@@ -297,6 +303,8 @@
   </div>
 </footer>
 <script src="site.js"></script>
-<script data-goatcounter="https://snjallheimilid.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<!-- the visit counter, pinned: GoatCounter's versioned script with its hash (goatcounter.com/help/countjs-versions); count.js with no
+     version is whatever is served that day -->
+<script data-goatcounter="https://snjallheimilid.goatcounter.com/count" async src="https://gc.zgo.at/count.v5.js" crossorigin="anonymous" integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"></script>
 </body>
 </html>

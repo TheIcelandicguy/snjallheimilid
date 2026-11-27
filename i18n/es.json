@@ -72,7 +72,6 @@
   "Nafn, netfang og erindi þarf að fylla út.": "Hay que rellenar el nombre, el correo y el mensaje.",
   "Sendi…": "Enviando…",
   "Takk, erindið er komið. Ég svara eins fljótt og ég get.": "Gracias, tu mensaje ha llegado. Respondo en cuanto pueda.",
-  "Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint.": "No se pudo enviar ({err}). Inténtalo de nuevo o escribe un correo directamente.",
   "Fyrirspurn af snjallheimilid.is": "Fyrirspurn af snjallheimilid.is (spænska)",
   "Tungumál": "Idioma",
   "Stofa": "Salón",
@@ -128,7 +127,6 @@
   "Gluggatjaldarofi": "Interruptor de cortinas",
   "Dimmer, snerting": "Regulador táctil",
   "Hitastýring": "Termostato",
-  "Myndir eru úr vörulistum framleiðenda og söluaðila. Vörumerki og myndir eru eign eigenda sinna.": "Las imágenes proceden de los catálogos de los fabricantes y distribuidores. Las marcas y las imágenes pertenecen a sus propietarios.",
   "Rofi": "Interruptor",
   "Tvöfaldur rofi": "Interruptor doble",
   "Innlagnaefni": "Material de instalación",
@@ -210,8 +208,8 @@
   "Svart": "Negro",
   "Grátt": "Gris",
   "Gyllt": "Dorado",
-  "BSEED gler": "BSEED gler",
-  "BSEED plast": "BSEED plast",
+  "BSEED gler": "BSEED cristal",
+  "BSEED plast": "BSEED plástico",
   "Rammar taldir í einingum, fyrir ferkantaðar dósir": "Marcos contados en módulos, para cajas cuadradas",
   "Þrjár einingar: mjór rofi og tengill": "Tres módulos: un interruptor estrecho y un enchufe",
   "Fjórar einingar: rofi og tengill": "Cuatro módulos: un interruptor y un enchufe",
@@ -264,5 +262,9 @@
   "Tvöfaldur rammi": "Marco doble",
   "Þrefaldur rammi": "Marco triple",
   "Fjórfaldur rammi": "Marco cuádruple",
-  "Fimmfaldur rammi": "Marco quíntuple"
+  "Fimmfaldur rammi": "Marco quíntuple",
+  "Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint á {mail}.": "No se pudo enviar ({err}). Inténtalo de nuevo o escribe directamente a {mail}.",
+  "Það sem þú sendir fer til Snjallheimilisins (Davíðs) í gegnum Formspree (þjónusta í Bandaríkjunum) og er aðeins notað til að svara erindinu. Því er eytt þegar málinu er lokið eða eftir 31 dag, eða fyrr ef þú biður um það. Þú getur líka sent póst beint á": "Lo que envías llega a Snjallheimilið (Davíð) a través de Formspree (un servicio de Estados Unidos) y solo se usa para responder a tu mensaje. Se borra cuando el asunto queda cerrado o a los 31 días, o antes si lo pides. También puedes escribir directamente a",
+  "Vörumyndirnar eru úr vörulistum framleiðenda og söluaðila og sýndar til að auðkenna vörurnar. Þær eru eign framleiðendanna: Shelly, Plejd og BSEED. Vörumerki eru eign eigenda sinna.": "Las fotos de producto proceden de los catálogos de los fabricantes y distribuidores y se muestran para identificar los productos. Son propiedad de los fabricantes: Shelly, Plejd y BSEED. Las marcas son propiedad de sus titulares.",
+  "Vörumyndirnar á spjöldunum eru úr vörulistum framleiðenda og söluaðila og sýndar til að auðkenna vörurnar. Þær eru eign framleiðendanna: Legrand, Schneider Electric (Merten) og BSEED. Teikningarnar og tölvugerðu myndirnar hér að ofan eru eigin verk Snjallheimilisins. Vörumerki eru eign eigenda sinna.": "Las fotos de producto de las tarjetas proceden de los catálogos de los fabricantes y distribuidores y se muestran para identificar los productos. Son propiedad de los fabricantes: Legrand, Schneider Electric (Merten) y BSEED. Los dibujos y las imágenes generadas por ordenador de más arriba son obra propia de Snjallheimilið. Las marcas son propiedad de sus titulares."
 }
