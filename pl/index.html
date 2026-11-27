@@ -275,7 +275,8 @@
   <div class="wrap">
     <h2>Kontakt</h2>
     <p>Masz pytanie? Dom do obejrzenia, a może po prostu ciekawość? Napisz kilka słów. Jeśli najpierw chcesz przedział cenowy, <a data-aetlun href="#">zacznij od wyceny</a>, a odpowiedzi dołączą do zapytania.</p>
-    <form id="contact" novalidate>
+    <form id="contact" method="post" action="https://formspree.io/f/mjyypvge">
+      <input type="hidden" name="_subject" value="Fyrirspurn af snjallheimilid.is">
       <div class="grid2">
         <label>Imię i nazwisko<input name="name" required autocomplete="name"></label>
         <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
@@ -285,6 +286,7 @@
       <label>Wiadomość<textarea name="message" rows="5" required></textarea></label>
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="gotcha" aria-hidden="true">
       <div class="cta"><button type="submit" class="btn primary">Wyślij</button><span id="formMsg" class="fine" role="status"></span></div>
+      <p class="muted small">To, co wyślesz, trafia do Snjallheimilið (Davíð) za pośrednictwem Formspree (usługa w Stanach Zjednoczonych) i służy wyłącznie do odpowiedzi na Twoją wiadomość. Zostanie usunięte po zamknięciu sprawy albo wcześniej, jeśli o to poprosisz. Możesz też napisać bezpośrednio na adres <a href="mailto:david@snjallheimilid.is">david@snjallheimilid.is</a>.</p>
     </form>
   </div>
 </section>
@@ -296,7 +298,7 @@
     <a href="https://github.com/TheIcelandicguy" rel="noopener">GitHub</a>
   </div>
 </footer>
-<script>window.I18N={"lang": "pl", "t": {"Nafn, netfang og erindi þarf að fylla út.": "Imię, e-mail i wiadomość są wymagane.", "Sendi…": "Wysyłanie…", "Takk, erindið er komið. Ég svara eins fljótt og ég get.": "Dziękuję, wiadomość dotarła. Odpowiem tak szybko, jak będę mógł.", "Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint.": "Wysyłanie nie powiodło się ({err}). Spróbuj ponownie albo napisz e-mail bezpośrednio.", "Fyrirspurn af snjallheimilid.is": "Fyrirspurn af snjallheimilid.is (pólska)", "Spila": "Odtwórz", "Stöðva": "Zatrzymaj"}}</script>
+<script>window.I18N={"lang": "pl", "t": {"Nafn, netfang og erindi þarf að fylla út.": "Imię, e-mail i wiadomość są wymagane.", "Sendi…": "Wysyłanie…", "Takk, erindið er komið. Ég svara eins fljótt og ég get.": "Dziękuję, wiadomość dotarła. Odpowiem tak szybko, jak będę mógł.", "Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint á {mail}.": "Wysyłanie nie powiodło się ({err}). Spróbuj ponownie albo napisz bezpośrednio na adres {mail}.", "Fyrirspurn af snjallheimilid.is": "Fyrirspurn af snjallheimilid.is (pólska)", "Spila": "Odtwórz", "Stöðva": "Zatrzymaj"}}</script>
 <script src="../site.js"></script>
 <script data-goatcounter="https://snjallheimilid.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

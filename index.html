@@ -275,7 +275,8 @@
   <div class="wrap">
     <h2>Hafa samband</h2>
     <p>Ertu með spurningu? Hús sem þú vilt láta skoða eða hreinlega bara að forvitnast? Skrifaðu nokkrar línur. Ef þú vilt verðbil fyrst, <a data-aetlun href="#">byrjaðu á áætluninni</a>, þá fylgja svörin með fyrirspurninni.</p>
-    <form id="contact" novalidate>
+    <form id="contact" method="post" action="https://formspree.io/f/mjyypvge">
+      <input type="hidden" name="_subject" value="Fyrirspurn af snjallheimilid.is">
       <div class="grid2">
         <label>Nafn<input name="name" required autocomplete="name"></label>
         <label>Netfang<input name="email" type="email" required autocomplete="email"></label>
@@ -285,6 +286,7 @@
       <label>Erindi<textarea name="message" rows="5" required></textarea></label>
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="gotcha" aria-hidden="true">
       <div class="cta"><button type="submit" class="btn primary">Senda</button><span id="formMsg" class="fine" role="status"></span></div>
+      <p class="muted small">Það sem þú sendir fer til Snjallheimilisins (Davíðs) í gegnum Formspree (þjónusta í Bandaríkjunum) og er aðeins notað til að svara erindinu. Því er eytt þegar málinu er lokið, eða fyrr ef þú biður um það. Þú getur líka sent póst beint á <a href="mailto:david@snjallheimilid.is">david@snjallheimilid.is</a>.</p>
     </form>
   </div>
 </section>

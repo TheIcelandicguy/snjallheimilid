@@ -25,7 +25,7 @@ TAG_TEXT = re.compile(r'>([^<>]+)<')
 ATTR = re.compile(r'\b(' + '|'.join(ATTRS) + r')="([^"]+)"')
 # the strings site.js shows: keyed by the Icelandic text, as in the JSON files
 JS_STRINGS = ['Nafn, netfang og erindi þarf að fylla út.', 'Sendi…', 'Takk, erindið er komið. Ég svara eins fljótt og ég get.',
-              'Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint.', 'Fyrirspurn af snjallheimilid.is', 'Spila', 'Stöðva']
+              'Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint á {mail}.', 'Fyrirspurn af snjallheimilid.is', 'Spila', 'Stöðva']
 # the room names and circuit labels drawn in the hero's svg (text class rn / gr); the svg is skipped as a whole above,
 # so these are looked up here, in the same JSON files
 SVG_STRINGS = ['Stofa', 'Eldhús', 'Svefnherbergi', 'Baðherbergi', 'Forstofa', 'Gr.1', 'Gr.2']
@@ -39,6 +39,8 @@ def plain(s):
 def needs(s):
     """A text that is words, not a number, a symbol or a name that stays the same in every language."""
     t = plain(s)
+    if re.fullmatch(r'[\w.+-]+@[\w.-]+', t):  # an e-mail address stands as it is
+        return False
     return bool(t) and bool(re.search(r'[A-Za-zÀ-ÿÞþÐðÆæÖö]{2}', t)) and '=' not in t and t not in ('Snjallheimilið', 'GitHub', 'Akureyri', 'Snjallheimilið · Akureyri', 'IS', 'EN', 'ES', 'PL', 'website', 'Íslenska', 'English', 'Español', 'Polski')
 
 

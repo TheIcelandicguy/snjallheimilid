@@ -275,7 +275,8 @@
   <div class="wrap">
     <h2>Get in touch</h2>
     <p>Do you have a question? A house you would like looked at, or are you simply curious? Write a few lines. If you want a price range first, <a data-aetlun href="#">start with the estimate</a>, and your answers will come with the enquiry.</p>
-    <form id="contact" novalidate>
+    <form id="contact" method="post" action="https://formspree.io/f/mjyypvge">
+      <input type="hidden" name="_subject" value="Fyrirspurn af snjallheimilid.is">
       <div class="grid2">
         <label>Name<input name="name" required autocomplete="name"></label>
         <label>Email<input name="email" type="email" required autocomplete="email"></label>
@@ -285,6 +286,7 @@
       <label>Message<textarea name="message" rows="5" required></textarea></label>
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="gotcha" aria-hidden="true">
       <div class="cta"><button type="submit" class="btn primary">Send</button><span id="formMsg" class="fine" role="status"></span></div>
+      <p class="muted small">What you send goes to Snjallheimilið (Davíð) by way of Formspree (a service in the United States) and is used only to answer your message. It is deleted when the matter is closed, or sooner if you ask. You can also send an email directly to <a href="mailto:david@snjallheimilid.is">david@snjallheimilid.is</a>.</p>
     </form>
   </div>
 </section>
@@ -296,7 +298,7 @@
     <a href="https://github.com/TheIcelandicguy" rel="noopener">GitHub</a>
   </div>
 </footer>
-<script>window.I18N={"lang": "en", "t": {"Nafn, netfang og erindi þarf að fylla út.": "Name, email and message are required.", "Sendi…": "Sending…", "Takk, erindið er komið. Ég svara eins fljótt og ég get.": "Thank you, your message has arrived. I will answer as soon as I can.", "Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint.": "Sending failed ({err}). Try again, or send an email directly.", "Fyrirspurn af snjallheimilid.is": "Enquiry from snjallheimilid.is (English)", "Spila": "Play", "Stöðva": "Stop"}}</script>
+<script>window.I18N={"lang": "en", "t": {"Nafn, netfang og erindi þarf að fylla út.": "Name, email and message are required.", "Sendi…": "Sending…", "Takk, erindið er komið. Ég svara eins fljótt og ég get.": "Thank you, your message has arrived. I will answer as soon as I can.", "Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint á {mail}.": "Sending failed ({err}). Try again, or send an email directly to {mail}.", "Fyrirspurn af snjallheimilid.is": "Enquiry from snjallheimilid.is (English)", "Spila": "Play", "Stöðva": "Stop"}}</script>
 <script src="../site.js"></script>
 <script data-goatcounter="https://snjallheimilid.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

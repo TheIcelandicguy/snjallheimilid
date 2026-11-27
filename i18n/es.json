@@ -72,7 +72,6 @@
   "Nafn, netfang og erindi þarf að fylla út.": "Hay que rellenar el nombre, el correo y el mensaje.",
   "Sendi…": "Enviando…",
   "Takk, erindið er komið. Ég svara eins fljótt og ég get.": "Gracias, tu mensaje ha llegado. Respondo en cuanto pueda.",
-  "Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint.": "No se pudo enviar ({err}). Inténtalo de nuevo o escribe un correo directamente.",
   "Fyrirspurn af snjallheimilid.is": "Fyrirspurn af snjallheimilid.is (spænska)",
   "Tungumál": "Idioma",
   "Stofa": "Salón",
@@ -264,5 +263,7 @@
   "Tvöfaldur rammi": "Marco doble",
   "Þrefaldur rammi": "Marco triple",
   "Fjórfaldur rammi": "Marco cuádruple",
-  "Fimmfaldur rammi": "Marco quíntuple"
+  "Fimmfaldur rammi": "Marco quíntuple",
+  "Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint á {mail}.": "No se pudo enviar ({err}). Inténtalo de nuevo o escribe directamente a {mail}.",
+  "Það sem þú sendir fer til Snjallheimilisins (Davíðs) í gegnum Formspree (þjónusta í Bandaríkjunum) og er aðeins notað til að svara erindinu. Því er eytt þegar málinu er lokið, eða fyrr ef þú biður um það. Þú getur líka sent póst beint á": "Lo que envías llega a Snjallheimilið (Davíð) a través de Formspree (un servicio de Estados Unidos) y solo se usa para responder a tu mensaje. Se borra cuando el asunto queda cerrado, o antes si lo pides. También puedes escribir directamente a"
 }

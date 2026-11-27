@@ -72,7 +72,6 @@
   "Nafn, netfang og erindi þarf að fylla út.": "Name, email and message are required.",
   "Sendi…": "Sending…",
   "Takk, erindið er komið. Ég svara eins fljótt og ég get.": "Thank you, your message has arrived. I will answer as soon as I can.",
-  "Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint.": "Sending failed ({err}). Try again, or send an email directly.",
   "Fyrirspurn af snjallheimilid.is": "Enquiry from snjallheimilid.is (English)",
   "Tungumál": "Language",
   "Stofa": "Living room",
@@ -264,5 +263,7 @@
   "Tvöfaldur rammi": "Double frame",
   "Þrefaldur rammi": "Triple frame",
   "Fjórfaldur rammi": "Frame of four",
-  "Fimmfaldur rammi": "Frame of five"
+  "Fimmfaldur rammi": "Frame of five",
+  "Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint á {mail}.": "Sending failed ({err}). Try again, or send an email directly to {mail}.",
+  "Það sem þú sendir fer til Snjallheimilisins (Davíðs) í gegnum Formspree (þjónusta í Bandaríkjunum) og er aðeins notað til að svara erindinu. Því er eytt þegar málinu er lokið, eða fyrr ef þú biður um það. Þú getur líka sent póst beint á": "What you send goes to Snjallheimilið (Davíð) by way of Formspree (a service in the United States) and is used only to answer your message. It is deleted when the matter is closed, or sooner if you ask. You can also send an email directly to"
 }
