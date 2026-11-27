@@ -19,6 +19,7 @@ LANGS = ['en', 'es', 'pl']
 # the pages: index.html is written by hand, vorur.html by tools/products.py. A link from one to another stays inside the language's folder
 PAGES = ['index.html', 'vorur.html']
 HOST = 'https://snjallheimilid.is/'
+AETLUN = 'https://aetlun.snjallheimilid.is/quick.html'  # the estimate page, as in site.js and in the pages' [data-aetlun] links
 ATTRS = ('content', 'alt', 'aria-label', 'placeholder', 'title')
 SKIP = re.compile(r'<(svg|script|style)\b.*?</\1>', re.S)
 TAG_TEXT = re.compile(r'>([^<>]+)<')
@@ -104,6 +105,8 @@ def translate(src, tr, lang, missing):
     # one level down: relative links and sources
     s = re.sub(r'\b(href|src|poster)="(?!https?:|#|/|data:|mailto:|\.\./|(?:' + '|'.join(re.escape(p) for p in PAGES) + r')(?:[#?"]))([^"]+)"', lambda m: f'{m.group(1)}="../{m.group(2)[2:] if m.group(2).startswith("./") else m.group(2)}"', s)
     s = s.replace('../video/einn-dagur.mp4', f'../video/einn-dagur.{lang}.mp4')
+    # the estimate opens in the page's language (the scripts set the same address; this is for a page without script)
+    s = s.replace(f'href="{AETLUN}"', f'href="{AETLUN}?lang={lang}"')
     js = {k: tr[k] for k in JS_STRINGS if k in tr}
     for k in JS_STRINGS:
         if k not in tr:

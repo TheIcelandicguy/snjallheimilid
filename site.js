@@ -1,6 +1,7 @@
 'use strict';
 /* Snjallheimilið: the home page's small script. The estimate lives in the smart-home-estimator repo (quick.html);
-   AETLUN is its address, every [data-aetlun] link points there (aetlun.snjallheimilid.is since 2026-11-02).
+   AETLUN is its address, every [data-aetlun] link points there (aetlun.snjallheimilid.is since 2026-11-02); the markup
+   carries the same address, so the links work without this script, and tools/i18n.py writes ?lang= into the copies.
    The contact form posts JSON to Formspree (same form as the estimate page, another subject). */
 const AETLUN = 'https://aetlun.snjallheimilid.is/quick.html';
 const FORM = 'mjyypvge';
