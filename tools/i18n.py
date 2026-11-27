@@ -7,7 +7,8 @@ translation stops the build and is listed, so the pages never ship half-translat
   python tools/i18n.py --dump   print every text of index.html that needs a translation, as JSON keys
 
 Relative links and sources get ../ in front; the film and its captions take the language's own files
-(video/einn-dagur.<lang>.mp4, tools/film/timeline.<lang>.json), and site.js gets its few strings in window.I18N."""
+(video/einn-dagur.<lang>.mp4, tools/film/timeline.<lang>.json), and site.js gets its few strings as JSON in the page
+(#i18n: data, not script, so the pages' Content-Security-Policy needs no hash for it)."""
 import html
 import json
 import os
@@ -40,7 +41,7 @@ def plain(s):
 def needs(s):
     """A text that is words, not a number, a symbol or a name that stays the same in every language."""
     t = plain(s)
-    if re.fullmatch(r'[\w.+-]+@[\w.-]+', t):  # an e-mail address stands as it is
+    if re.fullmatch(r'[\w.+-]+@[\w.-]+', t) or t.startswith('default-src '):  # an e-mail address and the Content-Security-Policy stand as they are
         return False
     return bool(t) and bool(re.search(r'[A-Za-zÀ-ÿÞþÐðÆæÖö]{2}', t)) and '=' not in t and t not in ('Snjallheimilið', 'GitHub', 'Akureyri', 'Snjallheimilið · Akureyri', 'IS', 'EN', 'ES', 'PL', 'website', 'Íslenska', 'English', 'Español', 'Polski')
 
@@ -111,7 +112,7 @@ def translate(src, tr, lang, missing):
     for k in JS_STRINGS:
         if k not in tr:
             missing.add(k)
-    s = s.replace('<script src="../site.js"></script>', '<script>window.I18N=' + json.dumps({'lang': lang, 't': js}, ensure_ascii=False) + '</script>\n<script src="../site.js"></script>')
+    s = s.replace('<script src="../site.js"></script>', '<script type="application/json" id="i18n">' + json.dumps({'lang': lang, 't': js}, ensure_ascii=False).replace('</', '<\\/') + '</script>\n<script src="../site.js"></script>')
     return s
 
 

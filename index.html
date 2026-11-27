@@ -2,6 +2,10 @@
 <html lang="is">
 <head>
 <meta charset="utf-8">
+<!-- What the page may load and where it may send: its own files, the visit counter and the contact form's post, nothing else.
+     No script stands in the page itself (the language pages carry their strings as JSON, which is data); style is allowed inline
+     because the drawings carry their measures in style attributes. check_docs.py checks every page against this. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://gc.zgo.at/count.v5.js; style-src 'self' 'unsafe-inline'; img-src 'self' https://snjallheimilid.goatcounter.com; media-src 'self'; font-src 'self'; connect-src 'self' https://formspree.io https://snjallheimilid.goatcounter.com; object-src 'none'; base-uri 'self'; form-action https://formspree.io">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Snjallheimilið – snjallvæðing heimila á Akureyri</title>
 <meta name="description" content="Snjallheimilið: ljós, tenglar, hiti og skynjarar sem vinna saman. Svaraðu nokkrum spurningum og fáðu verðbil á efninu strax; teikning, efnislisti og tilboð á eftir.">
@@ -299,6 +303,8 @@
   </div>
 </footer>
 <script src="site.js"></script>
-<script data-goatcounter="https://snjallheimilid.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<!-- the visit counter, pinned: GoatCounter's versioned script with its hash (goatcounter.com/help/countjs-versions); count.js with no
+     version is whatever is served that day -->
+<script data-goatcounter="https://snjallheimilid.goatcounter.com/count" async src="https://gc.zgo.at/count.v5.js" crossorigin="anonymous" integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"></script>
 </body>
 </html>

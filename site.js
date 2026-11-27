@@ -5,10 +5,12 @@
    The contact form posts JSON to Formspree (same form as the estimate page, another subject). */
 const AETLUN = 'https://aetlun.snjallheimilid.is/quick.html';
 const FORM = 'mjyypvge';
-// the page's language: tools/i18n.py writes en/, es/ and pl/ copies of index.html and sets window.I18N there, with the
-// few strings this script shows; Icelandic is the source and needs no table
-const LANG = (window.I18N && window.I18N.lang) || 'is';
-const t = (s) => (window.I18N && window.I18N.t[s]) || s;
+// the page's language: tools/i18n.py writes en/, es/ and pl/ copies of index.html and puts the few strings this script
+// shows into them as JSON (#i18n, data and not script: the page's Content-Security-Policy runs no script written in the
+// page); Icelandic is the source and needs no table
+const I18N = JSON.parse((document.getElementById('i18n') || {}).textContent || 'null');
+const LANG = (I18N && I18N.lang) || 'is';
+const t = (s) => (I18N && I18N.t[s]) || s;
 const base = LANG === 'is' ? '' : '../';
 
 document.querySelectorAll('[data-aetlun]').forEach((a) => { a.href = AETLUN + (LANG === 'is' ? '' : '?lang=' + LANG); });
