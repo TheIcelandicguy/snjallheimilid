@@ -4,3 +4,5 @@ node_modules/
 *.db
 .DS_Store
 Thumbs.db
+# working notes that are not for the public (CLAUDE.md is)
+.claude/notes-private.md
