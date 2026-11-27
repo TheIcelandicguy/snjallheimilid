@@ -127,7 +127,6 @@
   "Gluggatjaldarofi": "Łącznik do zasłon",
   "Dimmer, snerting": "Ściemniacz dotykowy",
   "Hitastýring": "Termostat",
-  "Myndir eru úr vörulistum framleiðenda og söluaðila. Vörumerki og myndir eru eign eigenda sinna.": "Zdjęcia pochodzą z katalogów producentów i sprzedawców. Znaki towarowe i zdjęcia należą do ich właścicieli.",
   "Rofi": "Łącznik",
   "Tvöfaldur rofi": "Łącznik podwójny",
   "Innlagnaefni": "Osprzęt instalacyjny",
@@ -265,5 +264,7 @@
   "Fjórfaldur rammi": "Ramka poczwórna",
   "Fimmfaldur rammi": "Ramka pięciokrotna",
   "Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint á {mail}.": "Wysyłanie nie powiodło się ({err}). Spróbuj ponownie albo napisz bezpośrednio na adres {mail}.",
-  "Það sem þú sendir fer til Snjallheimilisins (Davíðs) í gegnum Formspree (þjónusta í Bandaríkjunum) og er aðeins notað til að svara erindinu. Því er eytt þegar málinu er lokið, eða fyrr ef þú biður um það. Þú getur líka sent póst beint á": "To, co wyślesz, trafia do Snjallheimilið (Davíð) za pośrednictwem Formspree (usługa w Stanach Zjednoczonych) i służy wyłącznie do odpowiedzi na Twoją wiadomość. Zostanie usunięte po zamknięciu sprawy albo wcześniej, jeśli o to poprosisz. Możesz też napisać bezpośrednio na adres"
+  "Það sem þú sendir fer til Snjallheimilisins (Davíðs) í gegnum Formspree (þjónusta í Bandaríkjunum) og er aðeins notað til að svara erindinu. Því er eytt þegar málinu er lokið, eða fyrr ef þú biður um það. Þú getur líka sent póst beint á": "To, co wyślesz, trafia do Snjallheimilið (Davíð) za pośrednictwem Formspree (usługa w Stanach Zjednoczonych) i służy wyłącznie do odpowiedzi na Twoją wiadomość. Zostanie usunięte po zamknięciu sprawy albo wcześniej, jeśli o to poprosisz. Możesz też napisać bezpośrednio na adres",
+  "Vörumyndirnar eru úr vörulistum framleiðenda og söluaðila og sýndar til að auðkenna vörurnar. Þær eru eign framleiðendanna: Shelly, Plejd og BSEED. Vörumerki eru eign eigenda sinna.": "Zdjęcia produktów pochodzą z katalogów producentów i sprzedawców i służą do identyfikacji produktów. Należą do producentów: Shelly, Plejd i BSEED. Znaki towarowe należą do ich właścicieli.",
+  "Vörumyndirnar á spjöldunum eru úr vörulistum framleiðenda og söluaðila og sýndar til að auðkenna vörurnar. Þær eru eign framleiðendanna: Legrand, Schneider Electric (Merten) og BSEED. Teikningarnar og tölvugerðu myndirnar hér að ofan eru eigin verk Snjallheimilisins. Vörumerki eru eign eigenda sinna.": "Zdjęcia produktów na kartach pochodzą z katalogów producentów i sprzedawców i służą do identyfikacji produktów. Należą do producentów: Legrand, Schneider Electric (Merten) i BSEED. Rysunki i obrazy wygenerowane komputerowo powyżej są własnym dziełem Snjallheimilið. Znaki towarowe należą do ich właścicieli."
 }

@@ -127,7 +127,6 @@
   "Gluggatjaldarofi": "Curtain switch",
   "Dimmer, snerting": "Touch dimmer",
   "Hitastýring": "Thermostat",
-  "Myndir eru úr vörulistum framleiðenda og söluaðila. Vörumerki og myndir eru eign eigenda sinna.": "Pictures are from the catalogues of the manufacturers and retailers. Trademarks and pictures belong to their owners.",
   "Rofi": "Switch",
   "Tvöfaldur rofi": "Double switch",
   "Innlagnaefni": "Wiring accessories",
@@ -265,5 +264,7 @@
   "Fjórfaldur rammi": "Frame of four",
   "Fimmfaldur rammi": "Frame of five",
   "Sending tókst ekki ({err}). Reyndu aftur, eða sendu póst beint á {mail}.": "Sending failed ({err}). Try again, or send an email directly to {mail}.",
-  "Það sem þú sendir fer til Snjallheimilisins (Davíðs) í gegnum Formspree (þjónusta í Bandaríkjunum) og er aðeins notað til að svara erindinu. Því er eytt þegar málinu er lokið, eða fyrr ef þú biður um það. Þú getur líka sent póst beint á": "What you send goes to Snjallheimilið (Davíð) by way of Formspree (a service in the United States) and is used only to answer your message. It is deleted when the matter is closed, or sooner if you ask. You can also send an email directly to"
+  "Það sem þú sendir fer til Snjallheimilisins (Davíðs) í gegnum Formspree (þjónusta í Bandaríkjunum) og er aðeins notað til að svara erindinu. Því er eytt þegar málinu er lokið, eða fyrr ef þú biður um það. Þú getur líka sent póst beint á": "What you send goes to Snjallheimilið (Davíð) by way of Formspree (a service in the United States) and is used only to answer your message. It is deleted when the matter is closed, or sooner if you ask. You can also send an email directly to",
+  "Vörumyndirnar eru úr vörulistum framleiðenda og söluaðila og sýndar til að auðkenna vörurnar. Þær eru eign framleiðendanna: Shelly, Plejd og BSEED. Vörumerki eru eign eigenda sinna.": "The product pictures are from the catalogues of the makers and their sellers and are shown to identify the products. They belong to the makers: Shelly, Plejd and BSEED. Trademarks belong to their owners.",
+  "Vörumyndirnar á spjöldunum eru úr vörulistum framleiðenda og söluaðila og sýndar til að auðkenna vörurnar. Þær eru eign framleiðendanna: Legrand, Schneider Electric (Merten) og BSEED. Teikningarnar og tölvugerðu myndirnar hér að ofan eru eigin verk Snjallheimilisins. Vörumerki eru eign eigenda sinna.": "The product pictures on the cards are from the catalogues of the makers and their sellers and are shown to identify the products. They belong to the makers: Legrand, Schneider Electric (Merten) and BSEED. The drawings and the computer-made pictures above are Snjallheimilið's own work. Trademarks belong to their owners."
 }
